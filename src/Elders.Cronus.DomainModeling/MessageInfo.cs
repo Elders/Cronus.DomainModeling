@@ -8,6 +8,8 @@ namespace Elders.Cronus.DomainModeling
 {
     public static class MessageInfo
     {
+        private const string MissingBoundedContextAttribute = @"The assembly '{0}' is missing a BoundedContext attribute in AssemblyInfo.cs! Example: [BoundedContext(""Company.Product.BoundedContext"")]";
+
         private static readonly ConcurrentDictionary<string, BoundedContextAttribute> boundedContexts = new ConcurrentDictionary<string, BoundedContextAttribute>();
 
         private static readonly ConcurrentDictionary<Type, string> contractIds = new ConcurrentDictionary<Type, string>();
@@ -24,6 +26,20 @@ namespace Elders.Cronus.DomainModeling
 
             contractId = contractType.GetContractId();
             return contractType.GetAndCacheBoundedContextFromAttribute(contractId);
+        }
+
+        public static BoundedContextAttribute GetBoundedContext(this Assembly contractAssembly)
+        {
+            BoundedContextAttribute boundedContext;
+            if (boundedContexts.TryGetValue(contractAssembly.FullName, out boundedContext))
+                return boundedContext;
+
+            boundedContext = contractAssembly.GetAssemblyAttribute<BoundedContextAttribute>();
+            if (boundedContext == default(BoundedContextAttribute))
+                throw new Exception(String.Format(MissingBoundedContextAttribute, contractAssembly.FullName));
+
+            boundedContexts.TryAdd(contractAssembly.FullName, boundedContext);
+            return boundedContext;
         }
 
         public static string GetContractId(this Type messageType)
@@ -48,7 +64,7 @@ namespace Elders.Cronus.DomainModeling
             var boundedContext = contractType.Assembly.GetAssemblyAttribute<BoundedContextAttribute>();
 
             if (boundedContext == default(BoundedContextAttribute))
-                throw new Exception(String.Format(@"The assembly containing message type '{0}' is missing a BoundedContext attribute in AssemblyInfo.cs! Example: [BoundedContext(""Company.Product.BoundedContext"")]", contractType.FullName));
+                throw new Exception(String.Format(MissingBoundedContextAttribute, contractType.Assembly.FullName));
 
             boundedContexts.TryAdd(contractId, boundedContext);
             return boundedContext;

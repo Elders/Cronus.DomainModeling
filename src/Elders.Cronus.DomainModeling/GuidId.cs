@@ -10,6 +10,8 @@ namespace Elders.Cronus.DomainModeling
         [DataMember(Order = 2)]
         public Guid Id { get; private set; }
 
+        protected GuidId() { }
+
         public GuidId(Guid idBase)
         {
             if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", "idBase");

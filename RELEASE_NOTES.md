@@ -1,3 +1,7 @@
+#### 1.0.3 - 01.10.2014
+* Rework how we use the aggregate Ids
+* Bug fix
+
 #### 1.0.2 - 01.10.2014
 * Rework how we use the aggregate Ids
 

@@ -1,4 +1,4 @@
-using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus.DomainModeling
@@ -6,22 +6,10 @@ namespace Elders.Cronus.DomainModeling
     [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
     public class AggregateRootId : IAggregateRootId
     {
-        public AggregateRootId() { }
-
-        public AggregateRootId(Guid idBase)
-        {
-            if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
-            Id = idBase;
-        }
-
-        public AggregateRootId(IAggregateRootId idBase)
-        {
-            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
-            Id = idBase.Id;
-        }
+        protected AggregateRootId() { }
 
         [DataMember(Order = 1)]
-        public Guid Id { get; set; }
+        public byte[] RawId { get; protected set; }
 
         public override bool Equals(System.Object obj)
         {
@@ -35,14 +23,14 @@ namespace Elders.Cronus.DomainModeling
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Id.Equals(other.Id);
+            return ByteArrayCompare(RawId, other.RawId);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return HashCodeModifier.AggregateRootId ^ Id.GetHashCode() ^ GetType().GetHashCode();
+                return HashCodeModifier.AggregateRootId ^ RawId.GetHashCode();
             }
         }
 
@@ -62,12 +50,25 @@ namespace Elders.Cronus.DomainModeling
 
         public override string ToString()
         {
-            return String.Format("AggregateId: {0}", Id);
+            return RawId.ToString();
         }
 
-        public static bool IsValid(IAggregateRootId aggregateRootId)
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        static extern int memcmp(byte[] b1, byte[] b2, long count);
+
+        static bool ByteArrayCompare(byte[] b1, byte[] b2)
         {
-            return (!ReferenceEquals(null, aggregateRootId)) && aggregateRootId.Id != default(Guid);
+            // Validate buffers are the same length.
+            // This also ensures that the count does not exceed the length of either buffer.  
+            return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
+        }
+
+        public static byte[] Combine(byte[] first, byte[] second)
+        {
+            byte[] rv = new byte[first.Length + second.Length];
+            System.Buffer.BlockCopy(first, 0, rv, 0, first.Length);
+            System.Buffer.BlockCopy(second, 0, rv, first.Length, second.Length);
+            return rv;
         }
     }
 

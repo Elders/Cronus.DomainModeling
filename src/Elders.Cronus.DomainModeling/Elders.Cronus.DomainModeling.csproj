@@ -40,6 +40,7 @@
     <Compile Include="AggregateRootId.cs" />
     <Compile Include="AggregateRootState.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
+    <Compile Include="GuidId.cs" />
     <Compile Include="IAggregateRepository.cs" />
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="IAggregateRootId.cs" />

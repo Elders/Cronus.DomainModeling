@@ -1,3 +1,6 @@
+#### 1.0.4-alpha1 - 08.10.2014
+* Add IProjection interface
+
 #### 1.0.3 - 01.10.2014
 * Rework how we use the aggregate Ids
 * Bug fix

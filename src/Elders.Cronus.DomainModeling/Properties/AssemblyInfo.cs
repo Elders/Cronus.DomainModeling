@@ -4,11 +4,11 @@ using System.Reflection;
 [assembly: AssemblyTitleAttribute("Elders.Cronus.DomainModeling")]
 [assembly: AssemblyDescriptionAttribute("Elders.Cronus.DomainModeling")]
 [assembly: AssemblyProductAttribute("Elders.Cronus.DomainModeling")]
-[assembly: AssemblyVersionAttribute("1.0.3")]
-[assembly: AssemblyInformationalVersionAttribute("1.0.3")]
-[assembly: AssemblyFileVersionAttribute("1.0.3")]
+[assembly: AssemblyVersionAttribute("1.0.4")]
+[assembly: AssemblyInformationalVersionAttribute("1.0.4")]
+[assembly: AssemblyFileVersionAttribute("1.0.4")]
 namespace System {
     internal static class AssemblyVersionInformation {
-        internal const string Version = "1.0.3";
+        internal const string Version = "1.0.4";
     }
 }

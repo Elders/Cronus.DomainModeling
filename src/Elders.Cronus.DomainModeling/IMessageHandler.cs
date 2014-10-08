@@ -8,4 +8,9 @@ namespace Elders.Cronus.DomainModeling
     {
         void Handle(T message);
     }
+
+    public interface IProjection
+    {
+
+    }
 }

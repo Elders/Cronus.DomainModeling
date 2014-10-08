@@ -8,7 +8,7 @@ namespace Elders.Cronus.DomainModeling
     {
         protected AggregateRootId() { }
 
-        [DataMember(Order = 1)]
+        [DataMember(Order = 10)]
         public byte[] RawId { get; protected set; }
 
         public override bool Equals(System.Object obj)

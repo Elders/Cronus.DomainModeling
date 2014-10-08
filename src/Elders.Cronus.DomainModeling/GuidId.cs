@@ -31,25 +31,4 @@ namespace Elders.Cronus.DomainModeling
             return (!ReferenceEquals(null, aggregateRootId)) && aggregateRootId.Id != default(Guid);
         }
     }
-
-
-    // TESTS
-    [DataContract(Name = "b3b879e8-b11b-4a57-8f95-0c1c7512fd73")]
-    class AccountId : GuidId
-    {
-        public AccountId(Guid id) : base(id, "account")
-        {
-
-        }
-    }
-
-
-    class FriendShipId : AggregateRootId
-    {
-        public FriendShipId(AccountId id, AccountId friend)
-        {
-            RawId = AggregateRootId.Combine(id.RawId, friend.RawId);
-        }
-    }
-
 }

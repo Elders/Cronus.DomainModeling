@@ -6,7 +6,10 @@ namespace Elders.Cronus.DomainModeling
     [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
     public class AggregateRootId : IAggregateRootId
     {
-        protected AggregateRootId() { }
+        protected AggregateRootId() 
+        { 
+            RawId = new byte[0];
+        }
 
         [DataMember(Order = 10)]
         public byte[] RawId { get; protected set; }

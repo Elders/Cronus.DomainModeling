@@ -1,3 +1,6 @@
+#### 1.0.4-alpha3 - 27.10.2014
+* Initialize empty AggregateRootId with empty RawId
+
 #### 1.0.4-alpha2 - 08.10.2014
 * Remove test classes which break everything when register in Protoreg
 

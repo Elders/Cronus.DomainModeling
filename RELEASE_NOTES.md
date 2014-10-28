@@ -1,3 +1,6 @@
+#### 1.0.4-alpha4 - 27.10.2014
+* Properly calculate GetHashCode for RawId
+
 #### 1.0.4-alpha3 - 27.10.2014
 * Initialize empty AggregateRootId with empty RawId
 

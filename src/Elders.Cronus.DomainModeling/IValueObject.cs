@@ -69,14 +69,18 @@ namespace Elders.Cronus.DomainModeling
             return true;
         }
 
-        public static bool operator ==(ValueObject<T> x, ValueObject<T> y)
+        public static bool operator ==(ValueObject<T> left, ValueObject<T> right)
         {
-            return x.Equals(y);
+            if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;
+            if (ReferenceEquals(null, left))
+                return false;
+            else
+                return left.Equals(right);
         }
 
-        public static bool operator !=(ValueObject<T> x, ValueObject<T> y)
+        public static bool operator !=(ValueObject<T> left, ValueObject<T> right)
         {
-            return !(x == y);
+            return !(left == right);
 
         }
 

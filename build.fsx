@@ -10,13 +10,14 @@ open Fake.ReleaseNotesHelper
 open System
 open System.IO
 
-let buildDir  = @"./bin/Release"
+let applicationName = "Elders.Cronus.DomainModeling"
+let buildDir = @"./bin/Release" @@ applicationName
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
 let projectName = "Cronus.DomainModeling"
 let projectSummary = "Domain modeling for Cronus"
 let projectDescription = "Domain modeling for Cronus"
-let projectAuthors = ["Nikolai Mynkow"; "Simeon Dimov";]
+let projectAuthors = ["Nikolai Mynkow"; "Simeon Dimov"; "Blagovest Petrov";]
 
 let packages = ["Cronus.DomainModeling", projectDescription]
 let nugetDir = "./bin/nuget"
@@ -35,7 +36,7 @@ Target "AssemblyInfo" (fun _ ->
 
 Target "Build" (fun _ ->
     !! @"./src/*.sln" 
-        |> MSBuildRelease null "Build"
+        |> MSBuildRelease buildDir "Build"
         |> Log "Build-Output: "
 )
 
@@ -47,8 +48,7 @@ Target "CreateNuGet" (fun _ ->
 
         match package with
         | p when p = projectName ->
-            CopyDir nugetToolsDir (buildDir @@ ("Elders." + package)) allFiles
-        !! (nugetToolsDir @@ "*.srcsv") |> DeleteFiles
+            CopyDir nugetToolsDir buildDir allFiles
         
         let nuspecFile = package + ".nuspec"
         NuGet (fun p ->
@@ -63,7 +63,8 @@ Target "CreateNuGet" (fun _ ->
                 Publish = hasBuildParam "nugetkey"
                 ToolPath = "./tools/NuGet/nuget.exe"
                 OutputPath = nugetDir
-                WorkingDir = nugetDir }) nuspecFile
+                WorkingDir = nugetDir 
+                SymbolPackage = NugetSymbolPackage.Nuspec }) nuspecFile
 )
 
 Target "Release" (fun _ ->

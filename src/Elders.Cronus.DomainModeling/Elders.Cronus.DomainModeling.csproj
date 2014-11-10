@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +48,11 @@
     <Compile Include="IAggregateRootState.cs" />
     <Compile Include="IAggregateRootStateManager.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="IMessageHandler.cs" />
+    <Compile Include="IProjection.cs" />
+    <Compile Include="ICommandHandler.cs" />
     <Compile Include="IPort.cs" />
     <Compile Include="IPublisher.cs" />
     <Compile Include="IValueObject.cs" />

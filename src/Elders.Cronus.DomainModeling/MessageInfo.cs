@@ -77,7 +77,7 @@ namespace Elders.Cronus.DomainModeling
 
             if (contract == null || String.IsNullOrEmpty(contract.Name))
             {
-                if (contractType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMessageHandler<>)))
+                if (contractType.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) || i.GetGenericTypeDefinition() == typeof(IEventHandler<>))))
                     contractId = contractType.GetHashCode().ToString();
                 else
                     throw new Exception(String.Format(@"The message type '{0}' is missing a DataContract attribute. Example: [DataContract(""00000000-0000-0000-0000-000000000000"")]", contractType.FullName));

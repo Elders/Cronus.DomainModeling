@@ -4,7 +4,8 @@ namespace Elders.Cronus.DomainModeling
 {
     public interface IAggregateRoot : IAggregateRootStateManager
     {
+        int Revision { get; }
         void Apply(IEvent @event);
-        List<IEvent> UncommittedEvents { get; set; }
+        IEnumerable<IEvent> UncommittedEvents { get; }
     }
 }

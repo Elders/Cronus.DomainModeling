@@ -4,7 +4,7 @@ namespace Elders.Cronus.DomainModeling
 {
     public interface IAggregateRootStateManager
     {
-        IAggregateRootState State { get; set; }
-        IAggregateRootState BuildStateFromHistory(List<IEvent> events);
+        IAggregateRootState State { get; }
+        IAggregateRootState BuildStateFromHistory(List<IEvent> events, int revision);
     }
 }

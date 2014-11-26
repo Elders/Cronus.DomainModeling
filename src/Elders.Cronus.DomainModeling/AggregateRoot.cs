@@ -6,35 +6,37 @@ namespace Elders.Cronus.DomainModeling
         where ST : IAggregateRootState, new()
     {
         protected ST state;
+        protected List<IEvent> uncommittedEvents;
+        private int revision;
 
         public AggregateRoot()
         {
-            UncommittedEvents = new List<IEvent>();
+            state = new ST();
+            uncommittedEvents = new List<IEvent>();
+            revision = 0;
         }
 
-        IAggregateRootState IAggregateRootStateManager.State
-        {
-            get { return state; }
-            set { state = (ST)value; }
-        }
+        IAggregateRootState IAggregateRootStateManager.State { get { return state; } }
 
-        public List<IEvent> UncommittedEvents { get; set; }
+        IEnumerable<IEvent> IAggregateRoot.UncommittedEvents { get { return uncommittedEvents.AsReadOnly(); } }
 
-        public void Apply(IEvent @event)
-        {
-            state.Apply(@event);
-            UncommittedEvents.Add(@event);
-        }
+        int IAggregateRoot.Revision { get { return uncommittedEvents.Count > 0 ? revision + 1 : revision; } }
 
-        IAggregateRootState IAggregateRootStateManager.BuildStateFromHistory(List<IEvent> events)
+        IAggregateRootState IAggregateRootStateManager.BuildStateFromHistory(List<IEvent> events, int revision)
         {
             var stateFromHistory = new ST();
             foreach (IEvent @event in events)
             {
                 stateFromHistory.Apply(@event);
             }
+            this.revision = revision;
             return stateFromHistory;
         }
 
+        void IAggregateRoot.Apply(IEvent @event)
+        {
+            state.Apply(@event);
+            uncommittedEvents.Add(@event);
+        }
     }
 }

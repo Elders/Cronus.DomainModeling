@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -7,7 +6,7 @@ namespace Elders.Cronus.DomainModeling
     /// Indicates the ability to store and retreive a stream of events.
     /// </summary>
     /// <remarks>
-    /// Instances of this class must be designed to be multi-thread safe such that they can be shared between threads.
+    /// Instances of this class must be designed to be thread safe such that they can be shared between threads.
     /// </remarks>
     public interface IAggregateRepository
     {

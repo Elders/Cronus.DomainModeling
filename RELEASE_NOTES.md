@@ -1,3 +1,6 @@
+#### 1.0.4-alpha5 - 27.10.2014
+* Move the revision from the state to the aggregateRoot
+
 #### 1.0.4-alpha4 - 27.10.2014
 * Properly calculate GetHashCode for RawId
 

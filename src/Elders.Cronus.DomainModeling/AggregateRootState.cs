@@ -7,8 +7,6 @@ namespace Elders.Cronus.DomainModeling
 
         public abstract ID Id { get; set; }
 
-        public abstract int Version { get; set; }
-
         void IAggregateRootState.Apply(IEvent @event)
         {
             var state = (dynamic)this;
@@ -24,39 +22,25 @@ namespace Elders.Cronus.DomainModeling
                 return left.Equals(right);
         }
 
-        public static bool operator >(AggregateRootState<ID> x, AggregateRootState<ID> y)
-        {
-            if (ReferenceEquals(null, x) && ReferenceEquals(null, y)) return false;
-            if (x == y) return false;
-            return x.Id.Equals(y.Id) && x.Version > y.Version;
-        }
-
         public static bool operator !=(AggregateRootState<ID> x, AggregateRootState<ID> y)
         {
             return !(x == y);
         }
 
-        public static bool operator <(AggregateRootState<ID> x, AggregateRootState<ID> y)
-        {
-            if (ReferenceEquals(null, x) && ReferenceEquals(null, y)) return false;
-            if (x == y) return false;
-            return x.Id.Equals(y.Id) && x.Version < y.Version;
-        }
-
-        public bool Equals(IAggregateRootState x, IAggregateRootState y)
+        public virtual bool Equals(IAggregateRootState x, IAggregateRootState y)
         {
             if (ReferenceEquals(null, x) && ReferenceEquals(null, y)) return false;
             if (ReferenceEquals(x, y)) return true;
 
-            return x.Id == y.Id && x.Version == y.Version;
+            return x.Id == y.Id;
         }
 
-        public bool Equals(IAggregateRootState other)
+        public virtual bool Equals(IAggregateRootState other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return Id.Equals(other.Id) && Version == other.Version;
+            return Id.Equals(other.Id);
         }
 
         public override bool Equals(object obj)
@@ -80,10 +64,9 @@ namespace Elders.Cronus.DomainModeling
             unchecked
             {
                 int result = Id.GetHashCode();
-                result = (result * 101) ^ Version.GetHashCode();
+                result = result ^ 101;
                 return result;
             }
         }
-
     }
 }

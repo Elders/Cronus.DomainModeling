@@ -43,7 +43,7 @@ Target "Build" (fun _ ->
 Target "CreateNuGet" (fun _ ->
     for package,description in packages do
     
-        let nugetToolsDir = nugetDir @@ "lib" @@ "net40-full"
+        let nugetToolsDir = nugetDir @@ "lib" @@ "net45-full"
         CleanDir nugetToolsDir
 
         match package with
@@ -64,7 +64,7 @@ Target "CreateNuGet" (fun _ ->
                 ToolPath = "./tools/NuGet/nuget.exe"
                 OutputPath = nugetDir
                 WorkingDir = nugetDir 
-                SymbolPackage = NugetSymbolPackage.Nuspec }) nuspecFile
+            }) nuspecFile
 )
 
 Target "Release" (fun _ ->

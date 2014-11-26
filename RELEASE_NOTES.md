@@ -1,3 +1,6 @@
+#### 1.0.4-beta01 - 27.10.2014
+* RE: Move the revision from the state to the aggregateRoot
+
 #### 1.0.4-alpha5 - 27.10.2014
 * Move the revision from the state to the aggregateRoot
 

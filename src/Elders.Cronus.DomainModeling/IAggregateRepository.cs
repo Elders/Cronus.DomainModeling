@@ -14,10 +14,4 @@ namespace Elders.Cronus.DomainModeling
 
         AR Load<AR>(IAggregateRootId id) where AR : IAggregateRoot;
     }
-
-    public interface IApplicationServiceGateway
-    {
-        void CommitChanges(Action<IEvent> publish);
-    }
-
 }

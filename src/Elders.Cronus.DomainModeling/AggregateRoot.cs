@@ -22,18 +22,20 @@ namespace Elders.Cronus.DomainModeling
 
         int IAggregateRoot.Revision { get { return uncommittedEvents.Count > 0 ? revision + 1 : revision; } }
 
-        IAggregateRootState IAggregateRootStateManager.BuildStateFromHistory(List<IEvent> events, int revision)
+        void IAggregateRootStateManager.BuildStateFromHistory(List<IEvent> events, int revision)
         {
-            var stateFromHistory = new ST();
+            state = new ST();
             foreach (IEvent @event in events)
             {
-                stateFromHistory.Apply(@event);
+                state.Apply(@event);
             }
             this.revision = revision;
-            return stateFromHistory;
+
+            if (state.Id.RawId == default(byte[]))
+                throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
         }
 
-        void IAggregateRoot.Apply(IEvent @event)
+        protected void Apply(IEvent @event)
         {
             state.Apply(@event);
             uncommittedEvents.Add(@event);

@@ -1,3 +1,6 @@
+#### 1.0.4-beta02 - 28.10.2014
+* Initizalize Aggregate root state instance with history events
+
 #### 1.0.4-beta01 - 27.10.2014
 * RE: Move the revision from the state to the aggregateRoot
 

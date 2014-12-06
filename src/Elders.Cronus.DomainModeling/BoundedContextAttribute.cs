@@ -17,6 +17,11 @@ namespace Elders.Cronus.DomainModeling
 
         private string productNamespace;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundedContextAttribute"/> class.
+        /// </summary>
+        /// <param name="boundedContextNamespace">The bounded context namespace.</param>
         public BoundedContextAttribute(string boundedContextNamespace)
         {
             this.boundedContextNamespace = boundedContextNamespace;
@@ -33,6 +38,13 @@ namespace Elders.Cronus.DomainModeling
             this.productNamespace = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", companyName, productName);
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoundedContextAttribute"/> class.
+        /// </summary>
+        /// <param name="companyName">Name of the company.</param>
+        /// <param name="productName">Name of the product.</param>
+        /// <param name="boundedContextName">Name of the bounded context.</param>
         public BoundedContextAttribute(string companyName, string productName, string boundedContextName)
         {
             this.boundedContextName = boundedContextName;
@@ -42,14 +54,49 @@ namespace Elders.Cronus.DomainModeling
             this.productNamespace = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", companyName, productName);
         }
 
+
+        /// <summary>
+        /// Gets the name of the bounded context.
+        /// </summary>
+        /// <value>
+        /// The name of the bounded context.
+        /// </value>
         public string BoundedContextName { get { return boundedContextName; } }
 
+
+        /// <summary>
+        /// Gets the bounded context namespace.
+        /// </summary>
+        /// <value>
+        /// The bounded context namespace.
+        /// </value>
         public string BoundedContextNamespace { get { return boundedContextNamespace; } }
 
+
+        /// <summary>
+        /// Gets the name of the company.
+        /// </summary>
+        /// <value>
+        /// The name of the company.
+        /// </value>
         public string CompanyName { get { return companyName; } }
 
+
+        /// <summary>
+        /// Gets the name of the product.
+        /// </summary>
+        /// <value>
+        /// The name of the product.
+        /// </value>
         public string ProductName { get { return productName; } }
 
+
+        /// <summary>
+        /// Gets the product namespace.
+        /// </summary>
+        /// <value>
+        /// The product namespace.
+        /// </value>
         public string ProductNamespace { get { return productNamespace; } }
 
     }

@@ -46,7 +46,7 @@
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="IAggregateRootId.cs" />
     <Compile Include="IAggregateRootState.cs" />
-    <Compile Include="IAggregateRootStateManager.cs" />
+    <Compile Include="ICanRestoreStateFromEvents.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />

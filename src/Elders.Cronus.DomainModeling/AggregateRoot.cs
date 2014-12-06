@@ -2,29 +2,29 @@
 
 namespace Elders.Cronus.DomainModeling
 {
-    public class AggregateRoot<ST> : IAggregateRoot
-        where ST : IAggregateRootState, new()
+    public class AggregateRoot<TState> : IAggregateRoot
+        where TState : IAggregateRootState, new()
     {
-        protected ST state;
+        protected TState state;
         protected List<IEvent> uncommittedEvents;
         private int revision;
 
         public AggregateRoot()
         {
-            state = new ST();
+            state = new TState();
             uncommittedEvents = new List<IEvent>();
             revision = 0;
         }
 
-        IAggregateRootState IAggregateRootStateManager.State { get { return state; } }
+        IAggregateRootState ICanRestoreStateFromEvents<IAggregateRootState>.State { get { return state; } }
 
         IEnumerable<IEvent> IAggregateRoot.UncommittedEvents { get { return uncommittedEvents.AsReadOnly(); } }
 
         int IAggregateRoot.Revision { get { return uncommittedEvents.Count > 0 ? revision + 1 : revision; } }
 
-        void IAggregateRootStateManager.BuildStateFromHistory(List<IEvent> events, int revision)
+        void ICanRestoreStateFromEvents<IAggregateRootState>.ReplayEvents(List<IEvent> events, int revision)
         {
-            state = new ST();
+            state = new TState();
             foreach (IEvent @event in events)
             {
                 state.Apply(@event);

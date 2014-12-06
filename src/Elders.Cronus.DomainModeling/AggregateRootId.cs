@@ -9,10 +9,14 @@ namespace Elders.Cronus.DomainModeling
         protected AggregateRootId()
         {
             RawId = new byte[0];
+            AggregateRootName = string.Empty;
         }
 
         [DataMember(Order = 10)]
         public byte[] RawId { get; protected set; }
+
+        [DataMember(Order = 11)]
+        public string AggregateRootName { get; protected set; }
 
         public override bool Equals(System.Object obj)
         {

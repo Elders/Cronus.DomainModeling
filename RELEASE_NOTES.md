@@ -1,3 +1,6 @@
+#### 1.0.4-beta03 - 06.12.2014
+* Add aggregate root name to the IAggregateRootId interface
+
 #### 1.0.4-beta02 - 28.10.2014
 * Initizalize Aggregate root state instance with history events
 

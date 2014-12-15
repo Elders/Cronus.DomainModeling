@@ -31,7 +31,7 @@ namespace Elders.Cronus.DomainModeling
             }
             this.revision = revision;
 
-            if (state.Id.RawId == default(byte[]))
+            if (state.Id == null || state.Id.RawId == default(byte[]))
                 throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
         }
 

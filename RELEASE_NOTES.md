@@ -1,3 +1,6 @@
+#### 1.0.4-beta04 - 15.12.2014
+* Remove TransportMessage
+
 #### 1.0.4-beta03 - 06.12.2014
 * Add aggregate root name to the IAggregateRootId interface
 

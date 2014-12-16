@@ -1,29 +1,11 @@
-#### 1.0.4-beta04 - 15.12.2014
-* Remove TransportMessage
-
-#### 1.0.4-beta03 - 06.12.2014
-* Add aggregate root name to the IAggregateRootId interface
-
-#### 1.0.4-beta02 - 28.10.2014
-* Initizalize Aggregate root state instance with history events
-
-#### 1.0.4-beta01 - 27.10.2014
-* RE: Move the revision from the state to the aggregateRoot
-
-#### 1.0.4-alpha5 - 27.10.2014
-* Move the revision from the state to the aggregateRoot
-
-#### 1.0.4-alpha4 - 27.10.2014
-* Properly calculate GetHashCode for RawId
-
-#### 1.0.4-alpha3 - 27.10.2014
-* Initialize empty AggregateRootId with empty RawId
-
-#### 1.0.4-alpha2 - 08.10.2014
-* Remove test classes which break everything when register in Protoreg
-
-#### 1.0.4-alpha1 - 08.10.2014
+#### 1.2.0 - 16.12.2014
 * Add IProjection interface
+* Add aggregate root name to the IAggregateRootId interface
+* Remove TransportMessage
+* Initizalize Aggregate root state instance with history events
+* Move the revision from the state to the aggregateRoot
+* Properly calculate GetHashCode for RawId
+* Initialize empty AggregateRootId with empty RawId
 
 #### 1.0.3 - 01.10.2014
 * Rework how we use the aggregate Ids

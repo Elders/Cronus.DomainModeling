@@ -12,23 +12,28 @@ namespace Elders.Cronus.DomainModeling
 
         protected GuidId() { }
 
-        public GuidId(Guid idBase, string aggregateRootName)
+        public GuidId(Guid idBase, string aggregateRootName) : base(aggregateRootName)
         {
             if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
             Id = idBase;
-            base.RawId = AggregateRootId.Combine(UTF8Encoding.UTF8.GetBytes(aggregateRootName + "@"), Id.ToByteArray());
+            base.RawId = AggregateRootId.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
         }
 
-        public GuidId(GuidId idBase, string aggregateRootName)
+        public GuidId(GuidId idBase, string aggregateRootName) : base(aggregateRootName)
         {
             if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
             Id = idBase.Id;
-            base.RawId = AggregateRootId.Combine(UTF8Encoding.UTF8.GetBytes(aggregateRootName + "@"), Id.ToByteArray());
+            base.RawId = AggregateRootId.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
         }
 
         public static bool IsValid(GuidId aggregateRootId)
         {
             return (!ReferenceEquals(null, aggregateRootId)) && aggregateRootId.Id != default(Guid);
+        }
+
+        public override string ToString()
+        {
+            return AggregateRootName + "@" + Id.ToString() + "||" + base.ToString();
         }
     }
 }

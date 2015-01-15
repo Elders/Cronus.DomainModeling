@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
@@ -6,10 +7,22 @@ namespace Elders.Cronus.DomainModeling
     [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
     public class AggregateRootId : IAggregateRootId
     {
+        /// <summary>
+        /// Prevents a default instance of the <see cref="AggregateRootId"/> class from being created.
+        /// </summary>
+        /// <remarks>Used only for serizalization.</remarks>
         protected AggregateRootId()
         {
             RawId = new byte[0];
             AggregateRootName = string.Empty;
+        }
+
+        protected AggregateRootId(string aggregateRootName)
+        {
+            if (String.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException("aggregateRootName");
+
+            RawId = new byte[0];
+            AggregateRootName = aggregateRootName;
         }
 
         [DataMember(Order = 10)]
@@ -76,7 +89,7 @@ namespace Elders.Cronus.DomainModeling
 
         public override string ToString()
         {
-            return RawId.ToString();
+            return Convert.ToBase64String(RawId);
         }
 
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]

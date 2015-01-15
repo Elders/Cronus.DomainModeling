@@ -1,3 +1,6 @@
+#### 1.2.1 - 15.01.2015
+* Improve .ToString() output for AggregateRootId classes
+
 #### 1.2.0 - 16.12.2014
 * Add IProjection interface
 * Add aggregate root name to the IAggregateRootId interface

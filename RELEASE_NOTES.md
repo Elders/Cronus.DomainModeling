@@ -1,3 +1,6 @@
+#### 1.2.2 - 23.03.2015
+* Caching different handlers is not based on ICommand/IEventHandler interfaces but IProjection, IPort, IAppService
+
 #### 1.2.1 - 15.01.2015
 * Improve .ToString() output for AggregateRootId classes
 

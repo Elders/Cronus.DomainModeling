@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -73,11 +74,15 @@ namespace Elders.Cronus.DomainModeling
         private static string GetAndCacheContractIdFromAttribute(Type contractType)
         {
             string contractId;
-            DataContractAttribute contract = contractType.GetCustomAttributes(false).Where(attr => attr is DataContractAttribute).SingleOrDefault() as DataContractAttribute;
+            DataContractAttribute contract = contractType
+                .GetCustomAttributes(false).Where(attr => attr is DataContractAttribute)
+                .SingleOrDefault() as DataContractAttribute;
 
             if (contract == null || String.IsNullOrEmpty(contract.Name))
             {
-                if (contractType.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == typeof(ICommandHandler<>) || i.GetGenericTypeDefinition() == typeof(IEventHandler<>))))
+                if (typeof(IProjection).IsAssignableFrom(contractType) ||
+                    typeof(IPort).IsAssignableFrom(contractType) ||
+                    typeof(IAggregateRootApplicationService).IsAssignableFrom(contractType))
                     contractId = contractType.GetHashCode().ToString();
                 else
                     throw new Exception(String.Format(@"The message type '{0}' is missing a DataContract attribute. Example: [DataContract(""00000000-0000-0000-0000-000000000000"")]", contractType.FullName));
@@ -110,6 +115,45 @@ namespace Elders.Cronus.DomainModeling
             return attribute == null
                 ? default(T)
                 : (T)attribute;
+        }
+
+        public static IEnumerable<MemberInfo> GetAllMembers(this Type t)
+        {
+            if (t == null)
+                return Enumerable.Empty<MemberInfo>();
+
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic |
+                                 BindingFlags.Static | BindingFlags.Instance |
+                                 BindingFlags.DeclaredOnly;
+            return t.GetMembers(flags).Concat(GetAllMembers(t.BaseType));
+        }
+
+        public static bool HasAttribute<TAttribute>(this ICustomAttributeProvider self)
+        {
+            return self
+                .GetCustomAttributes(false)
+                .Where(x => x is TAttribute)
+                .Any();
+        }
+
+        public static TResultType GetAttrubuteValue<TAttribute, TResultType>(this ICustomAttributeProvider self, Func<TAttribute, TResultType> get)
+        {
+            TAttribute attribute = (TAttribute)self.GetCustomAttributes(typeof(TAttribute), false).Single();
+            return get(attribute);
+        }
+
+        private static object GetValue(object instance, MemberInfo member)
+        {
+            if (member is PropertyInfo)
+            {
+                return ((member as PropertyInfo)).GetValue(instance);
+            }
+            else if (member is FieldInfo)
+            {
+                return ((member as FieldInfo)).GetValue(instance);
+            }
+            else
+                throw new NotImplementedException();
         }
     }
 }

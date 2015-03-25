@@ -1,3 +1,6 @@
+#### 1.2.3 - 23.03.2015
+* Add Message object to wrap the Commands and the Events. Message has headers.
+
 #### 1.2.2 - 23.03.2015
 * Caching different handlers is not based on ICommand/IEventHandler interfaces but IProjection, IPort, IAppService
 

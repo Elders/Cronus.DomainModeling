@@ -1,4 +1,6 @@
-﻿namespace Elders.Cronus.DomainModeling
+﻿using System.Collections.Generic;
+
+namespace Elders.Cronus.DomainModeling
 {
     public interface IPublisher<in TMessage>
         where TMessage : IMessage
@@ -8,6 +10,6 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns></returns>
-        bool Publish(TMessage message);
+        bool Publish(TMessage message, Dictionary<string, string> messageHeaders = null);
     }
 }

@@ -1,3 +1,6 @@
+#### 2.0.2 - 02.07.2015
+* Use IBlobId for the RawId
+
 #### 2.0.1 - 02.07.2015
 * Roll back the IAggregateRootId
 

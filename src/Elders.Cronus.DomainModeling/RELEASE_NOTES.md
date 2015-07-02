@@ -1,3 +1,6 @@
+#### 1.4.0-alpha001 - 02.07.2015
+* Add Entity classes similar to the AggregateRoot
+
 #### 1.3.0 - 12.06.2015
 * Add method TryLoad when loading aggregates from the event store
 

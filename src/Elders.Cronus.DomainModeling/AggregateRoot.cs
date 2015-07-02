@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -8,12 +11,16 @@ namespace Elders.Cronus.DomainModeling
         protected TState state;
         protected List<IEvent> uncommittedEvents;
         private int revision;
+        private Dictionary<Type, Action<IEvent>> handlers;
 
         public AggregateRoot()
         {
             state = new TState();
             uncommittedEvents = new List<IEvent>();
             revision = 0;
+
+            var mapping = new DomainObjectEventHandlerMapping();
+            handlers = mapping.GetEventHandlers(state);
         }
 
         IAggregateRootState ICanRestoreStateFromEvents<IAggregateRootState>.State { get { return state; } }
@@ -27,7 +34,8 @@ namespace Elders.Cronus.DomainModeling
             state = new TState();
             foreach (IEvent @event in events)
             {
-                state.Apply(@event);
+                var handler = handlers[@event.GetType()];
+                handler(@event);
             }
             this.revision = revision;
 
@@ -35,10 +43,48 @@ namespace Elders.Cronus.DomainModeling
                 throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
         }
 
-        protected void Apply(IEvent @event)
+        internal protected void Apply(IEvent @event)
         {
-            state.Apply(@event);
+            var handler = handlers[@event.GetType()];
+            handler(@event);
             uncommittedEvents.Add(@event);
+        }
+
+        void ICanRestoreStateFromEvents<IAggregateRootState>.RegisterEventHandler(Type eventType, Action<IEvent> handleAction)
+        {
+            handlers.Add(eventType, handleAction);
+        }
+    }
+
+    public class DomainObjectEventHandlerMapping
+    {
+        public Dictionary<Type, Action<IEvent>> GetEventHandlers(object target)
+        {
+            var targetType = target.GetType();
+            var handlers = new Dictionary<Type, Action<IEvent>>();
+
+            var methodsToMatch = targetType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var matchedMethods = from method in methodsToMatch
+                                 let parameters = method.GetParameters()
+                                 where
+                                    method.Name.Equals("when", StringComparison.InvariantCultureIgnoreCase) &&
+                                    parameters.Length == 1 &&
+                                    typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType)
+                                 select
+                                    new { MethodInfo = method, FirstParameter = method.GetParameters()[0] };
+
+            foreach (var method in matchedMethods)
+            {
+                var methodCopy = method.MethodInfo;
+                Type eventType = methodCopy.GetParameters().First().ParameterType;
+
+                Action<IEvent> handler = (e) => methodCopy.Invoke(target, new[] { e });
+
+                handlers.Add(eventType, handler);
+            }
+
+            return handlers;
         }
     }
 }

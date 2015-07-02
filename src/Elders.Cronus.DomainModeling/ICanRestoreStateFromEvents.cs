@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Elders.Cronus.DomainModeling
@@ -6,5 +7,6 @@ namespace Elders.Cronus.DomainModeling
     {
         TState State { get; }
         void ReplayEvents(List<IEvent> events, int currentRevision);
+        void RegisterEventHandler(Type eventType, Action<IEvent> handleAction);
     }
 }

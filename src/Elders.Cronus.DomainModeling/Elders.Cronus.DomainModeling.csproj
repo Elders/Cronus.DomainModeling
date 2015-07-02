@@ -41,11 +41,15 @@
     <Compile Include="AggregateRootId.cs" />
     <Compile Include="AggregateRootState.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
+    <Compile Include="ByteArrayHelper.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="GuidId.cs" />
+    <Compile Include="HashCodeModifier.cs" />
     <Compile Include="IAggregateRepository.cs" />
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="IAggregateRootId.cs" />
     <Compile Include="IAggregateRootState.cs" />
+    <Compile Include="IBlobId.cs" />
     <Compile Include="ICanRestoreStateFromEvents.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IEventHandler.cs" />
@@ -59,6 +63,7 @@
     <Compile Include="Message.cs" />
     <Compile Include="MessageInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringId.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

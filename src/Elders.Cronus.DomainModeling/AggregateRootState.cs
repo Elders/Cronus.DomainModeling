@@ -7,12 +7,6 @@ namespace Elders.Cronus.DomainModeling
 
         public abstract ID Id { get; set; }
 
-        void IAggregateRootState.Apply(IEvent @event)
-        {
-            var state = (dynamic)this;
-            state.When((dynamic)@event);
-        }
-
         public static bool operator ==(AggregateRootState<ID> left, AggregateRootState<ID> right)
         {
             if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;

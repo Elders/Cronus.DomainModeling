@@ -2,10 +2,8 @@ using System;
 
 namespace Elders.Cronus.DomainModeling
 {
-    public interface IAggregateRootId : IEquatable<IAggregateRootId>
+    public interface IAggregateRootId : IBlobId, IEquatable<IAggregateRootId>
     {
-        byte[] RawId { get; }
-
         string AggregateRootName { get; }
     }
 }

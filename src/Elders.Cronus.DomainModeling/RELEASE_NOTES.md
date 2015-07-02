@@ -1,3 +1,6 @@
+#### 2.0.3 - 02.07.2015
+* Fix issue with EntityId class
+
 #### 2.0.2 - 02.07.2015
 * Use IBlobId for the RawId
 

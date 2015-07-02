@@ -3,11 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Elders.Cronus.DomainModeling
 {
-    public interface IEntityId : IBlobId, IEquatable<IEntityId>
-    {
-        string EntityName { get; }
-        IAggregateRoot RootId { get; }
-    }
 
     [DataContract(Name = "44f705a4-f339-4677-b39a-300a9eaa4a73")]
     public class EntityId<TAggregateRootId> : IEntityId
@@ -26,7 +21,7 @@ namespace Elders.Cronus.DomainModeling
 
             RawId = new byte[0];
             EntityName = entityName;
-            RootId = rootId;
+            AggregateRootId = rootId;
         }
 
         [DataMember(Order = 20)]
@@ -36,9 +31,9 @@ namespace Elders.Cronus.DomainModeling
         public string EntityName { get; protected set; }
 
         [DataMember(Order = 22)]
-        public TAggregateRootId RootId { get; protected set; }
+        public IAggregateRootId AggregateRootId { get; private set; }
 
-        IAggregateRoot IEntityId.RootId { get { return RootId as IAggregateRoot; } }
+        public TAggregateRootId RootId { get { return (TAggregateRootId)AggregateRootId; } }
 
         public override bool Equals(System.Object obj)
         {
@@ -80,6 +75,11 @@ namespace Elders.Cronus.DomainModeling
         public override string ToString()
         {
             return Convert.ToBase64String(RawId);
+        }
+
+        bool IEquatable<IEntityId>.Equals(IEntityId other)
+        {
+            throw new NotImplementedException();
         }
     }
 

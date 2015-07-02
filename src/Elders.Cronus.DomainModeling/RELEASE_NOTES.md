@@ -1,3 +1,6 @@
+#### 1.4.0-alpha004 - 02.07.2015
+* Add EntityGuidId
+
 #### 1.4.0-alpha003 - 02.07.2015
 * Change the IEntityState interface to not be a generic one
 

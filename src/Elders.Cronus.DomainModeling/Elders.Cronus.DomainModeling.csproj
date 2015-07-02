@@ -43,6 +43,7 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="ByteArrayHelper.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityGuidId.cs" />
     <Compile Include="GuidId.cs" />
     <Compile Include="HashCodeModifier.cs" />
     <Compile Include="IAggregateRepository.cs" />

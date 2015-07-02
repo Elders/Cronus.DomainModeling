@@ -19,6 +19,16 @@ namespace Elders.Cronus.DomainModeling
             EntityName = string.Empty;
         }
 
+        protected EntityId(TAggregateRootId rootId, string entityName)
+        {
+            if (ReferenceEquals(null, rootId)) throw new ArgumentNullException("rootId");
+            if (String.IsNullOrEmpty(entityName)) throw new ArgumentNullException("entityName");
+
+            RawId = new byte[0];
+            EntityName = entityName;
+            RootId = rootId;
+        }
+
         [DataMember(Order = 20)]
         public byte[] RawId { get; protected set; }
 

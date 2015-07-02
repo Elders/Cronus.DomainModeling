@@ -1,3 +1,6 @@
+#### 1.4.0-alpha005 - 02.07.2015
+* Add reference in the AR state back to the root
+
 #### 1.4.0-alpha004 - 02.07.2015
 * Add EntityGuidId
 

@@ -7,6 +7,8 @@ namespace Elders.Cronus.DomainModeling
 
         public abstract ID Id { get; set; }
 
+        protected internal IAggregateRoot Root { get; set; }
+
         public static bool operator ==(AggregateRootState<ID> left, AggregateRootState<ID> right)
         {
             if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;

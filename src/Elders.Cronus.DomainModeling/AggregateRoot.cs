@@ -16,6 +16,7 @@ namespace Elders.Cronus.DomainModeling
         public AggregateRoot()
         {
             state = new TState();
+            (state as AggregateRootState<IAggregateRootId>).Root = this;
             uncommittedEvents = new List<IEvent>();
             revision = 0;
 

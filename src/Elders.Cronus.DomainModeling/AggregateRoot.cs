@@ -16,8 +16,8 @@ namespace Elders.Cronus.DomainModeling
         public AggregateRoot()
         {
             state = new TState();
-            var dynamicRoot = (dynamic)state;
-            dynamicRoot.Root = (dynamic)this;
+            var dynamicState = (dynamic)state;
+            dynamicState.Root = (dynamic)this;
             uncommittedEvents = new List<IEvent>();
             revision = 0;
 

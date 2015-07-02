@@ -1,22 +1,7 @@
-#### 1.4.0-alpha007 - 02.07.2015
-* Add reference in the AR state back to the root. Take3
-
-#### 1.4.0-alpha006 - 02.07.2015
-* Add reference in the AR state back to the root. Take2
-
-#### 1.4.0-alpha005 - 02.07.2015
+#### 2.0.0 - 02.07.2015
 * Add reference in the AR state back to the root
-
-#### 1.4.0-alpha004 - 02.07.2015
 * Add EntityGuidId
-
-#### 1.4.0-alpha003 - 02.07.2015
 * Change the IEntityState interface to not be a generic one
-
-#### 1.4.0-alpha002 - 02.07.2015
-* Fix bug with EntityObjectMapping being applied to the wrong target
-
-#### 1.4.0-alpha001 - 02.07.2015
 * Add Entity classes similar to the AggregateRoot
 
 #### 1.3.0 - 12.06.2015

@@ -73,20 +73,22 @@ namespace Elders.Cronus.DomainModeling
         }
     }
 
-    public interface IEntityState<TEntityId>
+    public interface IEntityState
     {
-        TEntityId Id { get; set; }
+        IEntityId EntityId { get; }
     }
 
-    public class EntityState<TEntityId> : IEntityState<TEntityId>
+    public abstract class EntityState<TEntityId> : IEntityState
         where TEntityId : IEntityId
     {
-        public TEntityId Id { get; set; }
+        IEntityId IEntityState.EntityId { get { return EntityId; } }
+
+        public abstract TEntityId EntityId { get; set; }
     }
 
     public abstract class Entity<TAggregateRoot, TEntityState>
         where TAggregateRoot : IAggregateRoot
-        where TEntityState : IEntityState<IEntityId>, new()
+        where TEntityState : IEntityState, new()
     {
         private readonly TAggregateRoot root;
 

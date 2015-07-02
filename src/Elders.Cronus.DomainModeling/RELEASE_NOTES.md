@@ -1,3 +1,6 @@
+#### 1.4.0-alpha003 - 02.07.2015
+* Change the IEntityState interface to not be a generic one
+
 #### 1.4.0-alpha002 - 02.07.2015
 * Fix bug with EntityObjectMapping being applied to the wrong target
 

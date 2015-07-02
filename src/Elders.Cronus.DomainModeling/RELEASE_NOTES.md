@@ -1,3 +1,6 @@
+#### 1.4.0-alpha002 - 02.07.2015
+* Fix bug with EntityObjectMapping being applied to the wrong target
+
 #### 1.4.0-alpha001 - 02.07.2015
 * Add Entity classes similar to the AggregateRoot
 

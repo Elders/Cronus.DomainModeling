@@ -97,7 +97,7 @@ namespace Elders.Cronus.DomainModeling
             this.root = root;
             this.state = new TEntityState();
             var mapping = new DomainObjectEventHandlerMapping();
-            foreach (var handlerAction in mapping.GetEventHandlers(state))
+            foreach (var handlerAction in mapping.GetEventHandlers(() => this.state))
             {
                 root.RegisterEventHandler(handlerAction.Key, handlerAction.Value);
             }

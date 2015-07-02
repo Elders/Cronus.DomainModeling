@@ -20,7 +20,7 @@ namespace Elders.Cronus.DomainModeling
             revision = 0;
 
             var mapping = new DomainObjectEventHandlerMapping();
-            handlers = mapping.GetEventHandlers(state);
+            handlers = mapping.GetEventHandlers(() => this.state);
         }
 
         IAggregateRootState ICanRestoreStateFromEvents<IAggregateRootState>.State { get { return state; } }
@@ -58,9 +58,9 @@ namespace Elders.Cronus.DomainModeling
 
     public class DomainObjectEventHandlerMapping
     {
-        public Dictionary<Type, Action<IEvent>> GetEventHandlers(object target)
+        public Dictionary<Type, Action<IEvent>> GetEventHandlers(Func<object> target)
         {
-            var targetType = target.GetType();
+            var targetType = target().GetType();
             var handlers = new Dictionary<Type, Action<IEvent>>();
 
             var methodsToMatch = targetType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -79,7 +79,7 @@ namespace Elders.Cronus.DomainModeling
                 var methodCopy = method.MethodInfo;
                 Type eventType = methodCopy.GetParameters().First().ParameterType;
 
-                Action<IEvent> handler = (e) => methodCopy.Invoke(target, new[] { e });
+                Action<IEvent> handler = (e) => methodCopy.Invoke(target(), new[] { e });
 
                 handlers.Add(eventType, handler);
             }

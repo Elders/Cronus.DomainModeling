@@ -42,8 +42,11 @@
     <Compile Include="AggregateRootState.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="ByteArrayHelper.cs" />
+    <Compile Include="DomainObjectEventHandlerMapping.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityGuidId.cs" />
+    <Compile Include="EntityId.cs" />
+    <Compile Include="EntityState.cs" />
     <Compile Include="GuidId.cs" />
     <Compile Include="HashCodeModifier.cs" />
     <Compile Include="IAggregateRepository.cs" />
@@ -53,6 +56,8 @@
     <Compile Include="IBlobId.cs" />
     <Compile Include="ICanRestoreStateFromEvents.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="IEntityId.cs" />
+    <Compile Include="IEntityState.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IMessage.cs" />

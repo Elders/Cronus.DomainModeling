@@ -1,3 +1,6 @@
+#### 2.0.4 - 02.07.2015
+* Use ByteArrayHelper everywhere
+
 #### 2.0.3 - 02.07.2015
 * Fix issue with EntityId class
 

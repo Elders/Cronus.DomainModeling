@@ -7,5 +7,7 @@ namespace Elders.Cronus.DomainModeling
         IAggregateRootId IAggregateRootState.Id { get { return Id; } }
 
         public abstract TAggregateRootId Id { get; set; }
+
+        public TAggregateRoot Root { get; set; }
     }
 }

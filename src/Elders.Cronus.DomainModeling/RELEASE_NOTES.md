@@ -1,3 +1,6 @@
+#### 1.4.0-alpha007 - 02.07.2015
+* Add reference in the AR state back to the root. Take3
+
 #### 1.4.0-alpha006 - 02.07.2015
 * Add reference in the AR state back to the root. Take2
 

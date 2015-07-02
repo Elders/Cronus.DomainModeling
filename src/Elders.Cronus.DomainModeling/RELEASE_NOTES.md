@@ -1,3 +1,6 @@
+#### 2.0.1 - 02.07.2015
+* Roll back the IAggregateRootId
+
 #### 2.0.0 - 02.07.2015
 * Add reference in the AR state back to the root
 * Add EntityGuidId

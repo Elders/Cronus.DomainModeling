@@ -20,7 +20,7 @@ namespace Elders.Cronus.DomainModeling
 
             RawId = new byte[0];
             EntityName = entityName;
-            AggregateRootId = rootId;
+            RootId = rootId;
         }
 
         [DataMember(Order = 20)]
@@ -30,9 +30,9 @@ namespace Elders.Cronus.DomainModeling
         public string EntityName { get; protected set; }
 
         [DataMember(Order = 22)]
-        public IAggregateRootId AggregateRootId { get; private set; }
+        public TAggregateRootId RootId { get; set; }
 
-        public TAggregateRootId RootId { get { return (TAggregateRootId)AggregateRootId; } }
+        IAggregateRootId IEntityId.AggregateRootId { get { return RootId; } }
 
         public override bool Equals(System.Object obj)
         {

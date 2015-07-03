@@ -1,3 +1,6 @@
+#### 2.1.0 - 02.07.2015
+* Use generic class for EntityId
+
 #### 2.0.4 - 02.07.2015
 * Use ByteArrayHelper everywhere
 

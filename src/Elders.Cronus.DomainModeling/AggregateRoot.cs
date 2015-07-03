@@ -15,9 +15,7 @@ namespace Elders.Cronus.DomainModeling
 
         public AggregateRoot()
         {
-            state = new TState();
-            var dynamicState = (dynamic)state;
-            dynamicState.Root = (dynamic)this;
+            state = InitializeState();
             uncommittedEvents = new List<IEvent>();
             revision = 0;
 
@@ -33,7 +31,7 @@ namespace Elders.Cronus.DomainModeling
 
         void ICanRestoreStateFromEvents<IAggregateRootState>.ReplayEvents(List<IEvent> events, int revision)
         {
-            state = new TState();
+            state = InitializeState();
             foreach (IEvent @event in events)
             {
                 var handler = handlers[@event.GetType()];
@@ -55,6 +53,14 @@ namespace Elders.Cronus.DomainModeling
         void ICanRestoreStateFromEvents<IAggregateRootState>.RegisterEventHandler(Type eventType, Action<IEvent> handleAction)
         {
             handlers.Add(eventType, handleAction);
+        }
+
+        public TState InitializeState()
+        {
+            var state = new TState();
+            var dynamicState = (dynamic)state;
+            dynamicState.Root = (dynamic)this;
+            return state;
         }
     }
 }

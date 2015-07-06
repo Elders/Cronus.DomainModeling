@@ -54,12 +54,14 @@
     <Compile Include="IAggregateRootId.cs" />
     <Compile Include="IAggregateRootState.cs" />
     <Compile Include="IBlobId.cs" />
-    <Compile Include="ICanRestoreStateFromEvents.cs" />
+    <Compile Include="IAmEventSourced.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="IEntity.cs" />
     <Compile Include="IEntityId.cs" />
     <Compile Include="IEntityState.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />
+    <Compile Include="IHaveState.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IProjection.cs" />
     <Compile Include="ICommandHandler.cs" />

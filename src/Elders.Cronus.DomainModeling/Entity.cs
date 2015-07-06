@@ -1,12 +1,14 @@
 ﻿namespace Elders.Cronus.DomainModeling
 {
-    public abstract class Entity<TAggregateRoot, TEntityState>
+    public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
         where TAggregateRoot : IAggregateRoot
         where TEntityState : IEntityState, new()
     {
         private readonly TAggregateRoot root;
 
         protected TEntityState state;
+
+        IEntityState IHaveState<IEntityState>.State { get { return state; } }
 
         protected Entity(TAggregateRoot root)
         {
@@ -21,8 +23,9 @@
 
         protected void Apply(IEvent @event)
         {
+            var entityEvent = new EntityEvent(state.EntityId, @event);
             var ar = (dynamic)root;
-            ar.Apply((dynamic)@event);
+            ar.Apply((dynamic)entityEvent);
         }
     }
 }

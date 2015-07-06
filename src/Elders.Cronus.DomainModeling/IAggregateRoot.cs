@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-
 namespace Elders.Cronus.DomainModeling
 {
-    public interface IAggregateRoot : ICanRestoreStateFromEvents<IAggregateRootState>
+    public interface IAggregateRoot : IAmEventSourced, IHaveState<IAggregateRootState>
     {
         int Revision { get; }
-        IEnumerable<IEvent> UncommittedEvents { get; }
     }
 }

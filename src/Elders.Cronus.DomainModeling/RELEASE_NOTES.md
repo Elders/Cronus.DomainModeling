@@ -1,3 +1,6 @@
+#### 2.1.6 - 06.07.2015
+* Make entity event serializable
+
 #### 2.1.5 - 06.07.2015
 * Properly apply events which are part of an entity
 

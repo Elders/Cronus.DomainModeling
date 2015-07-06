@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -122,6 +123,7 @@ namespace Elders.Cronus.DomainModeling
         }
     }
 
+    [DataContract(Name = "f2271a33-cf0d-4882-b68e-d4cee9ac0491")]
     public class EntityEvent : IEvent
     {
         EntityEvent() { }
@@ -132,8 +134,10 @@ namespace Elders.Cronus.DomainModeling
             this.Event = @event;
         }
 
+        [DataMember(Order = 1)]
         public IEntityId EntityId { get; private set; }
 
+        [DataMember(Order = 2)]
         public IEvent Event { get; private set; }
     }
 }

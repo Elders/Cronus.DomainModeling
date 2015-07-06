@@ -1,3 +1,6 @@
+#### 2.1.3 - 06.07.2015
+* Creating an entity now requires an ID
+
 #### 2.1.2 - 06.07.2015
 * Properly register entity event handler
 

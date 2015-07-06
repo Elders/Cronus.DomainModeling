@@ -16,7 +16,6 @@
             this.state = new TEntityState();
             var dynamicState = (dynamic)this.state;
             dynamicState.EntityId = (dynamic)entityId;
-            (this.state as EntityState<IEntityId>).EntityId = entityId;
             var mapping = new DomainObjectEventHandlerMapping();
             foreach (var handlerAction in mapping.GetEventHandlers(() => this.state))
             {

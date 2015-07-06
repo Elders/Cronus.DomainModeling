@@ -40,8 +40,9 @@ namespace Elders.Cronus.DomainModeling
 
         internal protected void Apply(IEvent @event)
         {
-            var handler = handlers.GetEventHandler(@event);
-            handler(@event);
+            IEvent realEvent;
+            var handler = handlers.GetEventHandler(@event, out realEvent);
+            handler(realEvent);
             uncommittedEvents.Add(@event);
         }
 
@@ -52,8 +53,9 @@ namespace Elders.Cronus.DomainModeling
             state = InitializeState();
             foreach (IEvent @event in events)
             {
-                var handler = handlers.GetEventHandler(@event);
-                handler(@event);
+                IEvent realEvent;
+                var handler = handlers.GetEventHandler(@event, out realEvent);
+                handler(realEvent);
             }
             this.revision = revision;
 
@@ -104,8 +106,9 @@ namespace Elders.Cronus.DomainModeling
             }
         }
 
-        public Action<IEvent> GetEventHandler(IEvent @event)
+        public Action<IEvent> GetEventHandler(IEvent @event, out IEvent realEvent)
         {
+            realEvent = @event;
             var entityEvent = @event as EntityEvent;
             if (ReferenceEquals(null, entityEvent))
             {
@@ -113,6 +116,7 @@ namespace Elders.Cronus.DomainModeling
             }
             else
             {
+                realEvent = entityEvent.Event;
                 return entityHandlers[entityEvent.EntityId][entityEvent.Event.GetType()];
             }
         }

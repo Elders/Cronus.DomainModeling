@@ -1,3 +1,6 @@
+#### 2.1.5 - 06.07.2015
+* Properly apply events which are part of an entity
+
 #### 2.1.4 - 06.07.2015
 * Creating an entity now requires an ID
 

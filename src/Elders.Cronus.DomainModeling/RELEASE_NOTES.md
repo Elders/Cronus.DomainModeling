@@ -1,3 +1,6 @@
+#### 2.1.2 - 06.07.2015
+* Properly register entity event handler
+
 #### 2.1.1 - 06.07.2015
 * Fix bug which does not allow more than one entity per Aggregate
 

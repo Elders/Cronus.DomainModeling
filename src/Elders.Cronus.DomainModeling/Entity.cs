@@ -17,7 +17,7 @@
             var mapping = new DomainObjectEventHandlerMapping();
             foreach (var handlerAction in mapping.GetEventHandlers(() => this.state))
             {
-                root.RegisterEventHandler(handlerAction.Key, handlerAction.Value);
+                root.RegisterEventHandler(state.EntityId, handlerAction.Key, handlerAction.Value);
             }
         }
 

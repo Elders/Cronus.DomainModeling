@@ -1,3 +1,6 @@
+#### 2.2.0 - 08.07.2015
+* Added persistent projection abstraction
+
 #### 2.1.6 - 06.07.2015
 * Make entity event serializable
 

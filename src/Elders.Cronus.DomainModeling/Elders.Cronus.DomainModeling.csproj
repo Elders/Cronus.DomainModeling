@@ -70,6 +70,17 @@
     <Compile Include="IValueObject.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageInfo.cs" />
+    <Compile Include="Projections\ICollectionDataTransferObject.cs" />
+    <Compile Include="Projections\ICollectionDataTransferObjectItem.cs" />
+    <Compile Include="Projections\IDataTransferObject.cs" />
+    <Compile Include="Projections\IKeyValueCollectionPersister.cs" />
+    <Compile Include="Projections\IKeyValuePersister.cs" />
+    <Compile Include="Projections\IPersiter.cs" />
+    <Compile Include="Projections\IRepository.cs" />
+    <Compile Include="Projections\IRepositoryExtentions.cs" />
+    <Compile Include="Projections\KeyValueCollectionItem.cs" />
+    <Compile Include="Projections\KeyValueData.cs" />
+    <Compile Include="Projections\Query.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
   </ItemGroup>

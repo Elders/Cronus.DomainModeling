@@ -14,16 +14,16 @@ namespace Elders.Cronus.DomainModeling
 
         public GuidId(Guid idBase, string aggregateRootName) : base(aggregateRootName)
         {
-            if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
+            if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase;
-            base.RawId = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
+            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
         }
 
         public GuidId(GuidId idBase, string aggregateRootName) : base(aggregateRootName)
         {
-            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
+            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase.Id;
-            base.RawId = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
+            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@"), Id.ToByteArray());
         }
 
         public static bool IsValid(GuidId aggregateRootId)

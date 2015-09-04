@@ -110,16 +110,31 @@ namespace Elders.Cronus.DomainModeling
         public Action<IEvent> GetEventHandler(IEvent @event, out IEvent realEvent)
         {
             realEvent = @event;
+            var realEventType = realEvent.GetType();
             var entityEvent = @event as EntityEvent;
+            Action<IEvent> stateHandler = null;
+
             if (ReferenceEquals(null, entityEvent))
             {
-                return aggregateRootHandlers[@event.GetType()];
+                aggregateRootHandlers.TryGetValue(realEventType, out stateHandler);
             }
             else
             {
                 realEvent = entityEvent.Event;
-                return entityHandlers[entityEvent.EntityId][entityEvent.Event.GetType()];
+                realEventType = realEvent.GetType();
+                Dictionary<Type, Action<IEvent>> entityRegistration;
+                if (entityHandlers.TryGetValue(entityEvent.EntityId, out entityRegistration))
+                {
+                    entityRegistration.TryGetValue(realEventType, out stateHandler);
+                }
             }
+
+            if (ReferenceEquals(null, stateHandler))
+            {
+                string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state.";
+                throw new Exception(error);
+            }
+            return stateHandler;
         }
     }
 

@@ -1,3 +1,6 @@
+#### 2.1.7 - 04.09.2015
+* Replace the exception when a state handler is missing
+
 #### 2.1.6 - 06.07.2015
 * Make entity event serializable
 

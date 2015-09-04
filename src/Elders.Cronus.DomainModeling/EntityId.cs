@@ -5,7 +5,7 @@ namespace Elders.Cronus.DomainModeling
 {
     [DataContract(Name = "44f705a4-f339-4677-b39a-300a9eaa4a73")]
     public class EntityId<TAggregateRootId> : IEntityId
-            where TAggregateRootId : IAggregateRootId
+        where TAggregateRootId : IAggregateRootId
     {
         protected EntityId()
         {
@@ -15,8 +15,8 @@ namespace Elders.Cronus.DomainModeling
 
         protected EntityId(TAggregateRootId rootId, string entityName)
         {
-            if (ReferenceEquals(null, rootId)) throw new ArgumentNullException("rootId");
-            if (String.IsNullOrEmpty(entityName)) throw new ArgumentNullException("entityName");
+            if (ReferenceEquals(null, rootId)) throw new ArgumentNullException(nameof(rootId));
+            if (String.IsNullOrEmpty(entityName)) throw new ArgumentNullException(nameof(entityName));
 
             RawId = new byte[0];
             EntityName = entityName;

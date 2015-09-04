@@ -19,7 +19,7 @@ namespace Elders.Cronus.DomainModeling
 
         protected AggregateRootId(string aggregateRootName)
         {
-            if (String.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException("aggregateRootName");
+            if (String.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException(nameof(aggregateRootName));
 
             RawId = new byte[0];
             AggregateRootName = aggregateRootName;

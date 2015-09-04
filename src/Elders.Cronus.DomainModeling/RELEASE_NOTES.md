@@ -1,3 +1,6 @@
+#### 2.2.1 - 04.09.2015
+* Replace the exception when a state handler is missing
+
 #### 2.2.0 - 08.07.2015
 * Added persistent projection abstraction
 

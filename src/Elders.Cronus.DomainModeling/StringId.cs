@@ -15,14 +15,14 @@ namespace Elders.Cronus.DomainModeling
 
         public StringId(string idBase, string aggregateRootName) : base(aggregateRootName)
         {
-            if (string.IsNullOrWhiteSpace(idBase)) throw new ArgumentException("Empty string value is not allowed.", "idBase");
+            if (string.IsNullOrWhiteSpace(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
             Id = idBase;
             base.RawId = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), UTF8Encoding.UTF8.GetBytes(Id));
         }
 
         public StringId(StringId idBase, string aggregateRootName) : base(aggregateRootName)
         {
-            if (!IsValid(idBase)) throw new ArgumentException("Empty string value is not allowed.", "idBase");
+            if (!IsValid(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
             Id = idBase.Id;
             base.RawId = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(AggregateRootName + "@"), UTF8Encoding.UTF8.GetBytes(Id));
         }

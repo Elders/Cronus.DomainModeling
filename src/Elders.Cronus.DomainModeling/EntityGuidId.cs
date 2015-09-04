@@ -14,7 +14,7 @@ namespace Elders.Cronus.DomainModeling
 
         public EntityGuidId(Guid idBase, TAggregateRootId rootId, string entityName) : base(rootId, entityName)
         {
-            if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
+            if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase;
             var entityBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(EntityName + "@"), Id.ToByteArray());
             var rootBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes("@@"), RootId.RawId);
@@ -23,7 +23,7 @@ namespace Elders.Cronus.DomainModeling
 
         public EntityGuidId(EntityGuidId<TAggregateRootId> idBase, string entityId) : base(idBase.RootId, entityId)
         {
-            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", "idBase");
+            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase.Id;
             var entityBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(EntityName + "@"), Id.ToByteArray());
             var rootBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes("@@"), RootId.RawId);

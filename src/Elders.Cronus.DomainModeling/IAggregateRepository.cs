@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Elders.Cronus.DomainModeling
+﻿namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
     /// Indicates the ability to store and retreive a stream of events.

@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elders.Cronus.DomainModeling", "Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj", "{3603583E-C261-4AA6-AE73-B3F4C7440D7C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{F728284A-F867-418F-864B-A0AF11289A32}"
 	ProjectSection(SolutionItems) = preProject
+		Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec = Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec
 		Elders.Cronus.DomainModeling\RELEASE_NOTES.md = Elders.Cronus.DomainModeling\RELEASE_NOTES.md
 	EndProjectSection
 EndProject

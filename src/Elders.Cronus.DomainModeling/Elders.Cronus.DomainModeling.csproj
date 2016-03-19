@@ -67,6 +67,7 @@
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IPort.cs" />
     <Compile Include="IPublisher.cs" />
+    <Compile Include="ISaga.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageInfo.cs" />

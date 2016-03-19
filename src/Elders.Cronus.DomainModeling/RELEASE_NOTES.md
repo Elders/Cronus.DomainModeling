@@ -1,5 +1,6 @@
-#### 2.3.0-beta0001 - 08.03.2016
+#### 2.3.0 - 19.03.2016
 * Improve the IPublisher interface with ability to schedule messages in future
+* Introduce experimental interfaces for Saga support
 
 #### 2.2.1 - 04.09.2015
 * Replace the exception when a state handler is missing

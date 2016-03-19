@@ -67,6 +67,7 @@
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IPort.cs" />
     <Compile Include="IPublisher.cs" />
+    <Compile Include="ISaga.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageInfo.cs" />
@@ -81,8 +82,10 @@
     <Compile Include="Projections\KeyValueCollectionItem.cs" />
     <Compile Include="Projections\KeyValueData.cs" />
     <Compile Include="Projections\Query.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

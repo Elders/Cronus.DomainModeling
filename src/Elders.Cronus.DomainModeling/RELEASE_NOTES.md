@@ -1,3 +1,6 @@
+#### 2.4.0 - 26.03.2016
+* Introduce GuidTenantId and StringTenantId
+
 #### 2.3.0 - 19.03.2016
 * Improve the IPublisher interface with ability to schedule messages in future
 * Introduce experimental interfaces for Saga support

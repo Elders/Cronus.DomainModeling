@@ -36,4 +36,37 @@ namespace Elders.Cronus.DomainModeling
             return AggregateRootName + "@" + Id.ToString() + "||" + base.ToString();
         }
     }
+
+    [DataContract(Name = "07fb0a41-d004-4d90-a925-112cc5b1f0f5")]
+    public class GuidTenantId : GuidId
+    {
+        [DataMember(Order = 2)]
+        public string Tenant { get; set; }
+
+        protected GuidTenantId() { }
+
+        public GuidTenantId(Guid idBase, string aggregateRootName, string tenant) : base(idBase, aggregateRootName)
+        {
+            if (string.IsNullOrEmpty(tenant)) throw new ArgumentException("tenant is required.", nameof(tenant));
+            Tenant = tenant;
+            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@" + tenant + "@"), Id.ToByteArray());
+        }
+
+        public GuidTenantId(GuidTenantId idBase, string aggregateRootName) : base(idBase.Id, aggregateRootName)
+        {
+            if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
+            Tenant = idBase.Tenant;
+            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@" + Tenant + "@"), Id.ToByteArray());
+        }
+
+        public static bool IsValid(GuidTenantId aggregateRootId)
+        {
+            return GuidId.IsValid(aggregateRootId) && !string.IsNullOrEmpty(aggregateRootId.Tenant);
+        }
+
+        public override string ToString()
+        {
+            return AggregateRootName + "@" + Tenant + "@" + Id.ToString() + "||" + base.ToString();
+        }
+    }
 }

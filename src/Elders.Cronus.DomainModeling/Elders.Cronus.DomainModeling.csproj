@@ -77,6 +77,8 @@
     <Compile Include="Projections\IKeyValueCollectionPersister.cs" />
     <Compile Include="Projections\IKeyValuePersister.cs" />
     <Compile Include="Projections\IPersiter.cs" />
+    <Compile Include="Projections\IProjectionCollectionState.cs" />
+    <Compile Include="Projections\IProjectionState.cs" />
     <Compile Include="Projections\IRepository.cs" />
     <Compile Include="Projections\IRepositoryExtentions.cs" />
     <Compile Include="Projections\KeyValueCollectionItem.cs" />

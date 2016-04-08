@@ -1,3 +1,6 @@
+#### 2.5.0-beta0001 - 08.04.2016
+* Introduce ProjectionState
+
 #### 2.4.0 - 26.03.2016
 * Introduce GuidTenantId and StringTenantId
 

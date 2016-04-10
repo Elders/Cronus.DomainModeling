@@ -1,9 +1,7 @@
 ﻿namespace Elders.Cronus.DomainModeling.Projections
 {
-    public interface IProjectionCollectionState
+    public interface IProjectionCollectionState : IProjectionState
     {
-        object Id { get; }
-
         object CollectionId { get; }
     }
 }

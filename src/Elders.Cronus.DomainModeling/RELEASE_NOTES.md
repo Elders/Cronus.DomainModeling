@@ -1,3 +1,6 @@
+#### 2.5.0-beta0002 - 10.04.2016
+* IProjectionCollectionState now inherit IProjectionState
+
 #### 2.5.0-beta0001 - 08.04.2016
 * Introduce ProjectionState
 

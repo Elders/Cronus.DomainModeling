@@ -6,6 +6,8 @@ namespace Elders.Cronus.DomainModeling.Projections
     {
         IEnumerable<KeyValueCollectionItem> GetCollection(string collectionId, string keySpace);
 
+        KeyValueCollectionItem GetCollectionItem(string collectionId, string itemId, string columnFamily);
+
         void AddToCollection(KeyValueCollectionItem collectionItem);
 
         void DeleteCollectionItem(KeyValueCollectionItem collectionItem);

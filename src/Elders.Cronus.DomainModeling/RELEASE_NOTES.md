@@ -1,3 +1,6 @@
+#### 2.5.0-beta0003 - 15.04.2016
+* IKeyValueCollectionPersister updated to support retrieving single collection item
+
 #### 2.5.0-beta0002 - 10.04.2016
 * IProjectionCollectionState now inherit IProjectionState
 

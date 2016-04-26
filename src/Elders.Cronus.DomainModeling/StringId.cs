@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace Elders.Cronus.DomainModeling
     public class StringId : AggregateRootId
     {
         [DataMember(Order = 1)]
-        public string Id { get; private set; }
+        public string Id { get; protected set; }
 
         protected StringId() { }
 
@@ -16,14 +17,14 @@ namespace Elders.Cronus.DomainModeling
         {
             if (string.IsNullOrWhiteSpace(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
             Id = idBase;
-            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@"), Encoding.UTF8.GetBytes(Id));
+            RawId = setRawId(Urn);
         }
 
         public StringId(StringId idBase, string aggregateRootName) : base(aggregateRootName)
         {
             if (!IsValid(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
             Id = idBase.Id;
-            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@"), Encoding.UTF8.GetBytes(Id));
+            RawId = setRawId(Urn);
         }
 
         public static bool IsValid(StringId aggregateRootId)
@@ -31,10 +32,7 @@ namespace Elders.Cronus.DomainModeling
             return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false;
         }
 
-        public override string ToString()
-        {
-            return AggregateRootName + "@" + Id.ToString() + "||" + base.ToString();
-        }
+        public override IUrn Urn { get { return new Urn(AggregateRootName + ":" + Id.ToString()); } }
     }
 
     [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
@@ -49,14 +47,25 @@ namespace Elders.Cronus.DomainModeling
         {
             if (string.IsNullOrEmpty(tenant)) throw new ArgumentException("tenant is required.", nameof(tenant));
             Tenant = tenant;
-            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@" + tenant + "@"), Encoding.UTF8.GetBytes(Id));
+            RawId = setRawId(Urn);
         }
 
         public StringTenantId(StringTenantId idBase, string aggregateRootName) : base(idBase.Id, aggregateRootName)
         {
             if (!IsValid(idBase)) throw new ArgumentException("Invalid base.", nameof(idBase));
             Tenant = idBase.Tenant;
-            base.RawId = ByteArrayHelper.Combine(Encoding.UTF8.GetBytes(AggregateRootName + "@" + Tenant + "@"), Encoding.UTF8.GetBytes(Id));
+            RawId = setRawId(Urn);
+        }
+
+        public StringTenantId(IUrn urn)
+        {
+            if (ReferenceEquals(null, urn)) throw new ArgumentNullException(nameof(urn));
+
+            var tenantUrn = new TenantUrn(urn);
+            Tenant = tenantUrn.Tenant;
+            AggregateRootName = tenantUrn.Parts[2].ToLowerInvariant();
+            Id = string.Join(string.Empty, tenantUrn.Parts.Skip(3));
+            RawId = setRawId(Urn);
         }
 
         public static bool IsValid(StringTenantId aggregateRootId)
@@ -64,9 +73,6 @@ namespace Elders.Cronus.DomainModeling
             return StringId.IsValid(aggregateRootId) && !string.IsNullOrEmpty(aggregateRootId.Tenant);
         }
 
-        public override string ToString()
-        {
-            return AggregateRootName + "@" + Tenant + "@" + Id.ToString() + "||" + base.ToString();
-        }
+        public override IUrn Urn { get { return new TenantUrn(Tenant, AggregateRootName + ":" + Id); } }
     }
 }

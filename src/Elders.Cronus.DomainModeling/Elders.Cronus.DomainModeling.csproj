@@ -62,6 +62,7 @@
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IHaveState.cs" />
+    <Compile Include="IHaveUrn.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IProjection.cs" />
     <Compile Include="ICommandHandler.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Projections\KeyValueData.cs" />
     <Compile Include="Projections\Query.cs" />
     <Compile Include="StringId.cs" />
+    <Compile Include="Urn.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

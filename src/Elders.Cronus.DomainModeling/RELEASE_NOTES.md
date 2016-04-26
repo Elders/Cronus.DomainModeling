@@ -1,5 +1,7 @@
 #### 2.5.0-beta0003 - 15.04.2016
 * IKeyValueCollectionPersister updated to support retrieving single collection item
+#### 3.0.0-beta0001 - 26.04.2016
+* Breaking changes: RawId is assembled in different way. You need to migrate your old RawIds to the new ones.
 
 #### 2.5.0-beta0002 - 10.04.2016
 * IProjectionCollectionState now inherit IProjectionState

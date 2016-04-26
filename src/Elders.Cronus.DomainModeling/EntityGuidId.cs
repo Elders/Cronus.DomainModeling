@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -16,28 +15,24 @@ namespace Elders.Cronus.DomainModeling
         {
             if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase;
-            var entityBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(EntityName + "@"), Id.ToByteArray());
-            var rootBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes("@@"), RootId.RawId);
-            base.RawId = ByteArrayHelper.Combine(entityBytes, rootBytes);
+            RawId = setRawId(Urn);
         }
 
         public EntityGuidId(EntityGuidId<TAggregateRootId> idBase, string entityId) : base(idBase.RootId, entityId)
         {
             if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase.Id;
-            var entityBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes(EntityName + "@"), Id.ToByteArray());
-            var rootBytes = ByteArrayHelper.Combine(UTF8Encoding.UTF8.GetBytes("@@"), RootId.RawId);
-            base.RawId = ByteArrayHelper.Combine(entityBytes, rootBytes);
+            RawId = setRawId(Urn);
+        }
+
+        public override IUrn Urn
+        {
+            get { return new Urn(RootId.Urn.ValuePart + ":" + EntityName + ":" + Id.ToString()); }
         }
 
         public static bool IsValid(EntityGuidId<TAggregateRootId> entityId)
         {
             return (!ReferenceEquals(null, entityId)) && entityId.Id != default(Guid);
-        }
-
-        public override string ToString()
-        {
-            return EntityName + "@" + Id.ToString() + "@@" + RootId.ToString() + "||" + base.ToString();
         }
     }
 }

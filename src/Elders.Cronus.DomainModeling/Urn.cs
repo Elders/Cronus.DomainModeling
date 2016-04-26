@@ -11,6 +11,8 @@ namespace Elders.Cronus.DomainModeling
         string ValuePart { get; }
 
         string Value { get; }
+
+        IList<string> Parts { get; }
     }
 
     public class Urn : IUrn
@@ -25,62 +27,78 @@ namespace Elders.Cronus.DomainModeling
 
         public Urn(string basePart, string valuePart)
         {
+            Initialize(basePart, valuePart);
+        }
+
+        public Urn(string urn)
+        {
+            var basePart = string.Empty;
+            var valuePart = urn.Remove(0, 4);
+            Initialize(basePart, valuePart);
+        }
+
+        public Urn(IUrn urn)
+        {
+            Initialize(urn.BasePart, urn.ValuePart);
+        }
+
+        protected void Initialize(string basePart, string valuePart)
+        {
             BasePart = basePart;
             ValuePart = valuePart;
+
             if (string.IsNullOrEmpty(BasePart))
                 Value = Prefix + Delimiter + valuePart;
             else
                 Value = Prefix + Delimiter + basePart + Delimiter + valuePart;
         }
 
-        public Urn(string value)
+        public string BasePart { get; private set; }
+
+        public string ValuePart { get; private set; }
+
+        public string Value { get; private set; }
+
+        public IList<string> Parts
         {
-            BasePart = string.Empty;
-            ValuePart = value.Remove(0, 4);
-            Value = value;
+            get
+            {
+                return Value.Split(new[] { DelimiterChar });
+            }
         }
-
-        public Urn(IUrn urn)
-        {
-            BasePart = urn.BasePart;
-            ValuePart = urn.ValuePart;
-            Value = urn.Value;
-        }
-
-        public string BasePart { get; protected set; }
-
-        public string ValuePart { get; protected set; }
-
-        public string Value { get; protected set; }
 
         public override string ToString()
         {
             return Value;
         }
+
+        public static implicit operator string(Urn urn)
+        {
+            return urn.Value;
+        }
     }
 
     public class TenantUrn : Urn
     {
-        readonly List<string> parts;
-
         public TenantUrn(string tenant, string value) : base(tenant, value) { }
 
         public TenantUrn(string urn)
         {
-            parts = urn.Split(new[] { DelimiterChar }).ToList();
-            if (parts.Count < 3) throw new ArgumentException("Invalid Urn. Expected: urn:tenant:value:etc", nameof(urn));
+            var parts = urn.Split(new[] { DelimiterChar }).ToList();
+            if (parts.Count < 3) throw new ArgumentException("Invalid Urn. Expected: urn:tenant:value", nameof(urn));
 
-            BasePart = parts[1];
-            ValuePart = string.Join(Delimiter, parts.Skip(2));
-            Value = urn;
+            var basePart = parts[1];
+            var valuePart = string.Join(Delimiter, parts.Skip(2));
+            Initialize(basePart, valuePart);
         }
 
-        public TenantUrn(IUrn urn) : this(urn.Value)
-        {
-        }
+        public TenantUrn(IUrn urn) : this(urn.Value) { }
 
         public string Tenant { get { return BasePart; } }
 
-        public IList<string> Parts { get { return parts.AsReadOnly(); } }
+        public static implicit operator string(TenantUrn urn)
+        {
+            return urn.Value;
+        }
     }
 }

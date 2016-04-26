@@ -31,7 +31,7 @@ namespace Elders.Cronus.DomainModeling.Tests
             origin = new StringTenantId("123", "arName", "tenant");
         };
 
-        Because of = () => result = new StringTenantId(new Urn(urn));
+        Because of = () => result = new StringTenantId(new Urn(urn), "arname");
 
         It should_have_tenant_as_base_part = () => result.ToString().ShouldEqual(origin.ToString());
 

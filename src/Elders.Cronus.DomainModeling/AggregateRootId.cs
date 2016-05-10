@@ -1,11 +1,14 @@
 using System;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Elders.Cronus.DomainModeling
 {
     [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
     public class AggregateRootId : IAggregateRootId
     {
+        protected Func<IUrn, byte[]> setRawId = (urn) => Encoding.UTF8.GetBytes(urn.Value);
+
         /// <summary>
         /// Prevents a default instance of the <see cref="AggregateRootId"/> class from being created.
         /// </summary>
@@ -21,7 +24,7 @@ namespace Elders.Cronus.DomainModeling
             if (String.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException(nameof(aggregateRootName));
 
             RawId = new byte[0];
-            AggregateRootName = aggregateRootName;
+            AggregateRootName = aggregateRootName.ToLowerInvariant();
         }
 
         [DataMember(Order = 10)]
@@ -29,6 +32,8 @@ namespace Elders.Cronus.DomainModeling
 
         [DataMember(Order = 11)]
         public string AggregateRootName { get; protected set; }
+
+        public virtual IUrn Urn { get { return new Urn(AggregateRootName); } }
 
         public override bool Equals(System.Object obj)
         {
@@ -69,7 +74,7 @@ namespace Elders.Cronus.DomainModeling
 
         public override string ToString()
         {
-            return Convert.ToBase64String(RawId);
+            return Urn.Value + "||" + Convert.ToBase64String(RawId);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elders.Cronus.DomainModeling", "Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj", "{3603583E-C261-4AA6-AE73-B3F4C7440D7C}"
 EndProject
@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{F72828
 		Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec = Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec
 		Elders.Cronus.DomainModeling\RELEASE_NOTES.md = Elders.Cronus.DomainModeling\RELEASE_NOTES.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elders.Cronus.DomainModeling.Tests", "Elders.Cronus.DomainModeling.Tests\Elders.Cronus.DomainModeling.Tests.csproj", "{983DA5E2-3F18-4D8F-A192-A85C7A74D561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3603583E-C261-4AA6-AE73-B3F4C7440D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3603583E-C261-4AA6-AE73-B3F4C7440D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3603583E-C261-4AA6-AE73-B3F4C7440D7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983DA5E2-3F18-4D8F-A192-A85C7A74D561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983DA5E2-3F18-4D8F-A192-A85C7A74D561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983DA5E2-3F18-4D8F-A192-A85C7A74D561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983DA5E2-3F18-4D8F-A192-A85C7A74D561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

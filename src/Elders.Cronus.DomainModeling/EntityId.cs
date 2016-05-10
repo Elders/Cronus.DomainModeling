@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -7,6 +8,8 @@ namespace Elders.Cronus.DomainModeling
     public class EntityId<TAggregateRootId> : IEntityId
         where TAggregateRootId : IAggregateRootId
     {
+        protected Func<IUrn, byte[]> setRawId = (urn) => Encoding.UTF8.GetBytes(urn.Value);
+
         protected EntityId()
         {
             RawId = new byte[0];
@@ -18,9 +21,9 @@ namespace Elders.Cronus.DomainModeling
             if (ReferenceEquals(null, rootId)) throw new ArgumentNullException(nameof(rootId));
             if (String.IsNullOrEmpty(entityName)) throw new ArgumentNullException(nameof(entityName));
 
-            RawId = new byte[0];
-            EntityName = entityName;
+            EntityName = entityName.ToLowerInvariant();
             RootId = rootId;
+            RawId = new byte[0];
         }
 
         [DataMember(Order = 20)]
@@ -31,6 +34,8 @@ namespace Elders.Cronus.DomainModeling
 
         [DataMember(Order = 22)]
         public TAggregateRootId RootId { get; set; }
+
+        public virtual IUrn Urn { get { return new Urn(RootId.Urn.ValuePart + ":" + EntityName); } }
 
         IAggregateRootId IEntityId.AggregateRootId { get { return RootId; } }
 
@@ -73,7 +78,7 @@ namespace Elders.Cronus.DomainModeling
 
         public override string ToString()
         {
-            return Convert.ToBase64String(RawId);
+            return Urn.Value + "||" + Convert.ToBase64String(RawId);
         }
     }
 }

@@ -1,3 +1,6 @@
+#### 3.0.1 - 02.06.2016
+* Fix GuidId to set properly the RawId
+
 #### 3.0.0 - 10.05.2016
 * Breaking changes: RawId is assembled in different way. You need to migrate your old RawIds to the new ones.
 * IProjectionCollectionState now inherit IProjectionState

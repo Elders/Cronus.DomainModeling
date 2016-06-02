@@ -15,12 +15,14 @@ namespace Elders.Cronus.DomainModeling
         {
             if (idBase == default(Guid)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase;
+            RawId = setRawId(Urn);
         }
 
         public GuidId(GuidId idBase, string aggregateRootName) : base(aggregateRootName)
         {
             if (!IsValid(idBase)) throw new ArgumentException("Default guid value is not allowed.", nameof(idBase));
             Id = idBase.Id;
+            RawId = setRawId(Urn);
         }
 
         public static bool IsValid(GuidId aggregateRootId)

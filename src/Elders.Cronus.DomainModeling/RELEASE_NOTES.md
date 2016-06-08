@@ -1,3 +1,11 @@
+#### 3.0.2 - 08.06.2016
+* Fix StringId to set properly the Urn
+* Fix GuidId to set properly the Urn
+* Fix GuidTenantId to set properly the Urn
+* Fix EntityGuidId to set properly the Urn
+* Fix AggregateRootId to set properly the Urn
+* Introduce EntityStringId
+
 #### 3.0.1 - 02.06.2016
 * Fix GuidId to set properly the RawId
 

@@ -35,7 +35,7 @@ namespace Elders.Cronus.DomainModeling
         [DataMember(Order = 22)]
         public TAggregateRootId RootId { get; set; }
 
-        public virtual IUrn Urn { get { return new Urn(RootId.Urn.ValuePart + ":" + EntityName); } }
+        public virtual IUrn Urn { get { return new Urn(RootId.Urn.BasePart, RootId.Urn.ValuePart + ":" + EntityName); } }
 
         IAggregateRootId IEntityId.AggregateRootId { get { return RootId; } }
 

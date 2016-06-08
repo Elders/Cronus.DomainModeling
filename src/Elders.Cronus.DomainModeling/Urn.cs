@@ -27,14 +27,7 @@ namespace Elders.Cronus.DomainModeling
 
         public Urn(string basePart, string valuePart)
         {
-            Initialize(basePart, valuePart);
-        }
-
-        public Urn(string urn)
-        {
-            var basePart = string.Empty;
-            var valuePart = urn.Remove(0, 4);
-            Initialize(basePart, valuePart);
+            Initialize(basePart.ToLowerInvariant(), valuePart.ToLowerInvariant());
         }
 
         public Urn(IUrn urn)

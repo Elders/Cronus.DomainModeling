@@ -33,7 +33,7 @@ namespace Elders.Cronus.DomainModeling
         [DataMember(Order = 11)]
         public string AggregateRootName { get; protected set; }
 
-        public virtual IUrn Urn { get { return new Urn(AggregateRootName); } }
+        public virtual IUrn Urn { get { return new Urn(string.Empty, AggregateRootName); } }
 
         public override bool Equals(System.Object obj)
         {

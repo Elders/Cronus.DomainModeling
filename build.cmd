@@ -3,11 +3,6 @@
 SETLOCAL
 
 SET NUGET=%LocalAppData%\NuGet\NuGet.exe
-@echo off
-
-SETLOCAL
-
-SET NUGET=%LocalAppData%\NuGet\NuGet.exe
 SET FAKE=%LocalAppData%\FAKE\tools\Fake.exe
 SET NYX=%LocalAppData%\Nyx\tools\build.fsx
 SET GITVERSION=%LocalAppData%\GitVersion.CommandLine\tools\GitVersion.exe

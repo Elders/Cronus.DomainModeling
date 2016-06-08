@@ -32,7 +32,7 @@ namespace Elders.Cronus.DomainModeling
             return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false;
         }
 
-        public override IUrn Urn { get { return new Urn(AggregateRootName + ":" + Id.ToString()); } }
+        public override IUrn Urn { get { return new Urn(string.Empty, AggregateRootName + ":" + Id.ToString()); } }
     }
 
     [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]

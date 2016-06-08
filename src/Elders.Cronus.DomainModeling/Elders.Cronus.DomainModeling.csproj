@@ -47,6 +47,7 @@
     <Compile Include="EntityGuidId.cs" />
     <Compile Include="EntityId.cs" />
     <Compile Include="EntityState.cs" />
+    <Compile Include="EntityStringId.cs" />
     <Compile Include="GuidId.cs" />
     <Compile Include="HashCodeModifier.cs" />
     <Compile Include="IAggregateRepository.cs" />

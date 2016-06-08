@@ -47,6 +47,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="When_GuidId_is_created.cs" />
+    <Compile Include="When_GuidTenantId_is_created.cs" />
+    <Compile Include="When_StringId_is_created.cs" />
+    <Compile Include="When_StringTenatnId_is_created.cs" />
+    <Compile Include="When_TenantUrn_is_created.cs" />
     <Compile Include="When__TenantUrn__is_created.cs" />
   </ItemGroup>
   <ItemGroup>

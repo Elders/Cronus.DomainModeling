@@ -1,3 +1,6 @@
+#### 3.1.0-beta0001 - 24.07.2016
+* Remove Message class
+
 #### 3.0.1 - 02.06.2016
 * Fix GuidId to set properly the RawId
 

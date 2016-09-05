@@ -1,3 +1,6 @@
+#### 3.1.0-beta0002 - 05.09.2016
+* Adds IPublisher<IScheduledMessage> TimeoutRequestPublisher to the ISaga interface
+
 #### 3.1.0-beta0001 - 24.07.2016
 * Remove Message class
 

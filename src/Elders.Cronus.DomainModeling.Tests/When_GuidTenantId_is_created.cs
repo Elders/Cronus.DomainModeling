@@ -12,14 +12,14 @@ namespace Elders.Cronus.DomainModeling.Tests
             tenant = "tenant";
             aggregateName = "arName";
             valuePart = aggregateName + ":" + id;
-            urn = new TenantUrn(tenant, valuePart);
+            urn = new Urn(tenant, valuePart);
         };
 
         Because of = () => result = new GuidTenantId(Guid.Parse(id), aggregateName, tenant);
 
-        It should_have_tenant_as_base_part = () => result.Urn.BasePart.ShouldEqual(urn.BasePart);
+        It should_have_tenant_as_base_part = () => result.Urn.NID.ShouldEqual(urn.NID);
 
-        It should_have_value_as_value_part = () => result.Urn.ValuePart.ShouldEqual(urn.ValuePart);
+        It should_have_value_as_value_part = () => result.Urn.NSS.ShouldEqual(urn.NSS);
 
         It should_have_value = () => result.Urn.Value.ShouldEqual(urn.Value);
 

@@ -14,11 +14,11 @@ namespace Elders.Cronus.DomainModeling.Tests
             urn = new Urn(tenant, valuePart);
         };
 
-        Because of = () => result = new TenantUrn(urn);
+        Because of = () => result = new Urn(urn);
 
-        It should_have_tenant_as_base_part = () => result.BasePart.ShouldEqual(urn.BasePart);
+        It should_have_tenant_as_base_part = () => result.NID.ShouldEqual(urn.NID);
 
-        It should_have_value_as_value_part = () => result.ValuePart.ShouldEqual(urn.ValuePart);
+        It should_have_value_as_value_part = () => result.NSS.ShouldEqual(urn.NSS);
 
         It should_have_value = () => result.Value.ShouldEqual(urn.Value);
 

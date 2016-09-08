@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Elders.Cronus.DomainModeling
 {
@@ -32,7 +31,7 @@ namespace Elders.Cronus.DomainModeling
             return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false;
         }
 
-        public override IUrn Urn { get { return new Urn(string.Empty, AggregateRootName + ":" + Id.ToString()); } }
+        public override IUrn Urn { get { return new Urn(AggregateRootName, Id.ToString()); } }
     }
 
     [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
@@ -66,8 +65,8 @@ namespace Elders.Cronus.DomainModeling
         {
             if (ReferenceEquals(null, urn)) throw new ArgumentNullException(nameof(urn));
 
-            var tenantUrn = new TenantUrn(urn);
-            Tenant = tenantUrn.Tenant;
+            var tenantUrn = new Urn(urn);
+            Tenant = tenantUrn.NID;
             AggregateRootName = tenantUrn.Parts[2].ToLowerInvariant();
             if (AggregateRootName.Equals(aggregateRootName.ToLowerInvariant()) == false)
             {
@@ -82,6 +81,6 @@ namespace Elders.Cronus.DomainModeling
             return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false && !string.IsNullOrEmpty(aggregateRootId.Tenant);
         }
 
-        public override IUrn Urn { get { return new TenantUrn(Tenant, AggregateRootName + ":" + Id); } }
+        public override IUrn Urn { get { return new Urn(Tenant, AggregateRootName + ":" + Id); } }
     }
 }

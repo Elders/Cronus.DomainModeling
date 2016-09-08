@@ -1,7 +1,7 @@
 namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
-    /// A markup interface telling that the implementing class is a command.
+    /// A command is used to dispatch domain model changes. It can be accepted or rejected depending on the domain model invariants.
     /// </summary>
     public interface ICommand : IMessage { }
 }

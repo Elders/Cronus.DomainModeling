@@ -1,3 +1,9 @@
+#### 3.1.0 - 08.09.2016
+* Adds EntityStringId
+* Adds IPublisher<IScheduledMessage> TimeoutRequestPublisher to the ISaga interface
+* Improve the URN
+* Removes Message class
+
 #### 3.0.2 - 08.06.2016
 * Fix StringId to set properly the Urn
 * Fix GuidId to set properly the Urn

@@ -4,14 +4,32 @@ using System.Linq;
 
 namespace Elders.Cronus.DomainModeling
 {
+    /// <summary>
+    /// Uniform Resource Names (URNs) are intended to serve as persistent, location-independent, resource identifiers and are designed to make
+    /// it easy to map other namespaces(which share the properties of URNs) into URN-space.Therefore, the URN syntax provides a means to encode
+    /// character data in a form that can be sent in existing protocols, transcribed on most keyboards, etc.
+    /// </summary>
+    /// <example>"urn:NID:NSS</example>
     public interface IUrn
     {
-        string BasePart { get; }
+        /// <summary>
+        /// Gets the Namespace Identifier. The Namespace ID determines the _syntactic_ interpretation of the Namespace Specific String
+        /// </summary>
+        string NID { get; }
 
-        string ValuePart { get; }
+        /// <summary>
+        /// Gets the Namespace Specific String
+        /// </summary>
+        string NSS { get; }
 
+        /// <summary>
+        /// Gets the URN
+        /// </summary>
         string Value { get; }
 
+        /// <summary>
+        /// Gets the URN parts
+        /// </summary>
         IList<string> Parts { get; }
     }
 
@@ -25,30 +43,31 @@ namespace Elders.Cronus.DomainModeling
 
         protected Urn() { }
 
-        public Urn(string basePart, string valuePart)
+        /// <summary>
+        /// Initializes a new URN
+        /// </summary>
+        /// <param name="nid">The Namespace Identifier</param>
+        /// <param name="nss">The Namespace Specific String</param>
+        public Urn(string nid, string nss)
         {
-            Initialize(basePart.ToLowerInvariant(), valuePart.ToLowerInvariant());
+            Initialize(nid, nss);
         }
 
         public Urn(IUrn urn)
         {
-            Initialize(urn.BasePart, urn.ValuePart);
+            Initialize(urn.NID, urn.NSS);
         }
 
-        protected void Initialize(string basePart, string valuePart)
+        protected void Initialize(string nid, string nss)
         {
-            BasePart = basePart;
-            ValuePart = valuePart;
-
-            if (string.IsNullOrEmpty(BasePart))
-                Value = Prefix + Delimiter + valuePart;
-            else
-                Value = Prefix + Delimiter + basePart + Delimiter + valuePart;
+            NID = nid.ToLowerInvariant();
+            NSS = nss.ToLowerInvariant();
+            Value = Prefix + Delimiter + NID + Delimiter + NSS;
         }
 
-        public string BasePart { get; private set; }
+        public string NID { get; private set; }
 
-        public string ValuePart { get; private set; }
+        public string NSS { get; private set; }
 
         public string Value { get; private set; }
 
@@ -69,29 +88,20 @@ namespace Elders.Cronus.DomainModeling
         {
             return urn.Value;
         }
-    }
 
-    public class TenantUrn : Urn
-    {
-        public TenantUrn(string tenant, string value) : base(tenant, value) { }
-
-        public TenantUrn(string urn)
+        static string urnRegex = @"\b(?<prefix>[urnURN]{3}):(?<nid>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<nss>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        public static bool IsUrn(string candidate)
         {
-            var parts = urn.Split(new[] { DelimiterChar }).ToList();
-            if (parts.Count < 3) throw new ArgumentException("Invalid Urn. Expected: urn:tenant:value", nameof(urn));
-
-            var basePart = parts[1];
-            var valuePart = string.Join(Delimiter, parts.Skip(2));
-            Initialize(basePart, valuePart);
+            return System.Text.RegularExpressions.Regex.IsMatch(candidate, urnRegex, System.Text.RegularExpressions.RegexOptions.None);
         }
 
-        public TenantUrn(IUrn urn) : this(urn.Value) { }
-
-        public string Tenant { get { return BasePart; } }
-
-        public static implicit operator string(TenantUrn urn)
+        public static IUrn Parse(string urn)
         {
-            return urn.Value;
+            var match = System.Text.RegularExpressions.Regex.Match(urn, urnRegex, System.Text.RegularExpressions.RegexOptions.None);
+            if (match.Success)
+                return new Urn(match.Groups["nid"].Value, match.Groups["nss"].Value);
+
+            throw new ArgumentException("Invalid Urn. Expected: urn:nid:nss", nameof(urn));
         }
     }
 }

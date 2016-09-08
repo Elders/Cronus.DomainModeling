@@ -27,7 +27,7 @@ namespace Elders.Cronus.DomainModeling
 
         public override IUrn Urn
         {
-            get { return new Urn(RootId.Urn.BasePart, RootId.Urn.ValuePart + ":" + EntityName + ":" + Id.ToString()); }
+            get { return DomainModeling.Urn.Parse(RootId.Urn.Value + ":" + EntityName + ":" + Id); }
         }
 
         public static bool IsValid(EntityStringId<TAggregateRootId> entityId)

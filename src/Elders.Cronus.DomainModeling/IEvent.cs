@@ -1,7 +1,7 @@
 ﻿namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
-    /// A markup interface telling that the implementing class is an event.
+    /// Domain events represent business changes which already happened
     /// </summary>
     public interface IEvent : IMessage { }
 }

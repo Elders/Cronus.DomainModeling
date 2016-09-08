@@ -9,9 +9,8 @@
     <summary>@summary@</summary>
     <iconUrl>https://raw.githubusercontent.com/Elders/Cronus/master/Cronus.png</iconUrl>
     <licenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</licenseUrl>
-    <projectUrl>http://Elders.github.io/Cronus</projectUrl>
+    <projectUrl>https://github.com/Elders/Cronus</projectUrl>
     <releaseNotes>@releaseNotes@</releaseNotes>
-    <tags>cronus, DDD, modeling, domain</tags>
-    @dependencies@
+    <tags>cronus, ddd, cqrs, modeling, domain, aggregate, root, entity, command, event, projection, saga, tenant, urn, port</tags>
   </metadata>
 </package>

@@ -49,6 +49,7 @@
     <Compile Include="EntityState.cs" />
     <Compile Include="EntityStringId.cs" />
     <Compile Include="GuidId.cs" />
+    <Compile Include="GuidTenantId.cs" />
     <Compile Include="HashCodeModifier.cs" />
     <Compile Include="IAggregateRepository.cs" />
     <Compile Include="IAggregateRoot.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="IEntityState.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEvent.cs" />
+    <Compile Include="IGateway.cs" />
     <Compile Include="IHaveState.cs" />
     <Compile Include="IHaveUrn.cs" />
     <Compile Include="IMessage.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="IPublisher.cs" />
     <Compile Include="ISaga.cs" />
     <Compile Include="IValueObject.cs" />
-    <Compile Include="Message.cs" />
     <Compile Include="MessageInfo.cs" />
     <Compile Include="Projections\ICollectionDataTransferObject.cs" />
     <Compile Include="Projections\ICollectionDataTransferObjectItem.cs" />

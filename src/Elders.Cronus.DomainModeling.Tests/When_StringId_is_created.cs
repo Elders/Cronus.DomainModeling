@@ -8,21 +8,21 @@ namespace Elders.Cronus.DomainModeling.Tests
         Establish context = () =>
         {
             id = "123";
-            basePart = string.Empty;
+            NID = "arName";
             aggregateName = "arName";
-            valuePart = aggregateName + ":" + id;
-            urn = new Urn(basePart, valuePart);
+            valuePart = id;
+            urn = new Urn(NID, valuePart);
         };
 
         Because of = () => result = new StringId(id, aggregateName);
 
-        It should_have_tenant_as_base_part = () => result.Urn.BasePart.ShouldEqual(urn.BasePart);
+        It should_have_tenant_as_base_part = () => result.Urn.NID.ShouldEqual(urn.NID);
 
-        It should_have_the_same_value_part = () => result.Urn.ValuePart.ShouldEqual(urn.ValuePart);
+        It should_have_the_same_value_part = () => result.Urn.NSS.ShouldEqual(urn.NSS);
 
         static IUrn urn;
         static IAggregateRootId result;
-        static string basePart;
+        static string NID;
         static string valuePart;
         static string aggregateName;
         static string id;

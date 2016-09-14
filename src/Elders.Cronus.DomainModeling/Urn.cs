@@ -71,13 +71,7 @@ namespace Elders.Cronus.DomainModeling
 
         public string Value { get; private set; }
 
-        public IList<string> Parts
-        {
-            get
-            {
-                return Value.Split(new[] { DelimiterChar });
-            }
-        }
+        public IList<string> Parts { get { return Value.Split(new[] { DelimiterChar }); } }
 
         public override string ToString()
         {
@@ -102,6 +96,49 @@ namespace Elders.Cronus.DomainModeling
                 return new Urn(match.Groups["nid"].Value, match.Groups["nss"].Value);
 
             throw new ArgumentException("Invalid Urn. Expected: urn:nid:nss", nameof(urn));
+        }
+    }
+
+    public class StringTenantUrn : Urn
+    {
+        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z]{0,100}):(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+
+        public StringTenantUrn(string tenant, string arName, string id)
+            : base(tenant, arName + Delimiter + id)
+        {
+            Tenant = tenant.ToLowerInvariant();
+            ArName = arName.ToLowerInvariant();
+            Id = id.ToLowerInvariant();
+        }
+
+
+        public string Tenant { get; private set; }
+
+        public string ArName { get; private set; }
+
+        public string Id { get; private set; }
+
+        public static bool TryParse(string urn, out StringTenantUrn parsedUrn)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
+            if (match.Success)
+            {
+                parsedUrn = new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
+                return true;
+            }
+
+            parsedUrn = null;
+
+            return false;
+        }
+
+        new public static StringTenantUrn Parse(string urn)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
+            if (match.Success)
+                return new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
+
+            return null;
         }
     }
 }

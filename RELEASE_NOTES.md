@@ -1,3 +1,6 @@
+#### 3.1.2 - 14.09.2016
+* Implements exception throw if cannot parse StringTenantUrn
+
 #### 3.1.1 - 14.09.2016
 * Adds StringTenantUrn. Handy!
 

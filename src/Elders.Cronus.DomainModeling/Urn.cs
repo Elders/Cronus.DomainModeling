@@ -138,7 +138,7 @@ namespace Elders.Cronus.DomainModeling
             if (match.Success)
                 return new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
 
-            return null;
+            throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));
         }
     }
 }

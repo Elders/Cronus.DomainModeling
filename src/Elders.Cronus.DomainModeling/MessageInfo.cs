@@ -53,10 +53,9 @@ namespace Elders.Cronus.DomainModeling
             return messageId;
         }
 
-        public static string ToString(this IMessage message, string info, params object[] args)
+        public static string ToString(this IMessage message, string messageInfo)
         {
             var bcNamespace = message.GetType().GetBoundedContext().BoundedContextNamespace;
-            var messageInfo = String.Format(info, args);
             return "[" + bcNamespace + "] " + messageInfo;
         }
 

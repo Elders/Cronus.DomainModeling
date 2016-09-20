@@ -1,3 +1,6 @@
+#### 3.1.3 - 20.09.2016
+* Removes the IMessage.ToString(template,params) signature. It is a breaking change but the version will not be increased.
+
 #### 3.1.2 - 14.09.2016
 * Implements exception throw if cannot parse StringTenantUrn
 

@@ -1,3 +1,6 @@
+#### 3.1.4 - 23.09.2016
+* Adds the AssemblyInfo file to the project
+
 #### 3.1.3 - 20.09.2016
 * Removes the IMessage.ToString(template,params) signature. It is a breaking change but the version will not be increased.
 

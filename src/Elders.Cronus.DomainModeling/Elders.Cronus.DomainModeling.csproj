@@ -87,12 +87,11 @@
     <Compile Include="Projections\KeyValueCollectionItem.cs" />
     <Compile Include="Projections\KeyValueData.cs" />
     <Compile Include="Projections\Query.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
     <Compile Include="Urn.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

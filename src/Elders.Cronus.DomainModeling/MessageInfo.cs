@@ -79,12 +79,7 @@ namespace Elders.Cronus.DomainModeling
 
             if (contract == null || String.IsNullOrEmpty(contract.Name))
             {
-                if (typeof(IProjection).IsAssignableFrom(contractType) ||
-                    typeof(IPort).IsAssignableFrom(contractType) ||
-                    typeof(IAggregateRootApplicationService).IsAssignableFrom(contractType))
-                    contractId = contractType.GetHashCode().ToString();
-                else
-                    throw new Exception(String.Format(@"The message type '{0}' is missing a DataContract attribute. Example: [DataContract(""00000000-0000-0000-0000-000000000000"")]", contractType.FullName));
+                throw new Exception(String.Format(@"The message type '{0}' is missing a DataContract attribute. Example: [DataContract(""00000000-0000-0000-0000-000000000000"")]", contractType.FullName));
             }
             else
             {
@@ -94,7 +89,6 @@ namespace Elders.Cronus.DomainModeling
             contractIds.TryAdd(contractType, contractId);
             return contractId;
         }
-
     }
 
     public static class ReflectionExtensions

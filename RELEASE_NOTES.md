@@ -1,3 +1,6 @@
+#### 3.2.2 - 04.07.2017
+* Fixes ProjectionDefinition
+
 #### 3.2.1 - 04.07.2017
 * Moves IProjectionRepository from Cronus.Projections.Cassandra
 

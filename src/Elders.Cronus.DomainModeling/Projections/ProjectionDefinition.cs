@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Elders.Cronus.DomainModeling.Projections
 {
-    public class ProjectionDefinition<TState, TId> : IProjectionDefinition
+    public class ProjectionDefinition<TState, TId> : IProjectionDefinition, IProjection
         where TState : new()
         where TId : IBlobId
     {

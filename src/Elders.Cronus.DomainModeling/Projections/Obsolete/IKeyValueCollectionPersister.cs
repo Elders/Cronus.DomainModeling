@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Elders.Cronus.DomainModeling.Projections
 {
+    [System.Obsolete("Use event sourced projections instead.")]
     public interface IKeyValueCollectionPersister
     {
         IEnumerable<KeyValueCollectionItem> GetCollection(string collectionId, string keySpace);

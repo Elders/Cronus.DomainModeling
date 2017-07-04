@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Elders.Cronus.DomainModeling.Projections
 {
+    [System.Obsolete("Use event sourced projections instead.")]
     public static class IRepositoryExtentions
     {
         public static T Get<T, V>(this Query<T> self, V id) where T : IDataTransferObject<V>

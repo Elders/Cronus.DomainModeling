@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Elders.Cronus.DomainModeling.Projections
 {
+    [System.Obsolete("Use event sourced projections instead.")]
     public interface IRepository
     {
         Func<byte[], object> Desirealizer { get; }

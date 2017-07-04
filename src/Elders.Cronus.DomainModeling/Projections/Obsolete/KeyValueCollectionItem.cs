@@ -2,6 +2,7 @@ using System;
 
 namespace Elders.Cronus.DomainModeling.Projections
 {
+    [System.Obsolete("Use event sourced projections instead.")]
     public class KeyValueCollectionItem
     {
         public KeyValueCollectionItem()

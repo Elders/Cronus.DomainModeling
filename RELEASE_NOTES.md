@@ -1,3 +1,6 @@
+#### 3.2.0 - 23.09.2016
+* Replace projections with eventsourced projections
+
 #### 3.1.4 - 23.09.2016
 * Adds the AssemblyInfo file to the project
 

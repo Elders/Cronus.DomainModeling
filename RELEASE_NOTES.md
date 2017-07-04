@@ -1,4 +1,7 @@
-#### 3.2.0 - 23.09.2016
+#### 3.2.1 - 04.07.2017
+* Moves IProjectionRepository from Cronus.Projections.Cassandra
+
+#### 3.2.0 - 04.07.2017
 * Replace projections with eventsourced projections
 
 #### 3.1.4 - 23.09.2016

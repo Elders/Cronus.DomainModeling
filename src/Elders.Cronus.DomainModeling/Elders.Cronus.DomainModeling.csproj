@@ -74,6 +74,8 @@
     <Compile Include="ISaga.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="MessageInfo.cs" />
+    <Compile Include="Projections\IProjectionGetResult.cs" />
+    <Compile Include="Projections\IProjectionRepository.cs" />
     <Compile Include="Projections\IAmEventSourcedProjection.cs" />
     <Compile Include="Projections\IHaveState.cs" />
     <Compile Include="Projections\IProjectionDefinition.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Projections\Obsolete\KeyValueCollectionItem.cs" />
     <Compile Include="Projections\Obsolete\KeyValueData.cs" />
     <Compile Include="Projections\Obsolete\Query.cs" />
+    <Compile Include="Projections\ProjectionGetResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringId.cs" />
     <Compile Include="Urn.cs" />

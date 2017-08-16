@@ -4,15 +4,23 @@
   </PropertyGroup>
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Description>Contracts for DDD/CQRS development</Description>
+    <PackageTags>cronus, ddd, cqrs, modeling, domain, aggregate, root, entity, command, event, projection, saga, tenant, urn, port</PackageTags>
+    <PackageId>Cronus.DomainModeling</PackageId>
+    <Authors>Elders</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/Elders/Cronus/master/Cronus.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Elders/Cronus</RepositoryUrl>
+    <RepositoryType>Library</RepositoryType>
+    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
+    <RootNamespace>Elders.Cronus</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <Compile Include="Projections\Obsolete\IProjectionState.cs" />
-    <Compile Include="Projections\Obsolete\IRepository.cs" />
-    <Compile Include="Projections\Obsolete\IRepositoryExtentions.cs" />
-    <Compile Include="Projections\Obsolete\KeyValueCollectionItem.cs" />
-    <Compile Include="Projections\Obsolete\KeyValueData.cs" />
-    <Compile Include="Projections\Obsolete\Query.cs" />
-    <Compile Include="Projections\ProjectionGetResult.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
   </ItemGroup>
 </Project>

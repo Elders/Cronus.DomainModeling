@@ -1,4 +1,4 @@
-#### 3.3.0-beta0001 - 04.09.2017
+#### 3.3.0 - 05.09.2017
 * Allows multiple event subscriptions to one projection type
 
 #### 3.2.2 - 04.07.2017

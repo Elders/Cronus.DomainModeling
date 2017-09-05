@@ -62,7 +62,13 @@ namespace Elders.Cronus.DomainModeling.Projections
 
         protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId) where TEvent : IEvent
         {
-            subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+            Type eventType = typeof(TEvent);
+
+            if (subscriptionResolvers.ContainsKey(eventType))
+                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
+            else
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+
             return this;
         }
     }

@@ -42,7 +42,7 @@ namespace Elders.Cronus.DomainModeling
             {
                 throw new ArgumentException("Invalid Urn for " + aggregateRootName + " AggregateRootId");
             }
-            Id = Guid.Parse(string.Join(string.Empty, tenantUrn.Parts.Skip(3).ToString()));
+            Id = Guid.Parse(string.Join(":", tenantUrn.Parts.Skip(3).ToString()));
             RawId = setRawId(Urn);
         }
 

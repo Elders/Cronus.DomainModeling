@@ -1,3 +1,6 @@
+#### 3.3.1 - 11.12.2017
+* Fixes building of string tenant id and guid tenant id based on URNs
+
 #### 3.3.0 - 05.09.2017
 * Allows multiple event subscriptions to one projection type
 

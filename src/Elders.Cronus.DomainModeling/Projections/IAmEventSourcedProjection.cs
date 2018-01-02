@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Elders.Cronus.DomainModeling.Projections
+namespace Elders.Cronus.Projections
 {
     public interface IAmEventSourcedProjection
     {

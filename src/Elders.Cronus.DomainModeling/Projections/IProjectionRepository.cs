@@ -1,4 +1,4 @@
-﻿namespace Elders.Cronus.DomainModeling.Projections
+﻿namespace Elders.Cronus.Projections
 {
     public interface IProjectionRepository : IRepository<IProjectionDefinition>
     {

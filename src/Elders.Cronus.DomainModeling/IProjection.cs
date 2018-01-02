@@ -1,4 +1,4 @@
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     /// <summary>
     /// Projection tracks events and project their data for specific purposes.

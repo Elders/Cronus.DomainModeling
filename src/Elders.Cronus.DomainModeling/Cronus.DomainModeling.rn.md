@@ -1,3 +1,6 @@
+#### 4.0.0-beta0004 - 02.01.2018
+* Updates all namespaces to exclude `DomainModeling`
+
 #### 4.0.0-beta0003 - 02.01.2018
 * Unifies the IAggregateRepository and IProjectionRepository with the interface IRepository
 

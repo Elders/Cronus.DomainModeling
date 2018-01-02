@@ -1,4 +1,4 @@
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     internal static class HashCodeModifier
     {

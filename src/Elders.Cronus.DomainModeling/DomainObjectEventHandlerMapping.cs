@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public class DomainObjectEventHandlerMapping
     {

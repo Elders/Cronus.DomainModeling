@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     [DataContract(Name = "08fe27ca-411e-45ce-94ce-5d64c45eae6c")]
     public class StringId : AggregateRootId

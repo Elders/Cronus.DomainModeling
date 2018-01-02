@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public static class MessageInfo
     {

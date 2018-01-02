@@ -1,7 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
 
-namespace Elders.Cronus.DomainModeling.Tests
+namespace Elders.Cronus.Tests
 {
     [Subject("GuidTenantId")]
     public class When_GuidTenantId_is_created

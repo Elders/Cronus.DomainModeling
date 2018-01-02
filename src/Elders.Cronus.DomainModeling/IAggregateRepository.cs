@@ -2,8 +2,8 @@
 {
     public interface IRepository<T>
     {
-        IRepositoryGetResult<T> Get(IBlobId id);
-        void Save(T data);
+        IRepositoryGetResult<X> Load<X>(IBlobId id) where X : T;
+        void Persist<X>(X data) where X : T;
     }
 
     /// <summary>

@@ -1,3 +1,6 @@
+#### 4.0.0-beta0006 - 02.01.2018
+* It was a bad idea to unifie the IAggregateRepository and IProjectionRepository with the interface IRepository. Removed!
+
 #### 4.0.0-beta0005 - 02.01.2018
 * Unifies the IAggregateRepository and IProjectionRepository with the interface IRepository
 

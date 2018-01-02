@@ -1,5 +1,11 @@
 ﻿namespace Elders.Cronus.DomainModeling
 {
+    public interface IRepository<T>
+    {
+        IRepositoryGetResult<T> Get(IBlobId id);
+        void Save(T data);
+    }
+
     /// <summary>
     /// Indicates the ability to store and retreive a stream of events.
     /// </summary>
@@ -7,7 +13,7 @@
     /// Implementations of this interface must be designed to be thread safe such that they can be shared between threads and
     /// machines.
     /// </remarks>
-    public interface IAggregateRepository
+    public interface IAggregateRepository : IRepository<IAggregateRoot>
     {
         void Save<AR>(AR aggregateRoot) where AR : IAggregateRoot;
 

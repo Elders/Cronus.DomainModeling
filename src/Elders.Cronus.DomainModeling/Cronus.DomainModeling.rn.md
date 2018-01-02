@@ -1,3 +1,6 @@
+#### 4.0.0-beta0003 - 02.01.2018
+* Unifies the IAggregateRepository and IProjectionRepository with the interface IRepository
+
 #### 4.0.0-beta0002 - 17.08.2017
 * Uses official netstandard20
 

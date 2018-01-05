@@ -1,26 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Description>Contracts for DDD/CQRS development</Description>
-    <PackageTags>cronus, ddd, cqrs, modeling, domain, aggregate, root, entity, command, event, projection, saga, tenant, urn, port</PackageTags>
-    <PackageId>Cronus.DomainModeling</PackageId>
-    <Authors>Elders</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/Elders/Cronus/master/Cronus.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/Elders/Cronus</RepositoryUrl>
-    <RepositoryType>Library</RepositoryType>
-    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
-    <RootNamespace>Elders.Cronus</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1705</NoWarn>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <Description>Contracts for DDD/CQRS development</Description>
+        <PackageTags>cronus, ddd, cqrs, modeling, domain, aggregate, root, entity, command, event, projection, saga, tenant, urn, port</PackageTags>
+        <PackageId>Cronus.DomainModeling</PackageId>
+        <Authors>Elders</Authors>
+        <PackageIconUrl>https://raw.githubusercontent.com/Elders/Cronus/master/Cronus.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/Elders/Cronus</RepositoryUrl>
+        <RepositoryType>Library</RepositoryType>
+        <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
+        <RootNamespace>Elders.Cronus</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>1701;1702;1705</NoWarn>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <WarningsAsErrors>NU1605</WarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    </ItemGroup>
 </Project>

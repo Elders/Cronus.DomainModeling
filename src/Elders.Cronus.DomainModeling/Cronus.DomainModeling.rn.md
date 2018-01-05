@@ -1,3 +1,6 @@
+#### 4.0.0-beta0007 - 03.01.2018
+* Adds net461 target
+
 #### 4.0.0-beta0006 - 02.01.2018
 * It was a bad idea to unifie the IAggregateRepository and IProjectionRepository with the interface IRepository. Removed!
 

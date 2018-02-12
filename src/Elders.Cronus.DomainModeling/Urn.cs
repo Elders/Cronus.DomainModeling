@@ -101,7 +101,7 @@ namespace Elders.Cronus
 
     public class StringTenantUrn : Urn
     {
-        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z]{0,100}):(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_-.]{0,100}):(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
 
         public StringTenantUrn(string tenant, string arName, string id)
             : base(tenant, arName + Delimiter + id)

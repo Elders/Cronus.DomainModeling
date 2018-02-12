@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public class DomainObjectEventHandlerMapping
     {
@@ -17,7 +17,7 @@ namespace Elders.Cronus.DomainModeling
             var matchedMethods = from method in methodsToMatch
                                  let parameters = method.GetParameters()
                                  where
-                                    method.Name.Equals("when", StringComparison.InvariantCultureIgnoreCase) &&
+                                    method.Name.Equals("when", StringComparison.OrdinalIgnoreCase) &&
                                     parameters.Length == 1 &&
                                     typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType)
                                  select

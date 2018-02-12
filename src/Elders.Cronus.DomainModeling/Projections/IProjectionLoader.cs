@@ -1,6 +1,6 @@
-﻿namespace Elders.Cronus.DomainModeling.Projections
+﻿namespace Elders.Cronus.Projections
 {
-    public interface IProjectionRepository
+    public interface IProjectionLoader
     {
         IProjectionGetResult<T> Get<T>(IBlobId projectionId) where T : IProjectionDefinition;
     }

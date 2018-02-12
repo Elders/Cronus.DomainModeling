@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public interface IPublisher<in TMessage> where TMessage : IMessage
     {

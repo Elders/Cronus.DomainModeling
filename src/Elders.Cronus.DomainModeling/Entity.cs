@@ -1,4 +1,4 @@
-﻿namespace Elders.Cronus.DomainModeling
+﻿namespace Elders.Cronus
 {
     public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
         where TAggregateRoot : IAggregateRoot

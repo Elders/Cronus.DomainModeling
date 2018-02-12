@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public class AggregateRoot<TState> : IAggregateRoot
         where TState : IAggregateRootState, new()

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public static class MessageInfo
     {
@@ -13,13 +13,14 @@ namespace Elders.Cronus.DomainModeling
 
         private static readonly ConcurrentDictionary<string, BoundedContextAttribute> boundedContexts = new ConcurrentDictionary<string, BoundedContextAttribute>();
 
-        private static readonly ConcurrentDictionary<Type, string> contractIds = new ConcurrentDictionary<Type, string>();
+        private static readonly ConcurrentDictionary<Type, string> typeToContract = new ConcurrentDictionary<Type, string>();
+        private static readonly ConcurrentDictionary<string, Type> contractToType = new ConcurrentDictionary<string, Type>();
 
         public static BoundedContextAttribute GetBoundedContext(this Type contractType)
         {
             BoundedContextAttribute boundedContext;
             string contractId;
-            if (contractIds.TryGetValue(contractType, out contractId))
+            if (typeToContract.TryGetValue(contractType, out contractId))
             {
                 if (boundedContexts.TryGetValue(contractId, out boundedContext))
                     return boundedContext;
@@ -46,11 +47,21 @@ namespace Elders.Cronus.DomainModeling
         public static string GetContractId(this Type messageType)
         {
             string messageId;
-            if (!contractIds.TryGetValue(messageType, out messageId))
+            if (!typeToContract.TryGetValue(messageType, out messageId))
             {
                 messageId = GetAndCacheContractIdFromAttribute(messageType);
             }
             return messageId;
+        }
+
+        public static Type GetTypeByContract(this string contractId)
+        {
+            Type theType;
+            if (contractToType.TryGetValue(contractId, out theType) == false)
+            {
+                throw new Exception("I knew this will not gonna work... :(");
+            }
+            return theType;
         }
 
         public static string ToString(this IMessage message, string messageInfo)
@@ -86,7 +97,8 @@ namespace Elders.Cronus.DomainModeling
                 contractId = contract.Name;
             }
 
-            contractIds.TryAdd(contractType, contractId);
+            typeToContract.TryAdd(contractType, contractId);
+            contractToType.TryAdd(contractId, contractType);
             return contractId;
         }
     }

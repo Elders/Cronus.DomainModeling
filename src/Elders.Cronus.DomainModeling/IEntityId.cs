@@ -1,6 +1,6 @@
 using System;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public interface IEntityId : IHaveUrn, IBlobId, IEquatable<IEntityId>
     {

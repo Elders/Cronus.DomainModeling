@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     /// <summary>
     /// When we have a workflow which involves several aggregates it is recommended to have the whole process described 
@@ -19,9 +19,9 @@ namespace Elders.Cronus.DomainModeling
     public interface IScheduledMessage : IMessage
     {
         /// <summary>
-        /// The date as 'date.ToFileTimeUtc()' when this message will be published.
+        /// The date when this message will be published.
         /// </summary>
-        long PublishAt { get; }
+        DateTime PublishAt { get; }
     }
 
     public interface ISagaTimeoutHandler<in T> where T : IScheduledMessage
@@ -37,7 +37,7 @@ namespace Elders.Cronus.DomainModeling
 
         public void RequestTimeout<T>(T timeoutMessage) where T : IScheduledMessage
         {
-            TimeoutRequestPublisher.Publish(timeoutMessage, DateTime.FromFileTimeUtc(timeoutMessage.PublishAt));
+            TimeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
         }
 
     }

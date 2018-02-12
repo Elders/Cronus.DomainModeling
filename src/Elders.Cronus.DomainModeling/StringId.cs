@@ -2,37 +2,37 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
-    [DataContract(Name = "08fe27ca-411e-45ce-94ce-5d64c45eae6c")]
-    public class StringId : AggregateRootId
-    {
-        [DataMember(Order = 1)]
-        public string Id { get; protected set; }
+    //[DataContract(Name = "08fe27ca-411e-45ce-94ce-5d64c45eae6c")]
+    //public class StringId : AggregateRootId
+    //{
+    //    [DataMember(Order = 1)]
+    //    public string Id { get; protected set; }
 
-        protected StringId() { }
+    //    protected StringId() { }
 
-        public StringId(string idBase, string aggregateRootName) : base(aggregateRootName)
-        {
-            if (string.IsNullOrWhiteSpace(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
-            Id = idBase;
-            RawId = setRawId(Urn);
-        }
+    //    public StringId(string idBase, string aggregateRootName) : base(aggregateRootName)
+    //    {
+    //        if (string.IsNullOrWhiteSpace(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
+    //        Id = idBase;
+    //        RawId = setRawId(Urn);
+    //    }
 
-        public StringId(StringId idBase, string aggregateRootName) : base(aggregateRootName)
-        {
-            if (!IsValid(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
-            Id = idBase.Id;
-            RawId = setRawId(Urn);
-        }
+    //    public StringId(StringId idBase, string aggregateRootName) : base(aggregateRootName)
+    //    {
+    //        if (!IsValid(idBase)) throw new ArgumentException("Empty string value is not allowed.", nameof(idBase));
+    //        Id = idBase.Id;
+    //        RawId = setRawId(Urn);
+    //    }
 
-        public static bool IsValid(StringId aggregateRootId)
-        {
-            return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false;
-        }
+    //    public static bool IsValid(StringId aggregateRootId)
+    //    {
+    //        return (!ReferenceEquals(null, aggregateRootId)) && string.IsNullOrWhiteSpace(aggregateRootId.Id) == false;
+    //    }
 
-        public override IUrn Urn { get { return new Urn(AggregateRootName, Id.ToString()); } }
-    }
+    //    public override IUrn Urn { get { return new Urn(AggregateRootName, Id.ToString()); } }
+    //}
 
     [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
     public class StringTenantId : AggregateRootId

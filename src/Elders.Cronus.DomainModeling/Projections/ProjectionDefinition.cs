@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Elders.Cronus.DomainModeling.Projections
+namespace Elders.Cronus.Projections
 {
     public class SubscriptionIdResolver
     {

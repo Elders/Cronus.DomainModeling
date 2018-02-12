@@ -1,8 +1,11 @@
-#### 3.3.1 - 11.12.2017
-* Fixes building of string tenant id and guid tenant id based on URNs
-
-#### 3.3.0 - 05.09.2017
-* Allows multiple event subscriptions to one projection type
+#### 4.0.0 - 12.02.2018
+* Adds net461 target
+* Updates all namespaces to exclude `DomainModeling`
+* Uses official netstandard20
+* Removes all non Tenant IDs
+* Uses DateTime instead of long for time
+* Allows the following symbols in AR names => _-.
+* Adds ability to get contractType by contractId
 
 #### 3.2.2 - 04.07.2017
 * Fixes ProjectionDefinition

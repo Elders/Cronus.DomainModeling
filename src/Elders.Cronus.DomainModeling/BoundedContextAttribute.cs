@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class BoundedContextAttribute : Attribute

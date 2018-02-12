@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elders.Cronus.DomainModeling", "Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj", "{3603583E-C261-4AA6-AE73-B3F4C7440D7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elders.Cronus.DomainModeling", "Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj", "{3603583E-C261-4AA6-AE73-B3F4C7440D7C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{F728284A-F867-418F-864B-A0AF11289A32}"
 	ProjectSection(SolutionItems) = preProject
-		Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec = Elders.Cronus.DomainModeling\Cronus.DomainModeling.nuspec
-		Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.rn.md = Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.rn.md
+		..\appveyor.yml = ..\appveyor.yml
+		..\build-configuration.cmd = ..\build-configuration.cmd
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elders.Cronus.DomainModeling.Tests", "Elders.Cronus.DomainModeling.Tests\Elders.Cronus.DomainModeling.Tests.csproj", "{983DA5E2-3F18-4D8F-A192-A85C7A74D561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elders.Cronus.DomainModeling.Tests", "Elders.Cronus.DomainModeling.Tests\Elders.Cronus.DomainModeling.Tests.csproj", "{983DA5E2-3F18-4D8F-A192-A85C7A74D561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1038D359-9768-4D29-8D2A-00DDB5C3F461}
 	EndGlobalSection
 EndGlobal

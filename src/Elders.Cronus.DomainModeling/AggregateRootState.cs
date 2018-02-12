@@ -1,4 +1,4 @@
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     public abstract class AggregateRootState<TAggregateRoot, TAggregateRootId> : IAggregateRootState
         where TAggregateRoot : IAggregateRoot

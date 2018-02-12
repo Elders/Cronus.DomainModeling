@@ -1,23 +1,11 @@
-#### 4.0.0-beta0007 - 03.01.2018
+#### 4.0.0 - 12.02.2018
 * Adds net461 target
-
-#### 4.0.0-beta0006 - 02.01.2018
-* It was a bad idea to unifie the IAggregateRepository and IProjectionRepository with the interface IRepository. Removed!
-
-#### 4.0.0-beta0005 - 02.01.2018
-* Unifies the IAggregateRepository and IProjectionRepository with the interface IRepository
-
-#### 4.0.0-beta0004 - 02.01.2018
 * Updates all namespaces to exclude `DomainModeling`
-
-#### 4.0.0-beta0003 - 02.01.2018
-* Unifies the IAggregateRepository and IProjectionRepository with the interface IRepository
-
-#### 4.0.0-beta0002 - 17.08.2017
 * Uses official netstandard20
-
-#### 4.0.0-beta0001 - 27.07.2017
-* Transitioning to netstandard20
+* Removes all non Tenant IDs
+* Uses DateTime instead of long for time
+* Allows the following symbols in AR names => _-.
+* Adds ability to get contractType by contractId
 
 #### 3.2.2 - 04.07.2017
 * Fixes ProjectionDefinition

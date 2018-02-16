@@ -1,3 +1,6 @@
+#### 4.0.1 - 16.02.2018
+* Fixes an issue related to the URN parsing
+
 #### 4.0.0 - 12.02.2018
 * Adds net461 target
 * Updates all namespaces to exclude `DomainModeling`

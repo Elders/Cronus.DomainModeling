@@ -83,7 +83,7 @@ namespace Elders.Cronus
             return urn.Value;
         }
 
-        static string urnRegex = @"\b(?<prefix>[urnURN]{3}):(?<nid>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<nss>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        static string urnRegex = @"\b(?<prefix>[urnURN]{3}):(?<nid>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):?(?<nss>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
         public static bool IsUrn(string candidate)
         {
             return System.Text.RegularExpressions.Regex.IsMatch(candidate, urnRegex, System.Text.RegularExpressions.RegexOptions.None);
@@ -101,7 +101,7 @@ namespace Elders.Cronus
 
     public class StringTenantUrn : Urn
     {
-        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_-.]{0,100}):(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_\-.]{0,100}):?(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
 
         public StringTenantUrn(string tenant, string arName, string id)
             : base(tenant, arName + Delimiter + id)

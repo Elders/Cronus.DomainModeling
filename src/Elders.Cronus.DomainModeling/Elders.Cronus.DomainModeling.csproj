@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+        <TargetFrameworks>
+            netstandard2.0;net40;net45;net451;net452;net46;net461;net462
+        </TargetFrameworks>
     </PropertyGroup>
+    <!--Nuget-->
     <PropertyGroup>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <Description>Contracts for DDD/CQRS development</Description>
@@ -15,12 +18,23 @@
         <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
         <RootNamespace>Elders.Cronus</RootNamespace>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <NoWarn>1701;1702;1705</NoWarn>
-        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <WarningsAsErrors>NU1605</WarningsAsErrors>
+
+    <!--netstandard2.0-->
+    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+        <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;</DefineConstants>
     </PropertyGroup>
-    <ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
         <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    </ItemGroup>
+
+    <!--net45-->
+    <PropertyGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
+        <DefineConstants>TRACE;DEBUG;LIBLOG_PORTABLE</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
+        <Reference Include="mscorlib" />
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="Microsoft.CSharp" />
     </ItemGroup>
 </Project>

@@ -1,3 +1,6 @@
+#### 4.0.2 - 20.02.2018
+* Adds real multitarget framework support for netstandard2.0;net40;net45;net451;net452;net46;net461;net462
+
 #### 4.0.1 - 16.02.2018
 * Fixes an issue related to the URN parsing
 

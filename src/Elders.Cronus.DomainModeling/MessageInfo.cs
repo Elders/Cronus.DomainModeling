@@ -146,19 +146,5 @@ namespace Elders.Cronus
             TAttribute attribute = (TAttribute)self.GetCustomAttributes(typeof(TAttribute), false).Single();
             return get(attribute);
         }
-
-        private static object GetValue(object instance, MemberInfo member)
-        {
-            if (member is PropertyInfo)
-            {
-                return ((member as PropertyInfo)).GetValue(instance);
-            }
-            else if (member is FieldInfo)
-            {
-                return ((member as FieldInfo)).GetValue(instance);
-            }
-            else
-                throw new NotImplementedException();
-        }
     }
 }

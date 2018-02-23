@@ -27,7 +27,7 @@
         <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     </ItemGroup>
 
-    <!--net45-->
+    <!--netstandard2.0 == false-->
     <PropertyGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
         <DefineConstants>TRACE;DEBUG;LIBLOG_PORTABLE</DefineConstants>
     </PropertyGroup>

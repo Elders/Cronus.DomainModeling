@@ -1,3 +1,6 @@
+#### 4.0.3 - 23.02.2018
+* Adds a non generic method to get a projection
+
 #### 4.0.2 - 20.02.2018
 * Adds real multitarget framework support for netstandard2.0;net40;net45;net451;net452;net46;net461;net462
 

@@ -1,3 +1,6 @@
+#### 4.0.4 - 26.02.2018
+* Adds a non generic method to get a projection
+
 #### 4.0.3 - 23.02.2018
 * Adds a non generic method to get a projection
 

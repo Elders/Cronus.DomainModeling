@@ -11,7 +11,7 @@
         <PackageTags>cronus, ddd, cqrs, modeling, domain, aggregate, root, entity, command, event, projection, saga, tenant, urn, port</PackageTags>
         <PackageId>Cronus.DomainModeling</PackageId>
         <Authors>Elders</Authors>
-        <PackageIconUrl>https://raw.githubusercontent.com/Elders/Cronus/master/Cronus.png</PackageIconUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/Elders/Cronus</RepositoryUrl>
         <RepositoryType>Library</RepositoryType>
         <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>

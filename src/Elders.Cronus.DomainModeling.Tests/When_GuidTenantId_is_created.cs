@@ -1,7 +1,7 @@
 ﻿//using System;
 //using Machine.Specifications;
 
-//namespace Elders.Cronus.Tests
+//namespace Elders.Cronus.DomainModeling.Tests
 //{
 //    [Subject("GuidTenantId")]
 //    public class When_GuidTenantId_is_created

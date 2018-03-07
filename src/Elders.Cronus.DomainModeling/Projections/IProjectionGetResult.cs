@@ -1,4 +1,4 @@
-﻿namespace Elders.Cronus.Projections
+﻿namespace Elders.Cronus.DomainModeling.Projections
 {
     public interface IProjectionGetResult<out T>
     {

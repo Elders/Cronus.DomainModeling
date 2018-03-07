@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     [DataContract(Name = "44f705a4-f339-4677-b39a-300a9eaa4a73")]
     public class EntityId<TAggregateRootId> : IEntityId
@@ -35,7 +35,7 @@ namespace Elders.Cronus
         [DataMember(Order = 22)]
         public TAggregateRootId RootId { get; set; }
 
-        public virtual IUrn Urn { get { return Elders.Cronus.Urn.Parse(RootId.Urn.Value + ":" + EntityName); } }
+        public virtual IUrn Urn { get { return Elders.Cronus.DomainModeling.Urn.Parse(RootId.Urn.Value + ":" + EntityName); } }
 
         IAggregateRootId IEntityId.AggregateRootId { get { return RootId; } }
 

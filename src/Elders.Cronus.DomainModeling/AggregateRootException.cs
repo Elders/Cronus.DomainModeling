@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
     /// 

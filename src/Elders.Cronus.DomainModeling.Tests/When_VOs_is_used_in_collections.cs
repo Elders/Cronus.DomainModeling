@@ -2,7 +2,7 @@
 using System.Linq;
 using Machine.Specifications;
 
-namespace Elders.Cronus.Tests
+namespace Elders.Cronus.DomainModeling.Tests
 {
     [Subject("ValueObject")]
     public class When_VOs_are_compared

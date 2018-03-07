@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     public interface IValueObject<T> : IEqualityComparer<T>, IEquatable<T>
     {

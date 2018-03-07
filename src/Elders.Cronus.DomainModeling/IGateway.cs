@@ -1,4 +1,4 @@
-﻿namespace Elders.Cronus
+﻿namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
     /// Compared to IPort, which can dispatch a command, an IGateway can do the same but it also has a persistent state. A scenario could be sending

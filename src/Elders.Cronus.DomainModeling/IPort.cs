@@ -1,4 +1,4 @@
-﻿namespace Elders.Cronus
+﻿namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
     /// Port is the mechanizm to do communication between aggregates. Usually this involves one aggregate who

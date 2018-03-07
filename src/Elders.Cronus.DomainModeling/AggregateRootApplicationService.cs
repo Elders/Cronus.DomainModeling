@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     /// <summary>
     /// This is a handler where commands are received and delivered to the addressed AggregateRoot.

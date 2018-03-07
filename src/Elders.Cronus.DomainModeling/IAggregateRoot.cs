@@ -1,4 +1,4 @@
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     public interface IAggregateRoot : IAmEventSourced, IHaveState<IAggregateRootState>
     {

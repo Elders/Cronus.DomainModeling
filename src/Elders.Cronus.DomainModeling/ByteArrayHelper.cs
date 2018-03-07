@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Elders.Cronus
+namespace Elders.Cronus.DomainModeling
 {
     public static class ByteArrayHelper
     {

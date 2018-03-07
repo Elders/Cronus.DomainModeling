@@ -1,3 +1,9 @@
+#### 4.0.6 - 13.03.2018
+* Revives StringId. Lets hope the projections still work
+
+#### 4.0.5 - 13.03.2018
+* Sorry
+
 #### 4.0.4 - 26.02.2018
 * Adds a non generic method to get a projection
 

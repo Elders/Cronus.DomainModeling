@@ -1,4 +1,4 @@
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     /// <summary>
     /// A command is used to dispatch domain model changes. It can be accepted or rejected depending on the domain model invariants.

@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace Elders.Cronus.DomainModeling.Tests
+namespace Elders.Cronus.Tests
 {
     [Subject("TenantUrn")]
     public class When_TenantUrn_is_created

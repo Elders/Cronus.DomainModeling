@@ -1,7 +1,7 @@
 //using System;
 //using System.Runtime.Serialization;
 
-//namespace Elders.Cronus.DomainModeling
+//namespace Elders.Cronus
 //{
 //    [DataContract(Name = "6b2e2276-5b1a-4236-8644-ed64b3a98098")]
 //    public class EntityGuidId<TAggregateRootId> : EntityId<TAggregateRootId> where TAggregateRootId : IAggregateRootId

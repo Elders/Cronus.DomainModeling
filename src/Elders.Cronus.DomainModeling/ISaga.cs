@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     /// <summary>
     /// When we have a workflow which involves several aggregates it is recommended to have the whole process described 

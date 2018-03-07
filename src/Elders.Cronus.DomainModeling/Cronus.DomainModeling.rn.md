@@ -1,6 +1,3 @@
-#### 4.0.5 - 07.03.2018
-* Sorry
-
 #### 4.0.4 - 26.02.2018
 * Adds a non generic method to get a projection
 

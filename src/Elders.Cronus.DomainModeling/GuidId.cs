@@ -1,7 +1,7 @@
 //using System;
 //using System.Runtime.Serialization;
 
-//namespace Elders.Cronus.DomainModeling
+//namespace Elders.Cronus
 //{
 //    [DataContract(Name = "b3b879e8-b11b-4a57-8f95-0c1c7512fd73")]
 //    public class GuidId : AggregateRootId

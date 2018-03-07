@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Elders.Cronus.DomainModeling.Projections
+namespace Elders.Cronus.Projections
 {
     public interface IProjectionLoader
     {

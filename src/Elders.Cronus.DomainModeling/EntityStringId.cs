@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Elders.Cronus.DomainModeling
+namespace Elders.Cronus
 {
     [DataContract(Name = "ac9f6c97-c1c8-486c-9647-d2a1ab44d767")]
     public class EntityStringId<TAggregateRootId> : EntityId<TAggregateRootId> where TAggregateRootId : IAggregateRootId
@@ -27,7 +27,7 @@ namespace Elders.Cronus.DomainModeling
 
         public override IUrn Urn
         {
-            get { return Elders.Cronus.DomainModeling.Urn.Parse(RootId.Urn.Value + ":" + EntityName + ":" + Id); }
+            get { return Elders.Cronus.Urn.Parse(RootId.Urn.Value + ":" + EntityName + ":" + Id); }
         }
 
         public static bool IsValid(EntityStringId<TAggregateRootId> entityId)

@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace Elders.Cronus.Projections
 {
+    public class ContinueId : IBlobId
+    {
+        public byte[] RawId => null;
+    }
+
     public class SubscriptionIdResolver
     {
         public SubscriptionIdResolver(Type projectionType, Func<IEvent, IBlobId> idResolver)
@@ -40,7 +45,13 @@ namespace Elders.Cronus.Projections
         IEnumerable<IBlobId> IProjectionDefinition.GetProjectionIds(IEvent @event)
         {
             foreach (var subscriptionResolver in subscriptionResolvers[@event.GetType()])
-                yield return subscriptionResolver(@event);
+            {
+                IBlobId resolvedId = subscriptionResolver(@event);
+                if (resolvedId is ContinueId) continue;
+                if (ReferenceEquals(null, resolvedId)) continue; //TODO LOG
+
+                yield return resolvedId;
+            }
         }
 
         void IProjectionDefinition.Apply(IEvent @event)
@@ -60,7 +71,8 @@ namespace Elders.Cronus.Projections
             ((IHaveState)this).State = state ?? new TState();
         }
 
-        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId) where TEvent : IEvent
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
+            where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
 
@@ -70,6 +82,24 @@ namespace Elders.Cronus.Projections
                 subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
 
             return this;
+        }
+
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
+            where TEvent : IEvent
+        {
+            Type eventType = typeof(TEvent);
+
+            if (subscriptionResolvers.ContainsKey(eventType))
+                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
+            else
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+
+            return this;
+        }
+
+        protected IBlobId Continue()
+        {
+            return new ContinueId();
         }
     }
 }

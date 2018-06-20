@@ -1,3 +1,6 @@
+#### 4.0.7 - 20.06.2018
+* In Projections added the ability to skip and event based on its meta info by calling "continue" method
+
 #### 4.0.6 - 13.03.2018
 * Revives StringId. Lets hope the projections still work
 

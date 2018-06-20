@@ -13,4 +13,5 @@ namespace Elders.Cronus.Projections
 
         void Apply(IEvent @event);
     }
+
 }

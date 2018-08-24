@@ -61,8 +61,11 @@ namespace Elders.Cronus.Projections
 
         void IAmEventSourcedProjection.ReplayEvents(IEnumerable<IEvent> events)
         {
-            var def = this as IProjectionDefinition;
-            events.ToList().ForEach(e => def.Apply(e));
+            var projection = this as IProjectionDefinition;
+            foreach (IEvent @event in events)
+            {
+                projection.Apply(@event);
+            }
         }
 
         void IHaveState.InitializeState(IBlobId projectionId, object state)

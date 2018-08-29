@@ -1,3 +1,6 @@
+#### 4.0.9 - 29.08.2018
+* Makes sure that GetHashCode() for ValueObject<T> is executed inside a unchecked{}
+
 #### 4.0.8 - 24.08.2018
 * Removes unnecessary `.ToList()` when applyint projection events
 * Adds SourceLink support and did minor changes to the nuget package meta

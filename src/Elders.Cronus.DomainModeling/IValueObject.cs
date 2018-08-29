@@ -23,24 +23,25 @@ namespace Elders.Cronus
 
         public override int GetHashCode()
         {
-            FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-
-            int startValue = 23;
-            int multiplier = 77;
-
-            int hashCode = startValue;
-
-            foreach (FieldInfo field in fields)
+            unchecked
             {
-                object value = field.GetValue(this);
+                FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-                if (value != null)
-                    hashCode = hashCode * multiplier ^ value.GetHashCode();
+                int startValue = 23;
+                int multiplier = 77;
+
+                int hashCode = startValue;
+
+                foreach (FieldInfo field in fields)
+                {
+                    object value = field.GetValue(this);
+
+                    if (value != null)
+                        hashCode = hashCode * multiplier ^ value.GetHashCode();
+                }
+                return hashCode;
             }
-            return hashCode;
         }
-
-
 
         public virtual bool Equals(T other)
         {

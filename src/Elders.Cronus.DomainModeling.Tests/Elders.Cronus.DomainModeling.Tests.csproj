@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
-        <RootNamespace>Elders.Cronus.Tests</RootNamespace>
-        <StartupObject></StartupObject>
-        <ApplicationIcon />
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <RootNamespace>Elders.Cronus.Tests</RootNamespace>
+    <StartupObject></StartupObject>
+    <ApplicationIcon />
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Machine.Specifications" Version="0.12.0" />
-        <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.6.1" />
-        <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
-        <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Machine.Specifications" Version="0.12.0" />
+    <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.6.1" />
+    <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,3 +1,6 @@
+#### 4.0.10 - 29.08.2018
+* Fixes assembly name
+
 #### 4.0.9 - 29.08.2018
 * Makes sure that GetHashCode() for ValueObject<T> is executed inside a unchecked{}
 
@@ -7,7 +10,6 @@
 
 #### 4.0.7 - 20.06.2018
 * In Projections added the ability to skip and event based on its meta info by calling "continue" method
-
 
 #### 4.0.6 - 13.03.2018
 * Revives StringId. Lets hope the projections still work

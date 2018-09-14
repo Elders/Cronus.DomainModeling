@@ -74,7 +74,7 @@ namespace Elders.Cronus
 
         public override string ToString()
         {
-            return Urn.Value + "||" + Convert.ToBase64String(RawId);
+            return Convert.ToBase64String(RawId);
         }
     }
 }

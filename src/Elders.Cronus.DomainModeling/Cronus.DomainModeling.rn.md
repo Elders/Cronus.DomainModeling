@@ -1,3 +1,6 @@
+#### 5.0.0-beta0001 - 14.09.2018
+* Full net framework will be supported only for versions >= 4.7.2
+
 #### 4.0.10 - 29.08.2018
 * Fixes assembly name
 

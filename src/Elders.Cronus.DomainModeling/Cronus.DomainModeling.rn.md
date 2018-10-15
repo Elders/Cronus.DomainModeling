@@ -1,4 +1,4 @@
-#### 5.0.0-discovery - 15.10.2018
+#### 5.0.0-discovery0001 - 15.10.2018
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
 
 #### 5.0.0-beta0002 - 01.10.2018

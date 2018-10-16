@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0002 - 16.10.2018
+* Renames IProjectionLoader to IProjectionReader
+
 #### 5.0.0-discovery0001 - 15.10.2018
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
 

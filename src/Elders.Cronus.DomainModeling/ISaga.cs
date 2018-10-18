@@ -6,12 +6,7 @@ namespace Elders.Cronus
     /// When we have a workflow which involves several aggregates it is recommended to have the whole process described 
     /// in a single place such as Saga/ProcessManager.
     /// </summary>
-    public interface ISaga
-    {
-        IPublisher<ICommand> CommandPublisher { get; set; }
-
-        IPublisher<IScheduledMessage> TimeoutRequestPublisher { get; set; }
-    }
+    public interface ISaga { }
 
     /// <summary>
     /// Message which will be published in the future.
@@ -29,15 +24,20 @@ namespace Elders.Cronus
         void Handle(T sagaTimeout);
     }
 
-    public class Saga : ISaga
+    public abstract class Saga : ISaga
     {
-        public IPublisher<ICommand> CommandPublisher { get; set; }
+        protected readonly IPublisher<ICommand> commandPublisher;
+        protected readonly IPublisher<IScheduledMessage> timeoutRequestPublisher;
 
-        public IPublisher<IScheduledMessage> TimeoutRequestPublisher { get; set; }
+        public Saga(IPublisher<ICommand> commandPublisher, IPublisher<IScheduledMessage> timeoutRequestPublisher)
+        {
+            this.commandPublisher = commandPublisher ?? throw new ArgumentNullException(nameof(commandPublisher));
+            this.timeoutRequestPublisher = timeoutRequestPublisher ?? throw new ArgumentNullException(nameof(timeoutRequestPublisher));
+        }
 
         public void RequestTimeout<T>(T timeoutMessage) where T : IScheduledMessage
         {
-            TimeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
+            timeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
         }
 
     }

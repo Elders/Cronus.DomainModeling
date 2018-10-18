@@ -11,10 +11,10 @@
     <Authors>Elders OSS</Authors>
     <Copyright>Copyright © Elders OSS 2013</Copyright>
     <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
-    <PackageTags>CQRS DDD ES Event store sourcing</PackageTags>
+    <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
     <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Elders/Cronus.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Elders/Cronus.DomainModeling.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIconUrl>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -23,32 +23,15 @@
     <RootNamespace>Elders.Cronus</RootNamespace>
   </PropertyGroup>
 
-  <!--netstandard2.0-->
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
 
-  <!--NETFULL-->
-  <PropertyGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
-    <DefineConstants>TRACE;DEBUG;NETFULL</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <EmbedSources>true</EmbedSources>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <EmbedSources>true</EmbedSources>

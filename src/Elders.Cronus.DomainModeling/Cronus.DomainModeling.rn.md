@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0003 - 18.10.2018
+* Replaces `IProjectionGetResult` with `ReadResult`
+
 #### 5.0.0-discovery0002 - 16.10.2018
 * Renames IProjectionLoader to IProjectionReader
 

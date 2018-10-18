@@ -14,9 +14,7 @@ namespace Elders.Cronus
 
         public AggregateRootApplicationService(IAggregateRepository repository)
         {
-            if (repository is null) throw new ArgumentNullException(nameof(repository));
-
-            this.repository = repository;
+            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public virtual void Update(IAggregateRootId id, Action<AR> update)

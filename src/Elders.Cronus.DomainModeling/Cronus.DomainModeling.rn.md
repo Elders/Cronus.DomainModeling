@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0004 - 24.10.2018
+* Removes BoundedContextAttribute
+
 #### 5.0.0-discovery0003 - 18.10.2018
 * Replaces `IProjectionGetResult` with `ReadResult`
 

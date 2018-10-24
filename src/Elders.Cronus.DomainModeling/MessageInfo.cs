@@ -27,7 +27,7 @@ namespace Elders.Cronus
             Type theType;
             if (contractToType.TryGetValue(contractId, out theType) == false)
             {
-                throw new Exception("I knew this will not gonna work... :(");
+                throw new Exception($"Unable to resolve type using contractId `{contractId}`. Most probably the type with this contractId is deleted from the source code and there is an existing record in the database which still uses it.");
             }
             return theType;
         }

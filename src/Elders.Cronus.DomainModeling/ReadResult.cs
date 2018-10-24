@@ -16,7 +16,7 @@
 
         public string Error { get; set; }
 
-        public bool NotFound => (Data.Equals(default(T)));
+        public bool NotFound => (ReferenceEquals(null, Data));
 
         public bool IsSuccess => HasFailed == false;
 

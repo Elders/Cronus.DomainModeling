@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0005 - 25.10.2018
+* Renames IAggregateRootApplicationService to IApplicationService
+
 #### 5.0.0-discovery0004 - 24.10.2018
 * Removes BoundedContextAttribute
 

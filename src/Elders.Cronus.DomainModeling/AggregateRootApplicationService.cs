@@ -6,13 +6,13 @@ namespace Elders.Cronus
     /// This is a handler where commands are received and delivered to the addressed AggregateRoot.
     /// We call these handlers *ApplicationService*. This is the *write side* in CQRS.
     /// </summary>
-    public interface IAggregateRootApplicationService { }
+    public interface IApplicationService { }
 
-    public abstract class AggregateRootApplicationService<AR> : IAggregateRootApplicationService where AR : IAggregateRoot
+    public abstract class ApplicationService<AR> : IApplicationService where AR : IAggregateRoot
     {
         protected readonly IAggregateRepository repository;
 
-        public AggregateRootApplicationService(IAggregateRepository repository)
+        public ApplicationService(IAggregateRepository repository)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }

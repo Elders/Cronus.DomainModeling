@@ -17,11 +17,18 @@ namespace Elders.Cronus
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+        /// <summary>
+        /// Executes an action to an existing AR. Use this method only if you are 100% sure that the AR must exist.
+        /// If the AR does not exists the method throws an exception.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="update"></param>
         public virtual void Update(IAggregateRootId id, Action<AR> update)
         {
-            var ar = repository.Load<AR>(id);
-            update(ar);
-            repository.Save(ar);
+            ReadResult<AR> result = repository.Load<AR>(id);
+            if (result.HasFailed) throw new Exception($"Failed to load an aggregate {result.Error}");
+            update(result.Data);
+            repository.Save(result.Data);
         }
     }
 }

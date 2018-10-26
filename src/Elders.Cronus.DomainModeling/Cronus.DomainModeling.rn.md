@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0006 - 26.10.2018
+* Changes the public interface of IAggregateRepository when loading an AR. Now the result is of type ReadResult<T>
+
 #### 5.0.0-discovery0005 - 25.10.2018
 * Renames IAggregateRootApplicationService to IApplicationService
 

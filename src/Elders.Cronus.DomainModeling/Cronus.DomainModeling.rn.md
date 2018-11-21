@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0008 - 21.11.2018
+* Adds formatting of URNs with IUrnFormatProvider
+
 #### 5.0.0-discovery0007 - 21.11.2018
 * Fixes URNs
 

@@ -84,6 +84,11 @@ namespace Elders.Cronus
             return Value;
         }
 
+        public string ToString(IUrnFormatProvider provider)
+        {
+            return provider.Format(this);
+        }
+
         public static implicit operator string(Urn urn)
         {
             return urn.Value;

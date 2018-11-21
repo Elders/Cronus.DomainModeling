@@ -1,3 +1,6 @@
+#### 5.0.0-discovery0007 - 21.11.2018
+* Fixes URNs
+
 #### 5.0.0-discovery0006 - 26.10.2018
 * Changes the public interface of IAggregateRepository when loading an AR. Now the result is of type ReadResult<T>
 

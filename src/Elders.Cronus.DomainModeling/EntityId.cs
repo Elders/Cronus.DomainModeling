@@ -21,7 +21,7 @@ namespace Elders.Cronus
             if (ReferenceEquals(null, rootId)) throw new ArgumentNullException(nameof(rootId));
             if (String.IsNullOrEmpty(entityName)) throw new ArgumentNullException(nameof(entityName));
 
-            EntityName = entityName.ToLowerInvariant();
+            EntityName = entityName.ToLower();
             RootId = rootId;
             RawId = new byte[0];
         }

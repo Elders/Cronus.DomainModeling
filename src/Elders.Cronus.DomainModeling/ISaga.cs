@@ -39,6 +39,5 @@ namespace Elders.Cronus
         {
             timeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
         }
-
     }
 }

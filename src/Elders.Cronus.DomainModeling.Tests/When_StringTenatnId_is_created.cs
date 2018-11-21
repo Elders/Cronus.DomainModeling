@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace Elders.Cronus.Tests
+namespace Elders.Cronus
 {
     [Subject("StringTenatnId")]
     public class When_StringTenatnId_is_created

@@ -7,6 +7,7 @@
 * Replaces `IProjectionGetResult` with `ReadResult`
 * Renames IProjectionLoader to IProjectionReader
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
+* trigger
 
 #### 5.0.0-beta0002 - 01.10.2018
 * Adds Async functionality to IProjectionLoader 

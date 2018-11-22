@@ -1,25 +1,11 @@
-#### 5.0.0-discovery0008 - 21.11.2018
+#### 5.0.0-beta0003 - 22.11.2018
 * Adds formatting of URNs with IUrnFormatProvider
-
-#### 5.0.0-discovery0007 - 21.11.2018
 * Fixes URNs
-
-#### 5.0.0-discovery0006 - 26.10.2018
 * Changes the public interface of IAggregateRepository when loading an AR. Now the result is of type ReadResult<T>
-
-#### 5.0.0-discovery0005 - 25.10.2018
 * Renames IAggregateRootApplicationService to IApplicationService
-
-#### 5.0.0-discovery0004 - 24.10.2018
 * Removes BoundedContextAttribute
-
-#### 5.0.0-discovery0003 - 18.10.2018
 * Replaces `IProjectionGetResult` with `ReadResult`
-
-#### 5.0.0-discovery0002 - 16.10.2018
 * Renames IProjectionLoader to IProjectionReader
-
-#### 5.0.0-discovery0001 - 15.10.2018
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
 
 #### 5.0.0-beta0002 - 01.10.2018

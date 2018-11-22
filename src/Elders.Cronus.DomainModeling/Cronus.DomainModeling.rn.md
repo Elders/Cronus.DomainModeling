@@ -1,3 +1,6 @@
+#### 5.0.0-migrations0001 - 22.11.2018
+* Init
+
 #### 5.0.0-beta0003 - 22.11.2018
 * Adds formatting of URNs with IUrnFormatProvider
 * Fixes URNs
@@ -7,7 +10,6 @@
 * Replaces `IProjectionGetResult` with `ReadResult`
 * Renames IProjectionLoader to IProjectionReader
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
-* triggerrrrs
 
 #### 5.0.0-beta0002 - 01.10.2018
 * Adds Async functionality to IProjectionLoader 

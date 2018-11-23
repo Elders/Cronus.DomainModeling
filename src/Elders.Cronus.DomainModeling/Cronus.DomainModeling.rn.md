@@ -1,3 +1,6 @@
+#### 5.0.0-migrations0003 - 23.11.2018
+* Figures out the responsibilities of the ReadResult struct. There is a clear distinction now between NotFound and HasError
+
 #### 5.0.0-migrations0002 - 22.11.2018
 * Init
 

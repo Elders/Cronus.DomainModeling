@@ -26,9 +26,15 @@ namespace Elders.Cronus
         public virtual void Update(IAggregateRootId id, Action<AR> update)
         {
             ReadResult<AR> result = repository.Load<AR>(id);
-            if (result.HasFailed) throw new Exception($"Failed to load an aggregate {result.Error}");
-            update(result.Data);
-            repository.Save(result.Data);
+            if (result.IsSuccess)
+            {
+                update(result.Data);
+                repository.Save(result.Data);
+            }
+            else
+            {
+                throw new Exception($"Failed to load an aggregate. {result}");
+            }
         }
     }
 }

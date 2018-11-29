@@ -1,3 +1,16 @@
+#### 5.0.0 - 29.11.2018
+* Figures out the responsibilities of the ReadResult struct. There is a clear distinction now between NotFound and HasError
+* Adds formatting of URNs with IUrnFormatProvider
+* Fixes URNs
+* Changes the public interface of IAggregateRepository when loading an AR. Now the result is of type ReadResult<T>
+* Renames IAggregateRootApplicationService to IApplicationService
+* Removes BoundedContextAttribute
+* Replaces `IProjectionGetResult` with `ReadResult`
+* Renames IProjectionLoader to IProjectionReader
+* Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
+* Adds Async functionality to IProjectionLoader 
+* Full net framework will be supported only for versions >= 4.7.2
+
 #### 4.0.10 - 29.08.2018
 * Fixes assembly name
 

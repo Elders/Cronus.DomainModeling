@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
 
-namespace Elders.Cronus.Tests
+namespace Elders.Cronus
 {
     [Subject("Urn")]
     public class When__Urn__is_created
@@ -20,41 +20,5 @@ namespace Elders.Cronus.Tests
 
         static IUrn result;
         static string urn;
-    }
-
-    [Subject("Urn")]
-    public class When_building_aggregate_id_with_urn
-    {
-        Establish context = () =>
-        {
-            urn = "urn:tenant:arname:123";
-            origin = new StringTenantId("123", "arName", "tenant");
-        };
-
-        Because of = () => result = new StringTenantId(Urn.Parse(urn), "arname");
-
-        It should_have_tenant_as_base_part = () => result.ToString().ShouldEqual(origin.ToString());
-
-        static string urn;
-        static IAggregateRootId origin;
-        static IAggregateRootId result;
-    }
-
-    [Subject("Urn")]
-    public class When_building_entity_id_with_urn
-    {
-        Establish context = () =>
-        {
-            urn = "urn:tenant:arname:123a:entity:456e";
-            origin = new StringTenantId("123A", "arName", "Tenant");
-        };
-
-        Because of = () => result = new EntityStringId<StringTenantId>("456E", origin, "Entity");
-
-        It should_have_tenant_as_base_part = () => result.Urn.Value.ShouldEqual(urn);
-
-        static string urn;
-        static StringTenantId origin;
-        static EntityStringId<StringTenantId> result;
     }
 }

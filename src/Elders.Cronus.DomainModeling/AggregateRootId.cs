@@ -5,9 +5,10 @@ using System.Text;
 namespace Elders.Cronus
 {
     [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
-    public class AggregateRootId : IAggregateRootId
+    public abstract class AggregateRootId : IAggregateRootId
     {
-        protected Func<IUrn, byte[]> setRawId = (urn) => Encoding.UTF8.GetBytes(urn.Value);
+        private Func<IUrn, byte[]> setRawId = (urn) => Encoding.UTF8.GetBytes(urn.Value);
+        private IUrn urn;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="AggregateRootId"/> class from being created.
@@ -19,12 +20,13 @@ namespace Elders.Cronus
             AggregateRootName = string.Empty;
         }
 
-        protected AggregateRootId(string aggregateRootName)
+        protected AggregateRootId(string aggregateRootName, IUrn urn)
         {
-            if (String.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException(nameof(aggregateRootName));
+            if (string.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException(nameof(aggregateRootName));
 
-            RawId = new byte[0];
-            AggregateRootName = aggregateRootName.ToLowerInvariant();
+            RawId = setRawId(urn);
+            AggregateRootName = aggregateRootName.ToLower();
+            this.urn = urn;
         }
 
         [DataMember(Order = 10)]
@@ -33,7 +35,16 @@ namespace Elders.Cronus
         [DataMember(Order = 11)]
         public string AggregateRootName { get; protected set; }
 
-        public virtual IUrn Urn { get { return Elders.Cronus.Urn.Parse("urn:elders:" + AggregateRootName); } }
+        public IUrn Urn
+        {
+            get
+            {
+                if (urn is null)
+                    urn = Elders.Cronus.Urn.Parse(Encoding.UTF8.GetString(RawId));
+
+                return urn;
+            }
+        }
 
         public override bool Equals(System.Object obj)
         {

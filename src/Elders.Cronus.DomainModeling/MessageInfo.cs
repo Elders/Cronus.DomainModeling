@@ -9,40 +9,8 @@ namespace Elders.Cronus
 {
     public static class MessageInfo
     {
-        private const string MissingBoundedContextAttribute = @"The assembly '{0}' is missing a BoundedContext attribute in AssemblyInfo.cs! Example: [BoundedContext(""Company.Product.BoundedContext"")]";
-
-        private static readonly ConcurrentDictionary<string, BoundedContextAttribute> boundedContexts = new ConcurrentDictionary<string, BoundedContextAttribute>();
-
         private static readonly ConcurrentDictionary<Type, string> typeToContract = new ConcurrentDictionary<Type, string>();
         private static readonly ConcurrentDictionary<string, Type> contractToType = new ConcurrentDictionary<string, Type>();
-
-        public static BoundedContextAttribute GetBoundedContext(this Type contractType)
-        {
-            BoundedContextAttribute boundedContext;
-            string contractId;
-            if (typeToContract.TryGetValue(contractType, out contractId))
-            {
-                if (boundedContexts.TryGetValue(contractId, out boundedContext))
-                    return boundedContext;
-            }
-
-            contractId = contractType.GetContractId();
-            return contractType.GetAndCacheBoundedContextFromAttribute(contractId);
-        }
-
-        public static BoundedContextAttribute GetBoundedContext(this Assembly contractAssembly)
-        {
-            BoundedContextAttribute boundedContext;
-            if (boundedContexts.TryGetValue(contractAssembly.FullName, out boundedContext))
-                return boundedContext;
-
-            boundedContext = contractAssembly.GetAssemblyAttribute<BoundedContextAttribute>();
-            if (boundedContext == default(BoundedContextAttribute))
-                throw new Exception(String.Format(MissingBoundedContextAttribute, contractAssembly.FullName));
-
-            boundedContexts.TryAdd(contractAssembly.FullName, boundedContext);
-            return boundedContext;
-        }
 
         public static string GetContractId(this Type messageType)
         {
@@ -59,26 +27,9 @@ namespace Elders.Cronus
             Type theType;
             if (contractToType.TryGetValue(contractId, out theType) == false)
             {
-                throw new Exception("I knew this will not gonna work... :(");
+                throw new Exception($"Unable to resolve type using contractId `{contractId}`. Most probably the type with this contractId is deleted from the source code and there is an existing record in the database which still uses it.");
             }
             return theType;
-        }
-
-        public static string ToString(this IMessage message, string messageInfo)
-        {
-            var bcNamespace = message.GetType().GetBoundedContext().BoundedContextNamespace;
-            return "[" + bcNamespace + "] " + messageInfo;
-        }
-
-        private static BoundedContextAttribute GetAndCacheBoundedContextFromAttribute(this Type contractType, string contractId)
-        {
-            var boundedContext = contractType.Assembly.GetAssemblyAttribute<BoundedContextAttribute>();
-
-            if (boundedContext == default(BoundedContextAttribute))
-                throw new Exception(String.Format(MissingBoundedContextAttribute, contractType.Assembly.FullName));
-
-            boundedContexts.TryAdd(contractId, boundedContext);
-            return boundedContext;
         }
 
         private static string GetAndCacheContractIdFromAttribute(Type contractType)

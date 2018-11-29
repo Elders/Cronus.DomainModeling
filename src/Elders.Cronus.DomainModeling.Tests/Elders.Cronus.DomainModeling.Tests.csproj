@@ -3,9 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
-    <RootNamespace>Elders.Cronus.Tests</RootNamespace>
-    <StartupObject></StartupObject>
-    <ApplicationIcon />
+    <RootNamespace>Elders.Cronus</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -73,8 +73,6 @@ namespace Elders.Cronus
         {
             handlers.Register(entityId, eventType, handleAction);
         }
-
-
     }
 
     public class EventHandlerRegistrations

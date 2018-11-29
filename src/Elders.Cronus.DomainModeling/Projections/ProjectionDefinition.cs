@@ -22,7 +22,7 @@ namespace Elders.Cronus.Projections
         public Func<IEvent, IBlobId> IdResolver { get; private set; }
     }
 
-    public class ProjectionDefinition<TState, TId> : IProjectionDefinition, IProjection
+    public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition, IProjection
         where TState : new()
         where TId : IBlobId
     {

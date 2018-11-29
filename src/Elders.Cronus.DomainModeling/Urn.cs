@@ -60,9 +60,15 @@ namespace Elders.Cronus
 
         protected void Initialize(string nid, string nss)
         {
-            NID = nid.ToLowerInvariant();
-            NSS = nss.ToLowerInvariant();
-            Value = Prefix + Delimiter + NID + Delimiter + NSS;
+            if (string.IsNullOrEmpty(nid)) throw new ArgumentNullException(nameof(nid));
+            if (string.IsNullOrEmpty(nss)) throw new ArgumentNullException(nameof(nss));
+
+            NID = nid.ToLower();
+            NSS = nss.ToLower();
+            Value = $"{Prefix}{Delimiter}{NID}{Delimiter}{NSS}";
+
+            if (IsUrn(Value) == false)
+                throw new ArgumentException($"Invalid urn `{Value}` built from parameters `nid` and `nss`");
         }
 
         public string NID { get; private set; }
@@ -78,67 +84,35 @@ namespace Elders.Cronus
             return Value;
         }
 
+        public string ToString(IUrnFormatProvider provider)
+        {
+            return provider.Format(this);
+        }
+
         public static implicit operator string(Urn urn)
         {
             return urn.Value;
         }
 
-        static string urnRegex = @"\b(?<prefix>[urnURN]{3}):(?<nid>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):?(?<nss>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        const string UrnRegex = @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}):(?<nss>(?:[a-z0-9()+,-.:=@;$_!*']|%[0-9a-f]{2})+))\z";
         public static bool IsUrn(string candidate)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(candidate, urnRegex, System.Text.RegularExpressions.RegexOptions.None);
+            return System.Text.RegularExpressions.Regex.IsMatch(candidate, UrnRegex, System.Text.RegularExpressions.RegexOptions.None);
         }
 
-        public static IUrn Parse(string urn)
+        public static Urn Parse(string urn)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(urn, urnRegex, System.Text.RegularExpressions.RegexOptions.None);
+            var match = System.Text.RegularExpressions.Regex.Match(urn, UrnRegex, System.Text.RegularExpressions.RegexOptions.None);
             if (match.Success)
                 return new Urn(match.Groups["nid"].Value, match.Groups["nss"].Value);
 
             throw new ArgumentException("Invalid Urn. Expected: urn:nid:nss", nameof(urn));
         }
-    }
 
-    public class StringTenantUrn : Urn
-    {
-        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_\-.]{0,100}):?(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
-
-        public StringTenantUrn(string tenant, string arName, string id)
-            : base(tenant, arName + Delimiter + id)
+        public static Urn Parse(string urn, IUrnFormatProvider proviver)
         {
-            Tenant = tenant.ToLowerInvariant();
-            ArName = arName.ToLowerInvariant();
-            Id = id.ToLowerInvariant();
-        }
-
-
-        public string Tenant { get; private set; }
-
-        public string ArName { get; private set; }
-
-        public string Id { get; private set; }
-
-        public static bool TryParse(string urn, out StringTenantUrn parsedUrn)
-        {
-            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
-            if (match.Success)
-            {
-                parsedUrn = new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
-                return true;
-            }
-
-            parsedUrn = null;
-
-            return false;
-        }
-
-        new public static StringTenantUrn Parse(string urn)
-        {
-            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
-            if (match.Success)
-                return new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
-
-            throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));
+            string plain = proviver.Parse(urn);
+            return Parse(plain);
         }
     }
 }

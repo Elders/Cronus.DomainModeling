@@ -1,3 +1,6 @@
+#### 5.0.1 - 03.12.2018
+* Fixes urn parsing issue with UberUrnFormatProvider
+
 #### 5.0.0 - 29.11.2018
 * Figures out the responsibilities of the ReadResult struct. There is a clear distinction now between NotFound and HasError
 * Adds formatting of URNs with IUrnFormatProvider

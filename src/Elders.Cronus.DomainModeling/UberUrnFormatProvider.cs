@@ -11,11 +11,13 @@ namespace Elders.Cronus
     {
         private readonly Base64UrlTokenUrnFormatProvider base64UrlTokenUrnFormatProvider;
         private readonly Base64UrnFormatProvider base64UrnFormatProvider;
+        private readonly PlainUrnFormatProvider plainUrnFormatProvider;
 
         public UberUrnFormatProvider()
         {
             base64UrlTokenUrnFormatProvider = new Base64UrlTokenUrnFormatProvider();
             base64UrnFormatProvider = new Base64UrnFormatProvider();
+            plainUrnFormatProvider = new PlainUrnFormatProvider();
         }
 
         public string Format(IUrn urn)
@@ -33,7 +35,7 @@ namespace Elders.Cronus
             if (base64UrnFormatProvider.CanParse(input))
                 return base64UrnFormatProvider.Parse(input);
 
-            return Parse(input);
+            return plainUrnFormatProvider.Parse(input);
         }
     }
 }

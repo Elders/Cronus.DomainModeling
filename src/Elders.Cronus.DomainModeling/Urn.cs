@@ -95,9 +95,24 @@ namespace Elders.Cronus
         }
 
         const string UrnRegex = @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}):(?<nss>(?:[a-z0-9()+,-.:=@;$_!*']|%[0-9a-f]{2})+))\z";
+
         public static bool IsUrn(string candidate)
         {
             return System.Text.RegularExpressions.Regex.IsMatch(candidate, UrnRegex, System.Text.RegularExpressions.RegexOptions.None);
+        }
+
+        public static bool IsUrn(string candidate, IUrnFormatProvider proviver)
+        {
+            try
+            {
+                var parsedUrn = Parse(candidate, proviver);
+                return IsUrn(parsedUrn);
+            }
+            catch (Exception)
+            {
+                // This method must not throw exceptions
+                return false;
+            }
         }
 
         public static Urn Parse(string urn)

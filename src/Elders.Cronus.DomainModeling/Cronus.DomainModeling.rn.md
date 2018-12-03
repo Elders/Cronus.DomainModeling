@@ -1,3 +1,6 @@
+#### 5.1.0 - 03.12.2018
+* Introduces a new method for checking if a string is a valid urn using IUrnFormatProvider. The signature is => `IsUrn(string candidate, IUrnFormatProvider proviver)`
+
 #### 5.0.1 - 03.12.2018
 * Fixes urn parsing issue with UberUrnFormatProvider
 

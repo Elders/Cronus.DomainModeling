@@ -24,7 +24,7 @@ namespace Elders.Cronus
         {
             if (urn is null) throw new ArgumentNullException(nameof(urn));
 
-            return urn.Value;
+            return base64UrlTokenUrnFormatProvider.Format(urn);
         }
 
         public string Parse(string input)

@@ -1,3 +1,6 @@
+#### 5.2.0 - 09.12.2018
+* Adds helper classes for easier testing
+
 #### 5.1.1 - 05.12.2018
 * Fixes wrong Format(urn) with the UberUrnFormatProvider
 

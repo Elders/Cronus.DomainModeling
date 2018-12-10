@@ -17,10 +17,12 @@ namespace Elders.Cronus.Testing
                 Events = new List<IEvent>();
             }
 
-            public List<IEvent> Events { get; set; }
+            public List<IEvent> Events { get; private set; }
 
             public AggregateRootHistory Event(IEvent @event)
             {
+                if (@event is null) throw new ArgumentNullException(nameof(@event));
+
                 Events.Add(@event);
                 return this;
             }

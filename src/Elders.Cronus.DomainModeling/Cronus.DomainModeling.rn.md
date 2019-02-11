@@ -1,3 +1,6 @@
+#### 5.2.1 - 11.02.2019
+* Implemented UNSAFE byte array Compare
+
 #### 5.2.0 - 09.12.2018
 * Adds helper classes for easier testing
 

@@ -13,36 +13,21 @@ namespace Elders.Cronus
             // This also ensures that the count does not exceed the length of either buffer.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return CompareUnsafe(b1, b2);
+                return CompareWithFor(b1, b2);
             }
             else
                 return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
         }
 
-        public unsafe static bool CompareUnsafe(byte[] a, byte[] b)
+        public static bool CompareWithFor(byte[] a1, byte[] a2)
         {
-            if (a.Length != b.Length) return false;
-            int len = a.Length;
-            unsafe
-            {
-                fixed (byte* ap = a, bp = b)
-                {
-                    long* alp = (long*)ap, blp = (long*)bp;
-                    for (; len >= 8; len -= 8)
-                    {
-                        if (*alp != *blp) return false;
-                        alp++;
-                        blp++;
-                    }
-                    byte* ap2 = (byte*)alp, bp2 = (byte*)blp;
-                    for (; len > 0; len--)
-                    {
-                        if (*ap2 != *bp2) return false;
-                        ap2++;
-                        bp2++;
-                    }
-                }
-            }
+            if (a1.Length != a2.Length)
+                return false;
+
+            for (int i = 0; i < a1.Length; i++)
+                if (a1[i] != a2[i])
+                    return false;
+
             return true;
         }
 

@@ -1,4 +1,4 @@
-#### 5.2.1-beta0001 - 11.02.2019
+#### 5.2.1 - 29.05.2019
 * Implemented byte array Compare with FOR
 
 #### 5.2.0 - 09.12.2018

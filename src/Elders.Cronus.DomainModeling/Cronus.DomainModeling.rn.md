@@ -1,3 +1,6 @@
+#### 6.0.0-beta0001 - 29.05.2019
+* Changes the target framework to netcoreapp3.0
+
 #### 5.2.1 - 29.05.2019
 * Implemented byte array Compare with FOR
 

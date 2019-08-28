@@ -15,8 +15,10 @@ namespace Elders.Cronus.Testing
 
         public static IEnumerable<IEvent> PublishedEvents<T>(this IAggregateRoot root) where T : IEvent
         {
-            var events = root.UncommittedEvents.Where(x => x is T);
-            return events;
+            var arEvents = root.UncommittedEvents.Where(x => x is T);
+            var entityEvents = root.UncommittedEvents.Where(x => x is EntityEvent).Select(x => (EntityEvent)x);
+
+            return arEvents.Union(entityEvents.Where(x => x.Event is T).Select(x => x.Event));
         }
 
         public static bool IsEventPublished<T>(this IAggregateRoot root) where T : IEvent

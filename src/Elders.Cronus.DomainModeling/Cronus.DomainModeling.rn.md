@@ -1,3 +1,6 @@
+#### 5.2.2-beta0001 - 28.08.2019
+* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
+
 #### 5.2.1 - 29.05.2019
 * Implemented byte array Compare with FOR
 

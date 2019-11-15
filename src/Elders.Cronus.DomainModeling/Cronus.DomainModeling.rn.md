@@ -1,3 +1,6 @@
+#### 6.0.0-beta0002 - 15.11.2019
+* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
+
 #### 6.0.0-beta0001 - 29.05.2019
 * Changes the target framework to netcoreapp3.0
 

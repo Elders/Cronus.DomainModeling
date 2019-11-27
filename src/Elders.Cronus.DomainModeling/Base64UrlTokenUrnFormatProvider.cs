@@ -8,7 +8,7 @@ namespace Elders.Cronus
         {
             if (urn is null) throw new ArgumentNullException(nameof(urn));
 
-            return urn.Value.UrlEncode();
+            return urn.Value.Base64UrlTokenEncode();
         }
 
         public string Parse(string input)
@@ -16,7 +16,7 @@ namespace Elders.Cronus
             if (string.IsNullOrEmpty(input)) throw new ArgumentNullException(nameof(input));
             if (input.CanBase64UrlTokenDecode() == false) throw new ArgumentException($"Invalid base64 url token value `{input}`", nameof(input));
 
-            return input.UrlDecode();
+            return input.Base64UrlTokenDecode();
         }
 
         public bool CanParse(string input)

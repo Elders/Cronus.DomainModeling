@@ -15,7 +15,7 @@ namespace Elders.Cronus
         protected StringTenantId() { }
 
         public StringTenantId(string idBase, string aggregateRootName, string tenant)
-            : base(aggregateRootName, new Urn(tenant, $"{aggregateRootName}:{idBase}"))
+            : base(aggregateRootName, new StringTenantUrn(tenant, aggregateRootName, idBase))
         {
             Id = idBase;
             Tenant = tenant;

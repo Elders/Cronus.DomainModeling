@@ -1,3 +1,11 @@
+#### 6.0.0-beta0003 - 27.11.2019
+* Updated Urn class and also added new UrnRegex which to be used for extracting the information from a given urn
+* Changed every StringTenantUrn to make its nss part to lower always
+* Changed StringTenantId to use the already created for this purpouse StringTenantUrn instead of just Urn
+* Rename UrlEncode and UrlDecode methods to the correct names for the work they do
+* Change EntityStringId to use the hierarchical delimiter "/" for spliting the entityName and the entityId parts inside the nss of a urn used
+* Added tests
+
 #### 6.0.0-beta0002 - 15.11.2019
 * Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
 

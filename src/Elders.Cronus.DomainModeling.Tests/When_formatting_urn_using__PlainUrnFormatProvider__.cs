@@ -11,7 +11,7 @@ namespace Elders.Cronus
 
         static PlainUrnFormatProvider provider = new PlainUrnFormatProvider();
         static IUrn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
-        static string urnPlain = @"urn:tenant:arname:abc123()+,-.:=@;$_!*'%99a";
+        static string urnPlain = @"urn:Tenant:arName:abc123()+,-.:=@;$_!*'%99a";
         static string result;
     }
 }

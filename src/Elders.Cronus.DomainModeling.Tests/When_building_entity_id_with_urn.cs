@@ -7,8 +7,8 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
-            urn = "urn:tenant:arname:123a:entity:456e";
-            origin = new StringTenantId("123A", "arName", "Tenant");
+            urn = "urn:tenant:arname:123a/entity/456e";
+            origin = new StringTenantId("123a", "arName", "Tenant");
         };
 
         Because of = () => result = new EntityStringId<StringTenantId>("456E", origin, "Entity");

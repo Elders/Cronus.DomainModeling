@@ -27,7 +27,7 @@ namespace Elders.Cronus
 
         public override IUrn Urn
         {
-            get { return Elders.Cronus.Urn.Parse(RootId.Urn.Value + ":" + EntityName + ":" + Id); }
+            get { return Cronus.Urn.Parse($"{RootId.Urn.Value}{Cronus.Urn.HIERARCHICAL_DELIMITER}{EntityName}{Cronus.Urn.HIERARCHICAL_DELIMITER}{Id}".ToLower()); }
         }
 
         public static bool IsValid(EntityStringId<TAggregateRootId> entityId)

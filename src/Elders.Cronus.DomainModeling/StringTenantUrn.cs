@@ -7,11 +7,11 @@ namespace Elders.Cronus
         const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_\-.]{0,100}):?(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
 
         public StringTenantUrn(string tenant, string arName, string id)
-            : base(tenant, arName + Delimiter + id)
+            : base(tenant, $"{arName}{PARTS_DELIMITER}{id}".ToLower())
         {
+            Id = id.ToLower();
             Tenant = tenant.ToLower();
             ArName = arName.ToLower();
-            Id = id.ToLower();
         }
 
         public string Tenant { get; private set; }

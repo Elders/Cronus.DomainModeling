@@ -35,7 +35,7 @@ namespace Elders.Cronus
         [DataMember(Order = 22)]
         public TAggregateRootId RootId { get; set; }
 
-        public virtual IUrn Urn { get { return Cronus.Urn.Parse($"{RootId.Urn.Value}{Cronus.Urn.PARTS_DELIMITER}{EntityName}".ToLower()); } }
+        public virtual IUrn Urn { get { return Cronus.Urn.Parse($"{RootId.Urn.NID}{Cronus.Urn.PARTS_DELIMITER}{RootId.Urn.NSS}{Cronus.Urn.PARTS_DELIMITER}{EntityName}".ToLower()); } }
 
         IAggregateRootId IEntityId.AggregateRootId { get { return RootId; } }
 

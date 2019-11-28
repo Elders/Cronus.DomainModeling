@@ -11,7 +11,7 @@ namespace Elders.Cronus
 
         static Base64UrnFormatProvider provider = new Base64UrnFormatProvider();
         static IUrn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
-        static string urnBase64 = "dXJuOnRlbmFudDphcm5hbWU6YWJjMTIzKCkrLC0uOj1AOyRfISonJTk5YQ==";
+        static string urnBase64 = "dXJuOlRlbmFudDphck5hbWU6YWJjMTIzKCkrLC0uOj1AOyRfISonJTk5YQ==";
         static IUrn result;
     }
 }

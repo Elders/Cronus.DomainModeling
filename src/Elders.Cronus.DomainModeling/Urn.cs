@@ -123,6 +123,9 @@ namespace Elders.Cronus
         public static char PARTS_DELIMITER = ':';
         public static char HIERARCHICAL_DELIMITER = '/';
         public const string UriSchemeUrn = "urn";
+        public const string PREFIX_R_COMPONENT = "?+";
+        public const string PREFIX_Q_COMPONENT = "?=";
+        public const string PREFIX_F_COMPONENT = "#";
 
         private readonly Uri uri;
 
@@ -148,19 +151,41 @@ namespace Elders.Cronus
 
             if (string.IsNullOrEmpty(nss))
                 throw new ArgumentException("NSS is not valid", nameof(nss));
+            string urn = BuildUrnString(nid, nss, rcomponent, qcomponent, fcomponent);
 
+            this.uri = new Uri(urn.ToString());
+        }
+
+        private static string BuildUrnString(string nid, string nss, string rcomponent, string qcomponent, string fcomponent)
+        {
             var urn = new StringBuilder($"urn{PARTS_DELIMITER}{nid}{PARTS_DELIMITER}{nss}");
 
             if (string.IsNullOrEmpty(rcomponent) == false)
-                urn.Append(rcomponent.StartsWith("?+") ? rcomponent : $"?+{rcomponent}");
+            {
+                if (rcomponent.Contains(PREFIX_Q_COMPONENT) || rcomponent.Contains(PREFIX_F_COMPONENT))
+                    throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
+
+                urn.Append(rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent : $"?{PREFIX_R_COMPONENT}{rcomponent}");
+            }
 
             if (string.IsNullOrEmpty(qcomponent) == false)
-                urn.Append(qcomponent.StartsWith("?=") ? qcomponent : $"?={qcomponent}");
+            {
+                if (qcomponent.Contains(PREFIX_R_COMPONENT) || qcomponent.Contains(PREFIX_F_COMPONENT))
+                    throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
+
+                urn.Append(rcomponent.StartsWith(PREFIX_Q_COMPONENT) ? qcomponent : $"{PREFIX_Q_COMPONENT}{qcomponent}");
+            }
+
 
             if (string.IsNullOrEmpty(fcomponent) == false)
-                urn.Append(fcomponent.StartsWith("#") ? fcomponent : $"#{fcomponent}");
+            {
+                if (fcomponent.Contains(PREFIX_R_COMPONENT) || fcomponent.Contains(PREFIX_Q_COMPONENT))
+                    throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
 
-            this.uri = new Uri(urn.ToString());
+                urn.Append(rcomponent.StartsWith(PREFIX_F_COMPONENT) ? fcomponent : $"{PREFIX_F_COMPONENT}{fcomponent}");
+            }
+
+            return urn.ToString();
         }
 
         public string NID => UrnRegex.GetGroup(uri, UrnRegex.Group.NID);

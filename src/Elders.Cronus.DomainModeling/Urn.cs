@@ -152,14 +152,13 @@ namespace Elders.Cronus
             var urn = new StringBuilder($"urn{PARTS_DELIMITER}{nid}{PARTS_DELIMITER}{nss}");
 
             if (string.IsNullOrEmpty(rcomponent) == false)
-                urn.Append($"?+{rcomponent}");
+                urn.Append(rcomponent.StartsWith("?+") ? rcomponent : $"?+{rcomponent}");
 
             if (string.IsNullOrEmpty(qcomponent) == false)
-                urn.Append($"?={qcomponent}");
+                urn.Append(qcomponent.StartsWith("?=") ? qcomponent : $"?={qcomponent}");
 
             if (string.IsNullOrEmpty(fcomponent) == false)
-                urn.Append($"#{fcomponent}");
-
+                urn.Append(fcomponent.StartsWith("#") ? fcomponent : $"#{fcomponent}");
 
             this.uri = new Uri(urn.ToString());
         }

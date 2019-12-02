@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="When_comparing_urns_with_same_nids_and_nss_but_with_different_components.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Machine.Specifications" Version="1.0.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.9.0" />
     <PackageReference Include="Machine.Specifications.Should" Version="1.0.0" />

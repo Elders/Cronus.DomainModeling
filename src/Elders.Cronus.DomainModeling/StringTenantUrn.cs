@@ -4,7 +4,7 @@ namespace Elders.Cronus
 {
     public class StringTenantUrn : Urn
     {
-        const string regex = @"\b(?<prefix>[urnURN]{3}):(?<tenant>[a-zA-Z0-9][a-zA-Z0-9-]{0,31}):(?<arname>[a-zA-Z][a-zA-Z_\-.]{0,100}):?(?<id>[a-zA-Z0-9()+,\-.=@;$_!:*'%\/?#]*[a-zA-Z0-9+=@$\/])";
+        const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
         public StringTenantUrn(string tenant, string arName, string id)
             : base(tenant, $"{arName}{PARTS_DELIMITER}{id}".ToLower())
@@ -22,23 +22,32 @@ namespace Elders.Cronus
 
         public static bool TryParse(string urn, out StringTenantUrn parsedUrn)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
+            parsedUrn = null;
+
+            if (IsUrn(urn) == false)
+                return false;
+
+            Urn baseUrn = new Urn(urn);
+
+            var match = System.Text.RegularExpressions.Regex.Match(baseUrn.NSS, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
             if (match.Success)
             {
-                parsedUrn = new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
+                parsedUrn = new StringTenantUrn(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);
                 return true;
             }
-
-            parsedUrn = null;
 
             return false;
         }
 
         new public static StringTenantUrn Parse(string urn)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(urn, regex, System.Text.RegularExpressions.RegexOptions.None);
+            Urn baseUrn = new Urn(urn);
+
+            var match = System.Text.RegularExpressions.Regex.Match(baseUrn.NSS, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
             if (match.Success)
-                return new StringTenantUrn(match.Groups["tenant"].Value, match.Groups["arname"].Value, match.Groups["id"].Value);
+            {
+                return new StringTenantUrn(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);
+            }
 
             throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));
         }

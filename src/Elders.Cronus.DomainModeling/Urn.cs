@@ -105,6 +105,12 @@ namespace Elders.Cronus
             return match.Success;
         }
 
+        public static bool Matches(string urn)
+        {
+            var uri = new Uri(urn);
+            return Matches(urn);
+        }
+
         public static string GetGroup(string urnString, Group group)
         {
             var urn = new Uri(urnString);

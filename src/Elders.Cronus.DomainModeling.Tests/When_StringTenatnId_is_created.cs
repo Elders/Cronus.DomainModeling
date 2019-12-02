@@ -9,7 +9,7 @@ namespace Elders.Cronus
         {
             id = "123";
             tenant = "tenant";
-            aggregateName = "arName";
+            aggregateName = "arname";
             valuePart = aggregateName + ":" + id;
             urn = new Urn(tenant, valuePart);
         };

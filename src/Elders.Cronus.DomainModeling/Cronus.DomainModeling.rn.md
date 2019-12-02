@@ -1,3 +1,7 @@
+#### 6.0.0-beta0003 - 02.12.2019
+* Fixed string tenant urn to use the NSS part of URN and verify against it
+* Added StringTenantEntityUrn which to build the entity urn part on top of the StringTenantUrn - "urn:tenant:arName:arId/entityName/entityId"
+
 #### 6.0.0-beta0003 - 27.11.2019
 * Updated Urn class and also added new UrnRegex which to be used for extracting the information from a given urn
 * Changed every StringTenantUrn to make its nss part to lower always

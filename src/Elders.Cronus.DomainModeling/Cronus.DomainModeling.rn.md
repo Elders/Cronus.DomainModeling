@@ -1,3 +1,6 @@
+#### 6.0.0-beta0005 - 02.12.2019
+* Fix bug introduced in 6.0.0-beta0004
+
 #### 6.0.0-beta0004 - 02.12.2019
 * Fixed string tenant urn to use the NSS part of URN and verify against it
 * Added StringTenantEntityUrn which to build the entity urn part on top of the StringTenantUrn - "urn:tenant:arName:arId/entityName/entityId"

@@ -4,7 +4,7 @@ namespace Elders.Cronus
 {
     public class StringTenantEntityUrn : Urn
     {
-        const string NSS_REGEX = @"\A(?i:(?<arName>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arId>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityName>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityId>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
+        const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
         public StringTenantEntityUrn(StringTenantUrn arUrn, string entityName, string id)
             : base(arUrn.Tenant, $"{arUrn.NSS}{HIERARCHICAL_DELIMITER}{entityName}{HIERARCHICAL_DELIMITER}{id}".ToLower())
@@ -27,8 +27,8 @@ namespace Elders.Cronus
             var match = System.Text.RegularExpressions.Regex.Match(baseUrn.NSS, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
             if (match.Success)
             {
-                var rootUrn = new StringTenantUrn(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arId"].Value);
-                return new StringTenantEntityUrn(rootUrn, match.Groups["entityName"].Value, match.Groups["entityId"].Value);
+                var rootUrn = new StringTenantUrn(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);
+                return new StringTenantEntityUrn(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
             }
 
             throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));

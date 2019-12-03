@@ -17,7 +17,7 @@ namespace Elders.Cronus
 
         It should_have_correct_entity_name = () => result.EntityName.ToString().ShouldEqual("entityname");
 
-        It should_have_correct_entity_id = () => result.Id.ShouldEqual("entityid");
+        It should_have_correct_entity_id = () => result.Id.ShouldEqual("arname:123/entityname/entityid");
 
         static StringTenantUrn aggUrn;
         static string urn;

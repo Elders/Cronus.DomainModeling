@@ -9,7 +9,7 @@ namespace Elders.Cronus
         public StringTenantEntityUrn(StringTenantUrn arUrn, string entityName, string id)
             : base(arUrn.Tenant, $"{arUrn.NSS}{HIERARCHICAL_DELIMITER}{entityName}{HIERARCHICAL_DELIMITER}{id}".ToLower())
         {
-            Id = id.ToLower();
+            Id = $"{arUrn.NSS}{HIERARCHICAL_DELIMITER}{entityName}{HIERARCHICAL_DELIMITER}{id}".ToLower();
             AggregateUrn = arUrn ?? throw new ArgumentNullException(nameof(arUrn));
             EntityName = entityName.ToLower();
         }

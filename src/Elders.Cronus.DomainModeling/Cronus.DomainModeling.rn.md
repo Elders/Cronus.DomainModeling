@@ -1,3 +1,9 @@
+#### 6.0.0-beta0007 - 03.12.2019
+* Added EntityId property for getting exactly the entity Id of the StringTenantEntityUrn
+
+#### 6.0.0-beta0006 - 03.12.2019
+* Changed Entity Id to be not only the guid of the entity but also to incluide in it self the id of the aggregate
+
 #### 6.0.0-beta0005 - 02.12.2019
 * Fix bug introduced in 6.0.0-beta0004
 

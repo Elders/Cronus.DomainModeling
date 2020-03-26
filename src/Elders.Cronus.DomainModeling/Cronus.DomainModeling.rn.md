@@ -1,3 +1,7 @@
+#### 6.0.0-beta0008 - 26.03.2020
+* Defines a markup interface for external events
+* Bumps dotnet core to 3.1
+
 #### 6.0.0-beta0007 - 03.12.2019
 * Added EntityId property for getting exactly the entity Id of the StringTenantEntityUrn
 

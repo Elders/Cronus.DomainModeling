@@ -1,3 +1,6 @@
+#### 6.0.0-beta0009 - 30.03.2020
+* Ability to extract a bounded context name from a message contract
+
 #### 6.0.0-beta0008 - 26.03.2020
 * Defines a markup interface for external events
 * Bumps dotnet core to 3.1

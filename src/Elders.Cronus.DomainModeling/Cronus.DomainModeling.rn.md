@@ -1,3 +1,6 @@
+#### 6.0.0-beta0010 - 07.04.2020
+* Properly returned published events when using the test helper classes
+
 #### 6.0.0-beta0009 - 30.03.2020
 * Ability to extract a bounded context name from a message contract
 

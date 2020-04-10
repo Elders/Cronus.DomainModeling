@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Elders.Cronus
@@ -124,6 +125,7 @@ namespace Elders.Cronus
         }
     }
 
+    [DataContract(Name = "d3ff08b5-38e2-4aaf-b3a8-ccc423ed096d")]
     public class Urn : IUrn, IEquatable<Urn>
     {
         public static char PARTS_DELIMITER = ':';
@@ -133,6 +135,7 @@ namespace Elders.Cronus
         public const string PREFIX_Q_COMPONENT = "?=";
         public const string PREFIX_F_COMPONENT = "#";
 
+        [DataMember(Order = 1)]
         private readonly Uri uri;
 
         protected Urn() { }

@@ -1,3 +1,6 @@
+#### 6.0.0-beta0011 - 10.04.2020
+* Adds DataContract attribute to the Urn class
+
 #### 6.0.0-beta0010 - 07.04.2020
 * Properly returned published events when using the test helper classes
 

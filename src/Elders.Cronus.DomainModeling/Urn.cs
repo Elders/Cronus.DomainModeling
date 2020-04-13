@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -222,6 +221,22 @@ namespace Elders.Cronus
         public static implicit operator string(Urn urn)
         {
             return urn.Value;
+        }
+
+        public static bool operator ==(Urn left, Urn right)
+        {
+            if (left is null && right is null)
+                return true;
+
+            if (left is null || right is null)
+                return false;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Urn left, Urn right)
+        {
+            return !(left == right);
         }
 
         public static bool IsUrn(string candidate)

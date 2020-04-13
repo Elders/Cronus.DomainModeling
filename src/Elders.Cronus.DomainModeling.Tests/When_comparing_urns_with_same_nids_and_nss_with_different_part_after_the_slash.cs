@@ -7,6 +7,8 @@ namespace Elders.Cronus
     {
         It should_not_be_equal = () => firstUrn.ShouldNotEqual(secondUrn);
 
+        It should_not_have_equal_hashcodes = () => firstUrn.GetHashCode().ShouldNotEqual(secondUrn.GetHashCode());
+
         static IUrn firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a/abc");
         static IUrn secondUrn = new Urn("tenant", @"arName:abc123()+,-.:=@;$_!*'%99a/dfg");
     }

@@ -275,5 +275,10 @@ namespace Elders.Cronus
         {
             return $"{NID.ToLower()}:{NSS}".Equals($"{other.NID.ToLower()}:{other.NSS}");
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NID.ToLower(), NSS);
+        }
     }
 }

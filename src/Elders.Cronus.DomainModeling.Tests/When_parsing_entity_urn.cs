@@ -7,20 +7,20 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
-            urn = "urn:tenant:arname:123/entityname/entityid";
-            aggUrn = new StringTenantUrn("tenant", "arname", "123");
+            urn = "urn:tenant:arname:123/entityname:entityid";
+            aggUrn = new AggregateUrn("tenant", "arname", "123");
         };
 
-        Because of = () => result = new StringTenantEntityUrn(aggUrn, "entityname", "entityId");
+        Because of = () => result = new EntityUrn(aggUrn, "entityname", "entityId");
 
         It should_have_correct_urn = () => result.ToString().ShouldEqual(urn);
 
         It should_have_correct_entity_name = () => result.EntityName.ToString().ShouldEqual("entityname");
 
-        It should_have_correct_entity_id = () => result.Id.ShouldEqual("arname:123/entityname/entityid");
+        It should_have_correct_entity_id = () => result.EntityId.ShouldEqual("entityid");
 
-        static StringTenantUrn aggUrn;
+        static AggregateUrn aggUrn;
         static string urn;
-        static StringTenantEntityUrn result;
+        static EntityUrn result;
     }
 }

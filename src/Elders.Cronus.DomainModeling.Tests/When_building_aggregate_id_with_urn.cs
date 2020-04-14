@@ -7,15 +7,15 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
-            urn = "urn:tenant:arname:123";
-            origin = new StringTenantId("123", "arName", "tenant");
+            urn = AggregateUrn.Parse("urn:tenant:arname:123");
+            origin = new AggregateRootId("123", "arname", "tenant");
         };
 
-        Because of = () => result = new StringTenantId(StringTenantUrn.Parse(urn), "arName");
+        Because of = () => result = new AggregateRootId("arName", urn);
 
-        It should_have_tenant_as_base_part = () => result.ToString().ShouldEqual(origin.ToString());
+        It should_have_tenant_as_base_part = () => result.ShouldEqual(origin);
 
-        static string urn;
+        static AggregateUrn urn;
         static IAggregateRootId origin;
         static IAggregateRootId result;
     }

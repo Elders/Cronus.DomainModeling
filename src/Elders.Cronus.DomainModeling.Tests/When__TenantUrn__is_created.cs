@@ -7,6 +7,8 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
+            Urn.UseCaseSensitiveUrns = true;
+
             urn = "urn:tenant:arName:123";
         };
 
@@ -20,5 +22,7 @@ namespace Elders.Cronus
 
         static IUrn result;
         static string urn;
+
+        Cleanup after = () => Urn.UseCaseSensitiveUrns = false;
     }
 }

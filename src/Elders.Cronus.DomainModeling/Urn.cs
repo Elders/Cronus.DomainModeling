@@ -4,129 +4,22 @@ using System.Text;
 
 namespace Elders.Cronus
 {
-    /// <summary>
-    /// Uniform Resource Names (URNs) are intended to serve as persistent, location-independent, resource identifiers and are designed to make
-    /// it easy to map other namespaces (which share the properties of URNs) into URN-space.Therefore, the URN syntax provides a means to encode
-    /// character data in a form that can be sent in existing protocols, transcribed on most keyboards, etc.
-    /// </summary>
-    /// <example>"urn:NID:NSS</example>
-    public interface IUrn
-    {
-        /// <summary>
-        /// Gets the Namespace Identifier. The Namespace ID determines the _syntactic_ interpretation of the Namespace Specific String
-        /// </summary>
-        string NID { get; }
-
-        /// <summary>
-        /// Gets the Namespace Specific String
-        /// </summary>
-        string NSS { get; }
-
-        /// <summary>
-        /// Gets the URN
-        /// </summary>
-        string Value { get; }
-
-        /// <summary>
-        /// The r-component is intended for passing parameters to URN resolution
-        /// services and interpreted by those
-        /// services.<see cref="https://tools.ietf.org/html/rfc8141#section-2.3.1"/>
-        /// </summary>
-        string R_Component { get; }
-
-        /// <summary>
-        /// The q-component is intended for passing parameters to either the
-        /// named resource or a system that can supply the requested service, for
-        ///  interpretation by that resource or system.
-        /// <see cref="https://tools.ietf.org/html/rfc8141#section-2.3.2"/>
-        /// </summary>
-        string Q_Component { get; }
-
-        /// <summary>
-        /// The f-component is intended to be interpreted by the client as a
-        //  specification for a location within, or region of, the named
-        //  resource
-        /// <see cref="https://tools.ietf.org/html/rfc8141#section-2.3.3"/>
-        /// </summary>
-        string F_Component { get; }
-    }
-
-    public static class UrnRegex
-    {
-        public static string Value => @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}[^-]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
-
-        public class Group
-        {
-            private string groupName;
-
-            public Group(string groupName)
-            {
-                if (string.IsNullOrEmpty(groupName))
-                    throw new ArgumentException(nameof(groupName));
-
-                this.groupName = groupName;
-            }
-
-            public static Group NID => new Group("nid");
-            public static Group NSS => new Group("nss");
-            public static Group R_Component => new Group("rcomponent");
-            public static Group Q_Component => new Group("qcomponent");
-            public static Group F_Component => new Group("fcomponent");
-
-            public override string ToString()
-            {
-                return groupName;
-            }
-
-            public static Group Create(string value)
-            {
-                switch (value.ToLowerInvariant())
-                {
-                    case "nid":
-                        return NID;
-                    case "nss":
-                        return NSS;
-                    case "rcomponent":
-                        return R_Component;
-                    case "qcomponent":
-                        return Q_Component;
-                    case "fcomponent":
-                        return F_Component;
-                    default:
-                        throw new NotSupportedException();
-                }
-            }
-        }
-
-        public static bool Matches(Uri urn)
-        {
-            var match = System.Text.RegularExpressions.Regex.Match(urn.AbsoluteUri, UrnRegex.Value, System.Text.RegularExpressions.RegexOptions.None);
-
-            return match.Success;
-        }
-
-        public static bool Matches(string urn)
-        {
-            var uri = new Uri(urn);
-            return Matches(urn);
-        }
-
-        public static string GetGroup(string urnString, Group group)
-        {
-            var urn = new Uri(urnString);
-            return GetGroup(urn, group);
-        }
-
-        public static string GetGroup(Uri urn, Group group)
-        {
-            var match = System.Text.RegularExpressions.Regex.Match(urn.AbsoluteUri, UrnRegex.Value, System.Text.RegularExpressions.RegexOptions.None);
-            return match.Groups[group.ToString()].Value;
-        }
-    }
-
     [DataContract(Name = "d3ff08b5-38e2-4aaf-b3a8-ccc423ed096d")]
-    public class Urn : IUrn, IEquatable<Urn>
+    public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     {
+        /// <summary>
+        /// Specifies if the URNs will follow strictly the rfc(https://tools.ietf.org/html/rfc8141)
+        /// We do recommend to use case insensitive urns. Enable this feature if you really need it.
+        /// </summary>
+        public static bool UseCaseSensitiveUrns = false;
+
+        public static IUrnFormatProvider Plain = new PlainUrnFormatProvider();
+        public static IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
+        public static IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
+        public static IUrnFormatProvider Uber = new UberUrnFormatProvider();
+
+        public static IUrnFormatProvider UrnFormatProvider = new Base64UrnFormatProvider();
+
         public static char PARTS_DELIMITER = ':';
         public static char HIERARCHICAL_DELIMITER = '/';
         public const string UriSchemeUrn = "urn";
@@ -134,17 +27,24 @@ namespace Elders.Cronus
         public const string PREFIX_Q_COMPONENT = "?=";
         public const string PREFIX_F_COMPONENT = "#";
 
-        [DataMember(Order = 1)]
-        private readonly Uri uri;
+        protected Uri uri;
 
-        protected Urn() { }
+        protected Urn()
+        {
+            RawId = new byte[0];
+        }
+
+        public Urn(IUrn urn) : this(urn.Value) { }
 
         public Urn(string urnString)
         {
-            if (IsUrn(urnString) == false)
-                throw new ArgumentException("String is not a URN!");
+            if (IsUrn(urnString) == false) throw new ArgumentException("String is not a URN!", nameof(urnString));
 
-            this.uri = new Uri(urnString);
+            if (UseCaseSensitiveUrns == false)
+                urnString = urnString.ToLower();
+
+            uri = new Uri(urnString);
+            RawId = Encoding.UTF8.GetBytes(uri.ToString());
         }
 
         /// <summary>
@@ -161,7 +61,51 @@ namespace Elders.Cronus
                 throw new ArgumentException("NSS is not valid", nameof(nss));
             string urn = BuildUrnString(nid, nss, rcomponent, qcomponent, fcomponent);
 
-            this.uri = new Uri(urn.ToString());
+            if (UseCaseSensitiveUrns == false)
+                urn = urn.ToLower();
+
+            uri = new Uri(urn);
+            RawId = Encoding.UTF8.GetBytes(uri.ToString());
+        }
+
+        protected Uri Uri
+        {
+            get
+            {
+                if (uri is null)
+                    uri = new Uri(Encoding.UTF8.GetString(RawId));
+
+                return uri;
+            }
+        }
+
+        protected string nid;
+        protected string nss;
+        protected string r_Component;
+        protected string q_Component;
+        protected string f_Component;
+
+        private void SetUri(Uri uri)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(uri.AbsoluteUri, UrnRegex.Pattern, System.Text.RegularExpressions.RegexOptions.None);
+            nid = match.Groups[UrnRegex.Group.NID.ToString()].Value;
+            nss = match.Groups[UrnRegex.Group.NSS.ToString()].Value;
+            r_Component = match.Groups[UrnRegex.Group.R_Component.ToString()].Value;
+            q_Component = match.Groups[UrnRegex.Group.Q_Component.ToString()].Value;
+            f_Component = match.Groups[UrnRegex.Group.F_Component.ToString()].Value;
+        }
+
+        [DataMember(Order = 10)]
+        public byte[] RawId { get; private set; }
+
+        private bool isFullyInitialized;
+        protected virtual void DoFullInitialization()
+        {
+            if (isFullyInitialized == false)
+            {
+                SetUri(Uri);
+                isFullyInitialized = true;
+            }
         }
 
         private static string BuildUrnString(string nid, string nss, string rcomponent, string qcomponent, string fcomponent)
@@ -196,32 +140,25 @@ namespace Elders.Cronus
             return urn.ToString();
         }
 
-        public string NID => UrnRegex.GetGroup(uri, UrnRegex.Group.NID);
+        public string NID { get { DoFullInitialization(); return nid; } }
 
-        public string NSS => UrnRegex.GetGroup(uri, UrnRegex.Group.NSS);
+        public string NSS { get { DoFullInitialization(); return nss; } }
 
-        public string Value => uri.ToString();
+        public string R_Component { get { DoFullInitialization(); return r_Component; } }
 
-        public string R_Component => UrnRegex.GetGroup(uri, UrnRegex.Group.R_Component);
+        public string Q_Component { get { DoFullInitialization(); return q_Component; } }
 
-        public string Q_Component => UrnRegex.GetGroup(uri, UrnRegex.Group.Q_Component);
+        public string F_Component { get { DoFullInitialization(); return f_Component; } }
 
-        public string F_Component => UrnRegex.GetGroup(uri, UrnRegex.Group.F_Component);
+        public string Value => Uri.ToString();
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => Value;
 
-        public string ToString(IUrnFormatProvider provider)
-        {
-            return provider.Format(this);
-        }
+        public string ToString(IUrnFormatProvider provider) => provider.Format(this);
 
-        public static implicit operator string(Urn urn)
-        {
-            return urn.Value;
-        }
+        public static implicit operator string(Urn urn) => urn.Value;
+
+        public static implicit operator byte[](Urn urn) => urn.RawId;
 
         public static bool operator ==(Urn left, Urn right)
         {
@@ -253,7 +190,7 @@ namespace Elders.Cronus
             try
             {
                 var parsedUrn = Parse(candidate, provider);
-                return IsUrn(parsedUrn);
+                return IsUrn(parsedUrn.Value);
             }
             catch (Exception)
             {
@@ -262,12 +199,12 @@ namespace Elders.Cronus
             }
         }
 
-        public static Urn Parse(string urn)
+        public static IUrn Parse(string urn)
         {
             return new Urn(urn);
         }
 
-        public static Urn Parse(string urn, IUrnFormatProvider proviver)
+        public static IUrn Parse(string urn, IUrnFormatProvider proviver)
         {
             string plain = proviver.Parse(urn);
             return Parse(plain);
@@ -286,14 +223,23 @@ namespace Elders.Cronus
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(Urn other)
+        public bool Equals(IUrn other)
         {
             return $"{NID.ToLower()}:{NSS}".Equals($"{other.NID.ToLower()}:{other.NSS}");
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(NID.ToLower(), NSS);
+            unchecked
+            {
+                return UseCaseSensitiveUrns == true
+                    ? HashCode.Combine(14923, NID.ToLower(), NSS)
+                    : uri.GetHashCode();
+            }
         }
+
+        public string ToBase64() => this.ToString(Base64);
+        public string ToBase64UrlToken() => this.ToString(Base64UrlToken);
     }
 }
+

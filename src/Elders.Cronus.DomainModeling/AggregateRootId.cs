@@ -1,91 +1,91 @@
 using System;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace Elders.Cronus
 {
-    [DataContract(Name = "b3e2fc15-1996-437d-adfc-64f3b5be3244")]
-    public abstract class AggregateRootId : IAggregateRootId
+    public class AggregateRootId : AggregateUrn, IAggregateRootId
     {
-        private Func<IUrn, byte[]> setRawId = (urn) => Encoding.UTF8.GetBytes(urn.Value);
-        private IUrn urn;
-
         /// <summary>
         /// Prevents a default instance of the <see cref="AggregateRootId"/> class from being created.
         /// </summary>
         /// <remarks>Used only for serizalization.</remarks>
-        protected AggregateRootId()
+        protected AggregateRootId() { }
+
+        public AggregateRootId(string idBase, string aggregateRootName, string tenant)
+            : base(tenant, aggregateRootName, idBase)
         {
-            RawId = new byte[0];
-            AggregateRootName = string.Empty;
         }
 
-        protected AggregateRootId(string aggregateRootName, IUrn urn)
+        public AggregateRootId(string aggregateRootName, AggregateUrn urn)
+            : base(urn.Tenant, urn)
         {
-            if (string.IsNullOrEmpty(aggregateRootName)) throw new ArgumentNullException(nameof(aggregateRootName));
-
-            RawId = setRawId(urn);
-            AggregateRootName = aggregateRootName.ToLower();
-            this.urn = urn;
+            if (aggregateRootName.Equals(urn.AggregateRootName, StringComparison.OrdinalIgnoreCase) == false)
+                throw new ArgumentException("AggregateRootName missmatch");
         }
 
-        [DataMember(Order = 10)]
-        public byte[] RawId { get; protected set; }
-
-        [DataMember(Order = 11)]
-        public string AggregateRootName { get; protected set; }
-
-        public IUrn Urn
-        {
-            get
-            {
-                if (urn is null)
-                    urn = Elders.Cronus.Urn.Parse(Encoding.UTF8.GetString(RawId));
-
-                return urn;
-            }
-        }
-
-        public override bool Equals(System.Object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (!typeof(AggregateRootId).IsAssignableFrom(obj.GetType())) return false;
-            return Equals((AggregateRootId)obj);
-        }
-
-        public virtual bool Equals(IAggregateRootId other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return ByteArrayHelper.Compare(RawId, other.RawId);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return HashCodeModifier.AggregateRootId ^ ByteArrayHelper.ComputeHash(RawId);
-            }
-        }
-
-        public static bool operator ==(AggregateRootId left, AggregateRootId right)
-        {
-            if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;
-            if (ReferenceEquals(null, left))
-                return false;
-            else
-                return left.Equals(right);
-        }
-
-        public static bool operator !=(AggregateRootId a, AggregateRootId b)
-        {
-            return !(a == b);
-        }
-
+        [Obsolete]
         public override string ToString()
         {
             return Convert.ToBase64String(RawId);
+        }
+    }
+
+    public abstract class AggregateRootId<T> : AggregateUrn, IAggregateRootId
+        where T : AggregateRootId<T>
+    {
+        static UberUrnFormatProvider urnFormatProvider = new UberUrnFormatProvider();
+
+        protected AggregateRootId() { }
+
+        protected AggregateRootId(string id, string rootName, string tenant) : base(tenant, rootName, id) { }
+
+        public static T New(string tenant)
+        {
+            var instance = (T)System.Activator.CreateInstance(typeof(T), true);
+            return instance.Construct(System.Guid.NewGuid().ToString(), tenant);
+        }
+
+        public static T New(string tenant, string id)
+        {
+            var instance = (T)System.Activator.CreateInstance(typeof(T), true);
+            return instance.Construct(id, tenant);
+        }
+
+        protected abstract T Construct(string id, string tenant);
+
+        new public static T Parse(string id)
+        {
+            var instance = (T)System.Activator.CreateInstance(typeof(T), true);
+
+            var stringTenantUrn = AggregateUrn.Parse(id, urnFormatProvider);
+            var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
+            if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
+                return newId;
+            else
+                throw new System.Exception("bum");
+            //todo check if ar name mateches..
+        }
+
+        public static bool TryParse(string id, out T result)
+        {
+            try
+            {
+                var instance = (T)System.Activator.CreateInstance(typeof(T), true);
+
+                var stringTenantUrn = AggregateUrn.Parse(id, urnFormatProvider);
+                var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
+                if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
+                    result = newId;
+                else
+                    throw new System.Exception("bum");
+                //todo check if ar name mateches..
+
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                result = null;
+                return false;
+            }
         }
     }
 }

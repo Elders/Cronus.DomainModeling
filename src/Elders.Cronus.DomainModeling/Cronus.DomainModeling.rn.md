@@ -1,3 +1,9 @@
+#### 6.0.0-beta0015 - 15.04.2020
+* Fix GetHashCode throws undefined object
+* Make static IUrnFormatProviders readonly
+* Add RawIdProperty for getting the propertyInfo for the private setter RawId
+* Override EntityId's AggregateRootId to set manualy the value from base.AggregateRootId and return it after that
+
 #### 6.0.0-beta0014 - 15.04.2020
 * Exposes the generic type of the AR
 

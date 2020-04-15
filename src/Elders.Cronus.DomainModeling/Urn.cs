@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -13,10 +14,7 @@ namespace Elders.Cronus
         /// </summary>
         public static bool UseCaseSensitiveUrns = false;
 
-        public static IUrnFormatProvider Plain = new PlainUrnFormatProvider();
-        public static IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
-        public static IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
-        public static IUrnFormatProvider Uber = new UberUrnFormatProvider();
+        internal static readonly PropertyInfo RawIdProperty = typeof(Urn).GetProperty(nameof(RawId), BindingFlags.Instance | BindingFlags.Public);
         public static readonly IUrnFormatProvider Plain = new PlainUrnFormatProvider();
         public static readonly IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
         public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();

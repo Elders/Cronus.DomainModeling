@@ -20,14 +20,14 @@ namespace Elders.Cronus
 
         public static IUrnFormatProvider UrnFormatProvider = new Base64UrnFormatProvider();
 
-        public static char PARTS_DELIMITER = ':';
-        public static char HIERARCHICAL_DELIMITER = '/';
+        public const char PARTS_DELIMITER = ':';
+        public const char HIERARCHICAL_DELIMITER = '/';
         public const string UriSchemeUrn = "urn";
         public const string PREFIX_R_COMPONENT = "?+";
         public const string PREFIX_Q_COMPONENT = "?=";
         public const string PREFIX_F_COMPONENT = "#";
 
-        protected Uri uri;
+        private Uri uri;
 
         protected Urn()
         {

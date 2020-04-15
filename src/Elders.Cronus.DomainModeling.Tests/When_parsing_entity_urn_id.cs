@@ -12,7 +12,7 @@ namespace Elders.Cronus
 
         Because of = () => result = EntityUrn.Parse(urnString);
 
-        It should_have_tenant_as_base_part = () => result.ShouldNotBeNull();
+        It should_have_urn_instance = () => result.ShouldNotBeNull();
 
         static string urnString;
         static EntityUrn result;

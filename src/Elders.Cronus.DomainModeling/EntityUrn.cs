@@ -65,7 +65,7 @@ namespace Elders.Cronus
                 return new EntityUrn(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
             }
 
-            throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));
+            throw new ArgumentException($"Invalid {nameof(EntityUrn)}: {urn}", nameof(urn));
         }
 
         new public static EntityUrn Parse(string urn, IUrnFormatProvider proviver)

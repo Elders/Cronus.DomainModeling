@@ -4,7 +4,7 @@ namespace Elders.Cronus
 {
     public static class UrnRegex
     {
-        public static string Pattern => @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}[^-]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
+        public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}[^-]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
 
         public class Group
         {
@@ -31,7 +31,7 @@ namespace Elders.Cronus
 
             public static Group Create(string value)
             {
-                switch (value.ToLowerInvariant())
+                switch ((value ?? string.Empty).ToLower())
                 {
                     case "nid":
                         return NID;
@@ -44,7 +44,7 @@ namespace Elders.Cronus
                     case "fcomponent":
                         return F_Component;
                     default:
-                        throw new NotSupportedException();
+                        throw new NotSupportedException($"The group {value} is not supported by UrnRegex");
                 }
             }
         }

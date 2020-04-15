@@ -87,7 +87,7 @@ namespace Elders.Cronus
             }
             else
             {
-                throw new ArgumentException($"Invalid StringTenantUrn: {urn}", nameof(urn));
+                throw new ArgumentException($"Invalid {nameof(AggregateUrn)}: {urn}", nameof(urn));
             }
         }
 

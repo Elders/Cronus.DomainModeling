@@ -1,57 +1,18 @@
-#### 6.0.0-beta0015 - 15.04.2020
-* Fix GetHashCode throws undefined object
-* Make static IUrnFormatProviders readonly
-* Add RawIdProperty for getting the propertyInfo for the private setter RawId
-* Override EntityId's AggregateRootId to set manualy the value from base.AggregateRootId and return it after that
-
-#### 6.0.0-beta0014 - 15.04.2020
-* Exposes the generic type of the AR
-
-#### 6.0.0-beta0013 - 15.04.2020
-* Fixes EntityUrn initialization
-
-#### 6.0.0-beta0012 - 14.04.2020
+#### 6.0.0 - 15.04.2020
 * All IDs are now by default URNs instead of haing a property which holds that info.
-
-#### 6.0.0-beta0011 - 10.04.2020
-* Adds DataContract attribute to the Urn class
-
-#### 6.0.0-beta0010 - 07.04.2020
 * Properly returned published events when using the test helper classes
-
-#### 6.0.0-beta0009 - 30.03.2020
 * Ability to extract a bounded context name from a message contract
-
-#### 6.0.0-beta0008 - 26.03.2020
-* Defines a markup interface for external events
+* Defines a markup interface for public events
 * Bumps dotnet core to 3.1
-
-#### 6.0.0-beta0007 - 03.12.2019
-* Added EntityId property for getting exactly the entity Id of the StringTenantEntityUrn
-
-#### 6.0.0-beta0006 - 03.12.2019
-* Changed Entity Id to be not only the guid of the entity but also to incluide in it self the id of the aggregate
-
-#### 6.0.0-beta0005 - 02.12.2019
-* Fix bug introduced in 6.0.0-beta0004
-
-#### 6.0.0-beta0004 - 02.12.2019
 * Fixed string tenant urn to use the NSS part of URN and verify against it
 * Added StringTenantEntityUrn which to build the entity urn part on top of the StringTenantUrn - "urn:tenant:arName:arId/entityName/entityId"
-
-#### 6.0.0-beta0003 - 27.11.2019
 * Updated Urn class and also added new UrnRegex which to be used for extracting the information from a given urn
 * Changed every StringTenantUrn to make its nss part to lower always
 * Changed StringTenantId to use the already created for this purpouse StringTenantUrn instead of just Urn
 * Rename UrlEncode and UrlDecode methods to the correct names for the work they do
 * Change EntityStringId to use the hierarchical delimiter "/" for spliting the entityName and the entityId parts inside the nss of a urn used
 * Added tests
-
-#### 6.0.0-beta0002 - 15.11.2019
 * Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
-
-#### 6.0.0-beta0001 - 29.05.2019
-* Changes the target framework to netcoreapp3.0
 
 #### 5.2.2 - 28.08.2019
 * Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 

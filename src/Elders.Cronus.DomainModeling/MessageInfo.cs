@@ -11,6 +11,7 @@ namespace Elders.Cronus
     {
         private static readonly ConcurrentDictionary<Type, string> typeToContract = new ConcurrentDictionary<Type, string>();
         private static readonly ConcurrentDictionary<string, Type> contractToType = new ConcurrentDictionary<string, Type>();
+        private static readonly ConcurrentDictionary<Type, string> typeToBoundedContext = new ConcurrentDictionary<Type, string>();
 
         public static string GetContractId(this Type messageType)
         {
@@ -20,6 +21,16 @@ namespace Elders.Cronus
                 messageId = GetAndCacheContractIdFromAttribute(messageType);
             }
             return messageId;
+        }
+
+        public static string GetBoundedContext(this Type messageType, string defaultBoundedContext = "implicit")
+        {
+            string boundedContext;
+            if (!typeToBoundedContext.TryGetValue(messageType, out boundedContext))
+            {
+                boundedContext = GetAndCacheBoundedContextFromAttribute(messageType, defaultBoundedContext);
+            }
+            return boundedContext;
         }
 
         public static Type GetTypeByContract(this string contractId)
@@ -51,6 +62,21 @@ namespace Elders.Cronus
             typeToContract.TryAdd(contractType, contractId);
             contractToType.TryAdd(contractId, contractType);
             return contractId;
+        }
+
+        private static string GetAndCacheBoundedContextFromAttribute(Type contractType, string defaultBoundedContext)
+        {
+            string boundedContext = defaultBoundedContext;
+            DataContractAttribute contract = contractType
+                .GetCustomAttributes(false).Where(attr => attr is DataContractAttribute)
+                .SingleOrDefault() as DataContractAttribute;
+
+            if (contract.IsNamespaceSetExplicitly)
+                boundedContext = contract.Namespace;
+
+            typeToBoundedContext.TryAdd(contractType, boundedContext);
+
+            return boundedContext;
         }
     }
 

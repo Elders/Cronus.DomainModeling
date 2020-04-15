@@ -7,6 +7,8 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
+            Urn.UseCaseSensitiveUrns = true;
+
             urn = "urn:tenant:arName:123";
         };
 
@@ -14,11 +16,13 @@ namespace Elders.Cronus
 
         It should_have_tenant_as_base_part = () => result.NID.ShouldEqual("tenant");
 
-        It should_have_value_as_value_part = () => result.NSS.ShouldEqual("arname:123");
+        It should_have_value_as_value_part = () => result.NSS.ShouldEqual("arName:123");
 
-        It should_have_value = () => result.Value.ShouldEqual("urn:tenant:arname:123");
+        It should_have_value = () => result.Value.ShouldEqual("urn:tenant:arName:123");
 
         static IUrn result;
         static string urn;
+
+        Cleanup after = () => Urn.UseCaseSensitiveUrns = false;
     }
 }

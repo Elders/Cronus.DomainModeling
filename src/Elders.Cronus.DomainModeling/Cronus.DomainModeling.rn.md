@@ -1,3 +1,19 @@
+#### 6.0.0 - 15.04.2020
+* All IDs are now by default URNs instead of haing a property which holds that info.
+* Properly returned published events when using the test helper classes
+* Ability to extract a bounded context name from a message contract
+* Defines a markup interface for public events
+* Bumps dotnet core to 3.1
+* Fixed string tenant urn to use the NSS part of URN and verify against it
+* Added StringTenantEntityUrn which to build the entity urn part on top of the StringTenantUrn - "urn:tenant:arName:arId/entityName/entityId"
+* Updated Urn class and also added new UrnRegex which to be used for extracting the information from a given urn
+* Changed every StringTenantUrn to make its nss part to lower always
+* Changed StringTenantId to use the already created for this purpouse StringTenantUrn instead of just Urn
+* Rename UrlEncode and UrlDecode methods to the correct names for the work they do
+* Change EntityStringId to use the hierarchical delimiter "/" for spliting the entityName and the entityId parts inside the nss of a urn used
+* Added tests
+* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
+
 #### 5.2.2 - 28.08.2019
 * Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
 

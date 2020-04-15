@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Elders.Cronus
 {
@@ -85,15 +83,15 @@ namespace Elders.Cronus
             return new string(base64Chars).IsBase64String();
         }
 
-        public static string UrlDecode(this string self)
+        public static string Base64UrlTokenDecode(this string self)
         {
-            var urlDecoded = Base64UrlTokenDecode(self);
+            byte[] urlDecoded = Base64UrlTokenDecodeToByteArray(self);
             var decodedString = System.Text.Encoding.UTF8.GetString(urlDecoded);
 
             return decodedString;
         }
 
-        public static string Base64UrlTokenEncode(byte[] input)
+        public static string Base64UrlTokenEncodeFromByteArray(byte[] input)
         {
             if (input == null) throw new ArgumentNullException("input");
             if (input.Length < 1) return String.Empty;
@@ -152,7 +150,7 @@ namespace Elders.Cronus
             return new string(base64Chars);
         }
 
-        public static byte[] Base64UrlTokenDecode(string input)
+        public static byte[] Base64UrlTokenDecodeToByteArray(string input)
         {
             if (input == null) throw new ArgumentNullException("input");
 
@@ -207,16 +205,18 @@ namespace Elders.Cronus
             return Convert.FromBase64CharArray(base64Chars, 0, base64Chars.Length);
         }
 
-        public static string UrlEncode(this string input)
+        public static string Base64UrlTokenEncode(this string input)
         {
+
             var stringBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(input);
-            var urlEncoded = Base64UrlTokenEncode(stringBytes);
+            var urlEncoded = Base64UrlTokenEncodeFromByteArray(stringBytes);
 
             return urlEncoded;
         }
 
         public static bool IsUrn(this string s)
         {
+
             return System.Text.RegularExpressions.Regex.IsMatch(s, @"\b(urn):([a-z0-9][a-z0-9-]{0,31}):([a-z0-9()+,\-.=@;$_!:*'%\/?#]*[a-z0-9+=@$\/])", System.Text.RegularExpressions.RegexOptions.None);
         }
 
@@ -225,5 +225,9 @@ namespace Elders.Cronus
             double retNum;
             return Double.TryParse(str, NumberStyles.Number ^ NumberStyles.AllowLeadingSign ^ NumberStyles.AllowTrailingSign, NumberFormatInfo.InvariantInfo, out retNum);
         }
+
+        public static string UrlEncode(this string str) => Uri.EscapeUriString(str);
+
+        public static string UrlDecode(this string str) => Uri.UnescapeDataString(str);
     }
 }

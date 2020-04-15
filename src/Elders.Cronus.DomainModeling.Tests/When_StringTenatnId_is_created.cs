@@ -9,16 +9,16 @@ namespace Elders.Cronus
         {
             id = "123";
             tenant = "tenant";
-            aggregateName = "arName";
+            aggregateName = "arname";
             valuePart = aggregateName + ":" + id;
             urn = new Urn(tenant, valuePart);
         };
 
-        Because of = () => result = new StringTenantId(id, aggregateName, tenant);
+        Because of = () => result = new AggregateRootId(id, aggregateName, tenant);
 
-        It should_have_tenant_as_base_part = () => result.Urn.NID.ShouldEqual(urn.NID);
+        It should_have_tenant_as_base_part = () => result.NID.ShouldEqual(urn.NID);
 
-        It should_have_the_same_value_part = () => result.Urn.NSS.ShouldEqual(urn.NSS);
+        It should_have_the_same_value_part = () => result.NSS.ShouldEqual(urn.NSS);
 
         static IUrn urn;
         static IAggregateRootId result;

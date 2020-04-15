@@ -5,9 +5,11 @@ namespace Elders.Cronus.Testing
 {
     public static class Aggregate<T> where T : IAggregateRoot
     {
-        public static AggregateRootHistory FromHistory()
+        public static T FromHistory(Action<AggregateRootHistory> stream)
         {
-            return new AggregateRootHistory();
+            var history = new AggregateRootHistory();
+            stream(history);
+            return history.Build();
         }
 
         public class AggregateRootHistory
@@ -19,7 +21,7 @@ namespace Elders.Cronus.Testing
 
             public List<IEvent> Events { get; private set; }
 
-            public AggregateRootHistory Event(IEvent @event)
+            public AggregateRootHistory AddEvent(IEvent @event)
             {
                 if (@event is null) throw new ArgumentNullException(nameof(@event));
 
@@ -27,7 +29,7 @@ namespace Elders.Cronus.Testing
                 return this;
             }
 
-            public T Build()
+            internal T Build()
             {
                 var instance = (T)Activator.CreateInstance(typeof(T), true);
                 instance.ReplayEvents(Events, 1);

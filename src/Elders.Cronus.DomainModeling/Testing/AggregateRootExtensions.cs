@@ -13,12 +13,13 @@ namespace Elders.Cronus.Testing
             return (T)@event;
         }
 
-        public static IEnumerable<IEvent> PublishedEvents<T>(this IAggregateRoot root) where T : IEvent
+        public static IEnumerable<T> PublishedEvents<T>(this IAggregateRoot root) where T : IEvent
         {
-            var arEvents = root.UncommittedEvents.Where(x => x is T);
+            var arEvents = root.UncommittedEvents.Where(x => x is T).Select(x => (T)x);
+
             var entityEvents = root.UncommittedEvents.Where(x => x is EntityEvent).Select(x => (EntityEvent)x);
 
-            return arEvents.Union(entityEvents.Where(x => x.Event is T).Select(x => x.Event));
+            return arEvents.Union(entityEvents.Where(x => x.Event is T).Select(x => (T)x.Event));
         }
 
         public static bool IsEventPublished<T>(this IAggregateRoot root) where T : IEvent

@@ -1,3 +1,8 @@
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+
 namespace Elders.Cronus
 {
     public abstract class EntityId<TAggregateRootId> : EntityUrn, IEntityId
@@ -12,6 +17,16 @@ namespace Elders.Cronus
 
         IAggregateRootId IEntityId.AggregateRootId { get { return base.AggregateRootId; } }
 
-        new public TAggregateRootId AggregateRootId => (TAggregateRootId)base.AggregateRootId;
+        TAggregateRootId aggregateRootId;
+        new public TAggregateRootId AggregateRootId
+        {
+            get
+            {
+                aggregateRootId = (TAggregateRootId)Activator.CreateInstance(typeof(TAggregateRootId), true);
+                RawIdProperty.SetValue(aggregateRootId, base.AggregateRootId.RawId);
+                
+                return aggregateRootId;
+            }
+        }
     }
 }

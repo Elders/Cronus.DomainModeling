@@ -1,3 +1,6 @@
+#### 6.0.0-beta0014 - 15.04.2020
+* Exposes the generic type of the AR
+
 #### 6.0.0-beta0013 - 15.04.2020
 * Fixes EntityUrn initialization
 

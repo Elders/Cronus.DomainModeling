@@ -1,3 +1,6 @@
+#### 6.0.0-beta0013 - 15.04.2020
+* Fixes EntityUrn initialization
+
 #### 6.0.0-beta0012 - 14.04.2020
 * All IDs are now by default URNs instead of haing a property which holds that info.
 

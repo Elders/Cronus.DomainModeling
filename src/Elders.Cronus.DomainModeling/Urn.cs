@@ -234,7 +234,7 @@ namespace Elders.Cronus
             {
                 return UseCaseSensitiveUrns == true
                     ? HashCode.Combine(14923, NID.ToLower(), NSS)
-                    : uri.GetHashCode();
+                    : Uri.GetHashCode();
             }
         }
 

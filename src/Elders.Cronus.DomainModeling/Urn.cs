@@ -15,6 +15,7 @@ namespace Elders.Cronus
         public static bool UseCaseSensitiveUrns = false;
 
         internal static readonly PropertyInfo RawIdProperty = typeof(Urn).GetProperty(nameof(RawId), BindingFlags.Instance | BindingFlags.Public);
+
         public static readonly IUrnFormatProvider Plain = new PlainUrnFormatProvider();
         public static readonly IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
         public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();

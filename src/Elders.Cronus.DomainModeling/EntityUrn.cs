@@ -16,7 +16,7 @@ namespace Elders.Cronus
         {
             entityId = string.Empty;
             entityName = string.Empty;
-            aggregateRootId = new AggregateUrn(string.Empty, string.Empty, string.Empty);
+            aggregateRootId = default;
         }
 
         public EntityUrn(IAggregateRootId arUrn, string entityName, string entityId)

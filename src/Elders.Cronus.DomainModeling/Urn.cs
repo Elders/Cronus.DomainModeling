@@ -17,6 +17,10 @@ namespace Elders.Cronus
         public static IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
         public static IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
         public static IUrnFormatProvider Uber = new UberUrnFormatProvider();
+        public static readonly IUrnFormatProvider Plain = new PlainUrnFormatProvider();
+        public static readonly IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
+        public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
+        public static readonly IUrnFormatProvider Uber = new UberUrnFormatProvider();
 
         public static IUrnFormatProvider UrnFormatProvider = new Base64UrnFormatProvider();
 

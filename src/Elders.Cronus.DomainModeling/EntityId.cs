@@ -11,5 +11,7 @@ namespace Elders.Cronus
         }
 
         IAggregateRootId IEntityId.AggregateRootId { get { return base.AggregateRootId; } }
+
+        new public TAggregateRootId AggregateRootId => (TAggregateRootId)base.AggregateRootId;
     }
 }

@@ -1,3 +1,6 @@
+#### 6.0.1 - 23.04.2020
+* Changes the Urn.Parse return type from IUrn to Urn. This is a regression. [#235]
+
 #### 6.0.0 - 15.04.2020
 * All IDs are now by default URNs instead of haing a property which holds that info.
 * Properly returned published events when using the test helper classes

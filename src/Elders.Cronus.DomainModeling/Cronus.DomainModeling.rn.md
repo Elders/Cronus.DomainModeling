@@ -1,3 +1,6 @@
+#### 6.0.2 - 27.04.2020
+* Fixes an unexpected exceptio when trying to resolve bounded context name from a type which does not have a DataContractAttribute [#239]
+
 #### 6.0.1 - 23.04.2020
 * Changes the Urn.Parse return type from IUrn to Urn. This is a regression. [#235]
 

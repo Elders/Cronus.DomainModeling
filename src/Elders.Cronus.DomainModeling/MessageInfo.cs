@@ -71,7 +71,7 @@ namespace Elders.Cronus
                 .GetCustomAttributes(false).Where(attr => attr is DataContractAttribute)
                 .SingleOrDefault() as DataContractAttribute;
 
-            if (contract.IsNamespaceSetExplicitly)
+            if (contract is null == false && contract.IsNamespaceSetExplicitly)
                 boundedContext = contract.Namespace;
 
             typeToBoundedContext.TryAdd(contractType, boundedContext);

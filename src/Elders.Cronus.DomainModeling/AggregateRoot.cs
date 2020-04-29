@@ -9,6 +9,7 @@ namespace Elders.Cronus
     {
         protected TState state;
         protected List<IEvent> uncommittedEvents;
+        protected List<IPublicEvent> uncommittedPublicEvents;
         private int revision;
         private EventHandlerRegistrations handlers;
 
@@ -16,6 +17,7 @@ namespace Elders.Cronus
         {
             state = InitializeState();
             uncommittedEvents = new List<IEvent>();
+            uncommittedPublicEvents = new List<IPublicEvent>();
             revision = 0;
 
             var mapping = new DomainObjectEventHandlerMapping();
@@ -47,7 +49,14 @@ namespace Elders.Cronus
             uncommittedEvents.Add(@event);
         }
 
+        internal protected void Apply(IPublicEvent @event)
+        {
+            uncommittedPublicEvents.Add(@event);
+        }
+
         IEnumerable<IEvent> IAmEventSourced.UncommittedEvents { get { return uncommittedEvents.AsReadOnly(); } }
+
+        IEnumerable<IPublicEvent> IUnderstandPublishedLanguage.UncommittedPublicEvents { get { return uncommittedPublicEvents.AsReadOnly(); } }
 
         void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
         {
@@ -75,7 +84,7 @@ namespace Elders.Cronus
         }
     }
 
-    public class EventHandlerRegistrations
+    public class EventHandlerRegistrations // internal?
     {
         private Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
         private Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;

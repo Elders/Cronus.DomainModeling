@@ -1,3 +1,6 @@
+#### 6.1.0-beta0001 - 29.04.2020
+* Adds support for generating IPublicEvent in AggregateRoot [Elders/Cronus#203]
+
 #### 6.0.2 - 27.04.2020
 * Fixes an unexpected exceptio when trying to resolve bounded context name from a type which does not have a DataContractAttribute [#239]
 

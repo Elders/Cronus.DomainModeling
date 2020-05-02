@@ -6,7 +6,7 @@ namespace Elders.Cronus
     /// This is a handler where commands are received and delivered to the addressed AggregateRoot.
     /// We call these handlers *ApplicationService*. This is the *write side* in CQRS.
     /// </summary>
-    public interface IApplicationService { }
+    public interface IApplicationService : IMessageHandler { }
 
     public abstract class ApplicationService<AR> : IApplicationService where AR : IAggregateRoot
     {

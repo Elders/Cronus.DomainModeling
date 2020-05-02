@@ -6,7 +6,7 @@
     /// If you feel the need to do more complex interactions it is advised to use <see cref="ISaga"/>. The reason for this
     /// is that <see cref="IPort"/> does not provide transperant view of a business flow.
     /// </summary>
-    public interface IPort
+    public interface IPort : IMessageHandler
     {
         IPublisher<ICommand> CommandPublisher { get; set; }
     }

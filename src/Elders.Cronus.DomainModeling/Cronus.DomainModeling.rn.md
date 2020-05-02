@@ -1,3 +1,7 @@
+#### 6.1.0-beta0002 - 03.05.2020
+* Adds a ISignal message which ivokes a ITrigger
+* All handlers now implement IMessageHandler
+
 #### 6.1.0-beta0001 - 29.04.2020
 * Adds support for generating IPublicEvent in AggregateRoot [Elders/Cronus#203]
 

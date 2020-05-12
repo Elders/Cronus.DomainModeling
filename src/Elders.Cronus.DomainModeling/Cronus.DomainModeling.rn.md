@@ -1,3 +1,6 @@
+#### 6.1.0-beta0003 - 12.05.2020
+* Fixes an exception while checking for a valid URN using Urn.IsUrn(...)
+
 #### 6.1.0-beta0002 - 03.05.2020
 * Adds a ISignal message which ivokes a ITrigger
 * All handlers now implement IMessageHandler

@@ -181,11 +181,8 @@ namespace Elders.Cronus
 
         public static bool IsUrn(string candidate)
         {
-            var uri = new Uri(candidate);
-            if (uri.Scheme.Equals(UriSchemeUrn) == false)
-                return false;
-
-            return UrnRegex.Matches(uri);
+            try { return UrnRegex.Matches(candidate); }
+            catch (Exception) { return false; }
         }
 
         public static bool IsUrn(string candidate, IUrnFormatProvider provider)
@@ -193,13 +190,9 @@ namespace Elders.Cronus
             try
             {
                 var parsedUrn = Parse(candidate, provider);
-                return IsUrn(parsedUrn.Value);
+                return true;
             }
-            catch (Exception)
-            {
-                // This method must not throw exceptions
-                return false;
-            }
+            catch (Exception) { return false; }
         }
 
         public static Urn Parse(string urn)

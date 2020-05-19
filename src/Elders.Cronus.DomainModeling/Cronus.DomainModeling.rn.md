@@ -1,3 +1,6 @@
+#### 6.1.0-beta0004 - 19.05.2020
+* Silently continues when a subscription ID resolver fails. The message is skipped.
+
 #### 6.1.0-beta0003 - 12.05.2020
 * Fixes an exception while checking for a valid URN using Urn.IsUrn(...)
 

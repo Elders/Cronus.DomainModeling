@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace Elders.Cronus.Projections
 {
-    public class ContinueId : IBlobId
-    {
-        public byte[] RawId => null;
-    }
-
+    // This is a concept which we might use in future.
     public class SubscriptionIdResolver
     {
         public SubscriptionIdResolver(Type projectionType, Func<IEvent, IBlobId> idResolver)
@@ -25,7 +21,7 @@ namespace Elders.Cronus.Projections
         where TState : new()
         where TId : IBlobId
     {
-        Dictionary<Type, List<Func<IEvent, IBlobId>>> subscriptionResolvers;
+        private readonly Dictionary<Type, List<Func<IEvent, IBlobId>>> subscriptionResolvers;
 
         public ProjectionDefinition()
         {
@@ -46,8 +42,7 @@ namespace Elders.Cronus.Projections
             foreach (var subscriptionResolver in subscriptionResolvers[@event.GetType()])
             {
                 IBlobId resolvedId = subscriptionResolver(@event);
-                if (resolvedId is ContinueId) continue;
-                if (ReferenceEquals(null, resolvedId)) continue; //TODO LOG
+                if (resolvedId is null) continue;
 
                 yield return resolvedId;
             }
@@ -79,29 +74,51 @@ namespace Elders.Cronus.Projections
             Type eventType = typeof(TEvent);
 
             if (subscriptionResolvers.ContainsKey(eventType))
-                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
+                subscriptionResolvers[eventType].Add(Safe(projectionId));
             else
-                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { Safe(projectionId) });
 
             return this;
+
+            static Func<IEvent, IBlobId> Safe(Func<TEvent, IBlobId> projectionId)
+            {
+                return x =>
+                {
+                    try { return projectionId((TEvent)x); }
+                    catch (Exception ex)
+                    {
+                        // TODO: Add Warn log ex
+                        return default;
+                    }
+                };
+            }
         }
 
+        // Used by replay projection atm
         protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
             where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
 
             if (subscriptionResolvers.ContainsKey(eventType))
-                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
+                subscriptionResolvers[eventType].Add(Safe(projectionId));
             else
-                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { Safe(projectionId) });
 
             return this;
-        }
 
-        protected IBlobId Continue()
-        {
-            return new ContinueId();
+            static Func<IEvent, IBlobId> Safe(Func<TEvent, TId> projectionId)
+            {
+                return x =>
+                {
+                    try { return projectionId((TEvent)x); }
+                    catch (Exception ex)
+                    {
+                        // TODO: Add Warn log ex
+                        return default;
+                    }
+                };
+            }
         }
     }
 }

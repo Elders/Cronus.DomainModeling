@@ -81,7 +81,7 @@ namespace Elders.Cronus.Projections
         /// <param name="projectionId"></param>
         /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
         /// <returns></returns>
-        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback = null)
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback)
             where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
@@ -110,8 +110,21 @@ namespace Elders.Cronus.Projections
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="projectionId"></param>
+        /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
+        /// <returns></returns>
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
+            where TEvent : IEvent
+        {
+            return Subscribe(projectionId, null);
+        }
+
         // Used by replay projection atm
-        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback = null)
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback)
             where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
@@ -138,6 +151,12 @@ namespace Elders.Cronus.Projections
                     }
                 };
             }
+        }
+
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
+            where TEvent : IEvent
+        {
+            return Subscribe(projectionId, null);
         }
     }
 

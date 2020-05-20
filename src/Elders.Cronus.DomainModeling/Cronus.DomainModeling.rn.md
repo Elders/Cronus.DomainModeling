@@ -1,3 +1,6 @@
+#### 6.1.0-beta0005 - 19.05.2020
+* An exception is thrown when subscription ID resolver fails. Consumers can expliciltly specify to silently continue.
+
 #### 6.1.0-beta0004 - 19.05.2020
 * Silently continues when a subscription ID resolver fails. The message is skipped.
 

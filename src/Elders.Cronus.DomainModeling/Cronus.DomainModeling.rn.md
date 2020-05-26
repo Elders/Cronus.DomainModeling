@@ -1,3 +1,7 @@
+#### 6.1.0-beta0007 - 19.05.2020
+* Adds an extension which extracts EntityState
+* Removes .ToString() from AggregateRootId
+
 #### 6.1.0-beta0006 - 19.05.2020
 * Fixes compatibility issue
 

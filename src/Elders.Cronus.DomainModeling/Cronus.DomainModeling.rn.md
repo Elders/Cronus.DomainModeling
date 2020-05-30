@@ -1,3 +1,6 @@
+#### 6.1.0-beta0008 - 30.05.2020
+* Fixes a NSS regex when parsing an aggregate Urn (Elders/Cronus#234)
+
 #### 6.1.0-beta0007 - 19.05.2020
 * Adds an extension which extracts EntityState
 * Removes .ToString() from AggregateRootId

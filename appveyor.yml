@@ -14,4 +14,4 @@ build_script:
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:ghtoken):x-oauth-basic@github.com`n"
   - git config --global user.email "mynkow@gmail.com"
   - git config --global user.name "mynkow"
-  - build.cmd %nuget_key%
+  - build.cmd $env:nuget_key

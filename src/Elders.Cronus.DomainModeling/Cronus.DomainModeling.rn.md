@@ -1,5 +1,6 @@
 #### 6.1.0-beta0009 - 30.05.2020
 * Forced
+* Trigger CI
 
 #### 6.1.0-beta0008 - 30.05.2020
 * Fixes a NSS regex when parsing an aggregate Urn (Elders/Cronus#234)

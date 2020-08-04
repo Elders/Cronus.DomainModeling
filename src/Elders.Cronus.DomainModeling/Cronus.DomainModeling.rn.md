@@ -1,3 +1,6 @@
+#### 6.1.0-beta0010 - 04.08.2020
+* Introduces a base class Port
+
 #### 6.1.0-beta0009 - 30.05.2020
 * Forced
 * Trigger CI

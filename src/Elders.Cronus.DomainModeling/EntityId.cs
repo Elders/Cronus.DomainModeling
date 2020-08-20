@@ -1,7 +1,5 @@
 using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Elders.Cronus
 {
@@ -18,13 +16,15 @@ namespace Elders.Cronus
         IAggregateRootId IEntityId.AggregateRootId { get { return base.AggregateRootId; } }
 
         TAggregateRootId aggregateRootId;
+
+        [JsonIgnore]
         new public TAggregateRootId AggregateRootId
         {
             get
             {
                 aggregateRootId = (TAggregateRootId)Activator.CreateInstance(typeof(TAggregateRootId), true);
                 RawIdProperty.SetValue(aggregateRootId, base.AggregateRootId.RawId);
-                
+
                 return aggregateRootId;
             }
         }

@@ -1,3 +1,6 @@
+#### 6.1.0-beta0011 - 20.08.2020
+* Ignores AggregateRootId property in EntityId because the System.Text.Json.Serializer can't handle it
+
 #### 6.1.0-beta0010 - 04.08.2020
 * Introduces a base class Port
 

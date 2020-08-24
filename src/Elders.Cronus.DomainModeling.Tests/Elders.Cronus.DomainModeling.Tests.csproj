@@ -1,14 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Elders.Cronus</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="When_comparing_urns_with_same_nids_and_nss_but_with_different_components.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Machine.Specifications" Version="1.0.0" />
@@ -20,5 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Elders.Cronus.DomainModeling\Elders.Cronus.DomainModeling.csproj" />
   </ItemGroup>
-
 </Project>

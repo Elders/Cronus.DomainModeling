@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <!--Nuget-->
@@ -10,7 +10,7 @@
     <Product>Cronus</Product>
     <Title>Cronus</Title>
     <Authors>Elders OSS</Authors>
-    <Copyright>Copyright © Elders OSS 2013-2020</Copyright>
+    <Copyright>Copyright © Elders 2013-2021</Copyright>
     <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
     <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
     <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
@@ -22,7 +22,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <RootNamespace>Elders.Cronus</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <AssemblyVersion>6.0.0</AssemblyVersion>
+    <AssemblyVersion>7.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup>

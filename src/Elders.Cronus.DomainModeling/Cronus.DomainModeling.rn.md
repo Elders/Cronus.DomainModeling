@@ -1,38 +1,13 @@
-#### 6.1.0-beta0011 - 20.08.2020
+#### 6.1.0 - 24.08.2020
 * Ignores AggregateRootId property in EntityId because the System.Text.Json.Serializer can't handle it
-
-#### 6.1.0-beta0010 - 04.08.2020
 * Introduces a base class Port
-
-#### 6.1.0-beta0009 - 30.05.2020
-* Forced
-* Trigger CI
-
-#### 6.1.0-beta0008 - 30.05.2020
 * Fixes a NSS regex when parsing an aggregate Urn (Elders/Cronus#234)
-* Trigger CI
-
-#### 6.1.0-beta0007 - 19.05.2020
 * Adds an extension which extracts EntityState
 * Removes .ToString() from AggregateRootId
-
-#### 6.1.0-beta0006 - 19.05.2020
-* Fixes compatibility issue
-
-#### 6.1.0-beta0005 - 19.05.2020
 * An exception is thrown when subscription ID resolver fails. Consumers can expliciltly specify to silently continue.
-
-#### 6.1.0-beta0004 - 19.05.2020
-* Silently continues when a subscription ID resolver fails. The message is skipped.
-
-#### 6.1.0-beta0003 - 12.05.2020
 * Fixes an exception while checking for a valid URN using Urn.IsUrn(...)
-
-#### 6.1.0-beta0002 - 03.05.2020
 * Adds a ISignal message which ivokes a ITrigger
 * All handlers now implement IMessageHandler
-
-#### 6.1.0-beta0001 - 29.04.2020
 * Adds support for generating IPublicEvent in AggregateRoot [Elders/Cronus#203]
 
 #### 6.0.2 - 27.04.2020

@@ -21,12 +21,6 @@ namespace Elders.Cronus
             if (aggregateRootName.Equals(urn.AggregateRootName, StringComparison.OrdinalIgnoreCase) == false)
                 throw new ArgumentException("AggregateRootName missmatch");
         }
-
-        [Obsolete]
-        public override string ToString()
-        {
-            return Convert.ToBase64String(RawId);
-        }
     }
 
     public abstract class AggregateRootId<T> : AggregateUrn, IAggregateRootId

@@ -9,7 +9,7 @@ namespace Elders.Cronus.Testing
         {
             var @event = PublishedEvents<T>(root).SingleOrDefault();
             if (@event is null)
-                return default(T);
+                return default;
             return (T)@event;
         }
 

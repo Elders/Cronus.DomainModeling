@@ -6,7 +6,7 @@ namespace Elders.Cronus
     /// When we have a workflow which involves several aggregates it is recommended to have the whole process described 
     /// in a single place such as Saga/ProcessManager.
     /// </summary>
-    public interface ISaga { }
+    public interface ISaga : IMessageHandler { }
 
     /// <summary>
     /// Message which will be published in the future.

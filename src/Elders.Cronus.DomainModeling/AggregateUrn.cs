@@ -6,7 +6,7 @@ namespace Elders.Cronus
     [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
     public class AggregateUrn : Urn, IAggregateRootId
     {
-        const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
+        const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
         protected AggregateUrn()
         {

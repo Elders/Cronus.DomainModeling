@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace Elders.Cronus.Projections
 {
-    public class ContinueId : IBlobId
-    {
-        public byte[] RawId => null;
-    }
-
+    // This is a concept which we might use in future.
     public class SubscriptionIdResolver
     {
         public SubscriptionIdResolver(Type projectionType, Func<IEvent, IBlobId> idResolver)
@@ -25,7 +21,12 @@ namespace Elders.Cronus.Projections
         where TState : new()
         where TId : IBlobId
     {
-        Dictionary<Type, List<Func<IEvent, IBlobId>>> subscriptionResolvers;
+        /// <summary>
+        /// Signals the engine to skip this event without raising an error.
+        /// </summary>
+        public static IBlobId Skip => new ContinueId();
+
+        private readonly Dictionary<Type, List<Func<IEvent, IBlobId>>> subscriptionResolvers;
 
         public ProjectionDefinition()
         {
@@ -46,8 +47,8 @@ namespace Elders.Cronus.Projections
             foreach (var subscriptionResolver in subscriptionResolvers[@event.GetType()])
             {
                 IBlobId resolvedId = subscriptionResolver(@event);
-                if (resolvedId is ContinueId) continue;
-                if (ReferenceEquals(null, resolvedId)) continue; //TODO LOG
+                if (resolvedId is null || resolvedId is ContinueId)
+                    continue;
 
                 yield return resolvedId;
             }
@@ -73,35 +74,94 @@ namespace Elders.Cronus.Projections
             ((IHaveState)this).State = state ?? new TState();
         }
 
-        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="projectionId"></param>
+        /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
+        /// <returns></returns>
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback)
             where TEvent : IEvent
         {
             Type eventType = typeof(TEvent);
 
             if (subscriptionResolvers.ContainsKey(eventType))
-                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
+                subscriptionResolvers[eventType].Add(Safe(projectionId, fallback));
             else
-                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { Safe(projectionId, fallback) });
 
             return this;
+
+            static Func<IEvent, IBlobId> Safe(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback)
+            {
+                return x =>
+                {
+                    try { return projectionId((TEvent)x); }
+                    catch (Exception ex)
+                    {
+                        if (fallback is null == false)
+                            return fallback((TEvent)x);
+
+                        // TODO: Add ERROR log ex
+                        throw;
+                    }
+                };
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="projectionId"></param>
+        /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
+        /// <returns></returns>
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
+            where TEvent : IEvent
+        {
+            return Subscribe(projectionId, null);
+        }
+
+        // Used by replay projection atm
+        protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback)
+            where TEvent : IEvent
+        {
+            Type eventType = typeof(TEvent);
+
+            if (subscriptionResolvers.ContainsKey(eventType))
+                subscriptionResolvers[eventType].Add(Safe(projectionId, fallback));
+            else
+                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { Safe(projectionId, fallback) });
+
+            return this;
+
+            static Func<IEvent, IBlobId> Safe(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback)
+            {
+                return x =>
+                {
+                    try { return projectionId((TEvent)x); }
+                    catch (Exception ex)
+                    {
+                        if (fallback is null == false)
+                            return fallback((TEvent)x);
+
+                        // TODO: Add Warn ERROR ex
+                        throw;
+                    }
+                };
+            }
         }
 
         protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
             where TEvent : IEvent
         {
-            Type eventType = typeof(TEvent);
-
-            if (subscriptionResolvers.ContainsKey(eventType))
-                subscriptionResolvers[eventType].Add(x => projectionId((TEvent)x));
-            else
-                subscriptionResolvers.Add(typeof(TEvent), new List<Func<IEvent, IBlobId>>() { x => projectionId((TEvent)x) });
-
-            return this;
+            return Subscribe(projectionId, null);
         }
+    }
 
-        protected IBlobId Continue()
-        {
-            return new ContinueId();
-        }
+    public class ContinueId : IBlobId
+    {
+        public byte[] RawId => null;
     }
 }

@@ -8,5 +8,5 @@
     /// Compared to projections, which tracks events and project their data and are not allowed to send any commands at all, an IGateway store and track
     /// a metadata required by external systems. Also, IGateway are restricted and not touched when events are replayed.
     /// </summary>
-    public interface IGateway { }
+    public interface IGateway : IMessageHandler { }
 }

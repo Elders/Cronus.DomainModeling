@@ -14,4 +14,25 @@ namespace Elders.Cronus
         static string urnBase64 = "dXJuOlRlbmFudDphck5hbWU6YWJjMTIzKCkrLC0uOj1AOyRfISonJTk5YQ==";
         static IUrn result;
     }
+
+    [Subject("Urn")]
+    public class When_parsing_string_to__AggregateUrn__
+    {
+        Because of = () => result = AggregateUrn.Parse(urnString);
+
+        It should_build_urn = () => result.Value.ShouldEqual("urn:elders:arname:something:3");
+
+        It should_have_nid = () => result.NID.ShouldEqual("elders");
+
+        It should_have_nss = () => result.NSS.ShouldEqual("arname:something:3");
+
+        It should_have_aggregate_name = () => result.AggregateRootName.ShouldEqual("arname");
+
+        It should_have_tenant = () => result.Tenant.ShouldEqual("elders");
+
+        It should_have_id = () => result.Id.ShouldEqual("something:3");
+
+        static string urnString = "urn:elders:arname:something:3";
+        static AggregateUrn result;
+    }
 }

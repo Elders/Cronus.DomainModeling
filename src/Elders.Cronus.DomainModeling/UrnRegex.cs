@@ -58,8 +58,19 @@ namespace Elders.Cronus
 
         public static bool Matches(string urn)
         {
-            var uri = new Uri(urn);
-            return Matches(uri);
+            try
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(urn, Pattern, System.Text.RegularExpressions.RegexOptions.None);
+                if (match.Success == false)
+                    return false;
+
+                var uri = new Uri(urn);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static string GetGroup(string urnString, Group group)

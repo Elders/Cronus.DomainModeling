@@ -216,7 +216,6 @@ namespace Elders.Cronus
 
         public static bool IsUrn(this string s)
         {
-
             return System.Text.RegularExpressions.Regex.IsMatch(s, @"\b(urn):([a-z0-9][a-z0-9-]{0,31}):([a-z0-9()+,\-.=@;$_!:*'%\/?#]*[a-z0-9+=@$\/])", System.Text.RegularExpressions.RegexOptions.None);
         }
 

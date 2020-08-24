@@ -1,3 +1,6 @@
+#### 7.0.0-beta0001 - 24.08.2020
+* Upgrades to dotnet 5
+
 #### 6.1.0 - 24.08.2020
 * Ignores AggregateRootId property in EntityId because the System.Text.Json.Serializer can't handle it
 * Introduces a base class Port

@@ -22,7 +22,7 @@ variables:
   semverDefined: $[ ne(variables['SEMVER'], '') ]
 
 jobs:
-- job: Prepare
+- job: Build
   condition: true
 
   steps:

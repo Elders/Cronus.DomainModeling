@@ -42,7 +42,7 @@ steps:
     name: Pack
     inputs:
       command: 'pack'
-      packagesToPack: 'src/Elders.Multithreading.Scheduler/*.csproj'
+      packagesToPack: 'src/Elders.Cronus.DomainModeling/*.csproj'
       versioningScheme: 'off'
       buildProperties: 'PackageVersion=$(SEMVER)'
 

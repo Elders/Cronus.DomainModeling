@@ -19,7 +19,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  semverDefined: $[ne(length(variables['SEMVER']), 0)]
+  semverDefined: $[ ne(variables['SEMVER'], '') ]
 steps:
 
   - checkout: self

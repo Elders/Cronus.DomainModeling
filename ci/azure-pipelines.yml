@@ -19,8 +19,21 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  semver: $[cat semver.txt]
+  semverNotDefined: $[eq(variables['semver'], '')]
 
 steps:
+  - task: Bash@3
+    name: Release
+    env:
+      STAGING_PATH: $(Build.ArtifactStagingDirectory)
+      LOCAL_PATH: $(Build.Repository.LocalPath)
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo $(semver)
+        echo $(semverNotDefined)
+
   - checkout: self
     clean: true
     persistCredentials: true

@@ -19,7 +19,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  semverDefined: $[ ne(variables['SEMVER'], '') ]
 
 jobs:
 - job: Build
@@ -42,7 +41,8 @@ jobs:
         npx semantic-release -d
         export SEMVER=$(cat semver.txt)
         echo "##vso[task.setvariable variable=SEMVER]$SEMVER"
-        echo "##vso[task.setvariable variable=semverDefined]ne($SEMVER, '')"
+        export semverDefined=$(ne($SEMVER, ''))
+        echo "##vso[task.setvariable variable=semverDefined]$semverDefined"
         echo "Is semver defined: $[semverDefined]"
 
   - task: DotNetCoreCLI@2

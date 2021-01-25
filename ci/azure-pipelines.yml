@@ -50,7 +50,7 @@ jobs:
       projects: 'src/Elders.Cronus.DomainModeling/*.csproj'
 
 - job: MakeArtifact
-  condition: $[semverDefined]
+  condition: eq(variables['semverDefined'], true)
   steps:
   - task: DotNetCoreCLI@2
     name: Pack

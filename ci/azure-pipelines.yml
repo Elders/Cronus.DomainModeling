@@ -41,7 +41,7 @@ jobs:
         npx semantic-release -d
         export SEMVER=$(cat semver.txt)
         echo "Test!"
-        echo "##vso[task.setvariable variable=SEMVER]$SEMVER"
+        echo "##vso[task.setvariable variable=SEMVER;isOutput=true;]$SEMVER"
         if [ "$SEMVER" != "" ]; then export semverDefined="true"; fi
         echo "##vso[task.setvariable variable=semverDefined;isOutput=true;]$semverDefined"
         echo "Is semver defined: $semverDefined"
@@ -53,6 +53,8 @@ jobs:
 
 - job: MakeArtifact
   dependsOn: ['Build']
+  variables:
+    SEMVER: $[dependencies.Build.outputs['GetNextVersion.SEMVER']]
   condition: eq(dependencies.Build.outputs['GetNextVersion.semverDefined'], true)
   steps:
   - task: DotNetCoreCLI@2

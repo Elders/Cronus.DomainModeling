@@ -1,3 +1,10 @@
+## [6.2.1-next.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.1...v6.2.1-next.2) (2021-01-26)
+
+
+### Bug Fixes
+
+* Renames pipeline job ([3811b52](https://github.com/Elders/Cronus.DomainModeling/commit/3811b528f6211976dbde4e62748c97320978165c))
+
 ## [6.2.1-next.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.0...v6.2.1-next.1) (2021-01-25)
 
 

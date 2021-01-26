@@ -43,24 +43,24 @@ jobs:
         echo "##vso[task.setvariable variable=SEMVER;isOutput=true;]$SEMVER"
         if [ "$SEMVER" != "" ]; then export semverDefined="true"; fi
         echo "##vso[task.setvariable variable=semverDefined;isOutput=true;]$semverDefined"
-        echo "Is semver defined: $semverDefined"
 
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
       projects: 'src/Elders.Cronus.DomainModeling/*.csproj'
 
-- job: MakeArtifact
+- job: Artifact
   dependsOn: ['Build']
+
   variables:
     SEMVER: $[dependencies.Build.outputs['GetNextVersion.SEMVER']]
   condition: eq(dependencies.Build.outputs['GetNextVersion.semverDefined'], true)
+
   steps:
-  
   - checkout: self
     clean: true
     persistCredentials: true
-    
+
   - task: DotNetCoreCLI@2
     name: Pack
     inputs:

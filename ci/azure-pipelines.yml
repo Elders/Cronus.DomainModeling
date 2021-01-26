@@ -52,9 +52,7 @@ jobs:
 
 - job: MakeArtifact
   dependsOn: ['Build']
-  variables: 
-    semverDefined: $[ dependencies.Build.outputs['semverDefined'] ]
-  condition: eq(variables.semverDefined, true)
+  condition: eq(dependencies.Build.outputs['GetNextVersion.semverDefined'], true)
   steps:
   - task: DotNetCoreCLI@2
     name: Pack

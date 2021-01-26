@@ -55,7 +55,7 @@ jobs:
   dependsOn: ['Build']
   variables: 
     semverDefined: $[ dependencies.Build.outputs['semverDefined'] ]
-  condition: eq(variables['semverDefined'], true)
+  condition: eq(variables.semverDefined, true)
   steps:
   - task: DotNetCoreCLI@2
     name: Pack

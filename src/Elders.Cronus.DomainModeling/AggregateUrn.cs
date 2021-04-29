@@ -60,6 +60,16 @@ namespace Elders.Cronus
 
         public string AggregateRootName { get { DoFullInitialization(); return aggregateRootName; } }
 
+        public static bool TryParse(string urn, out AggregateUrn parsedUrn)
+        {
+            return TryParse(urn, out parsedUrn, null);
+        }
+
+        new public static AggregateUrn Parse(string urn)
+        {
+            return Parse(urn, null);
+        }
+
         public static bool TryParse(string urn, out AggregateUrn parsedUrn, IUrnFormatProvider provider = null)
         {
             IUrnFormatProvider urnFormatProvider = provider ?? Urn.UrnFormatProvider;

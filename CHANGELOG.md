@@ -1,3 +1,10 @@
+## [6.2.1-next.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.2...v6.2.1-next.3) (2021-04-29)
+
+
+### Bug Fixes
+
+* Parsing URNs now respects global UrnFormatProvider configuration ([2389870](https://github.com/Elders/Cronus.DomainModeling/commit/2389870eac5021f8f2cb56b0aded01135e51256d))
+
 ## [6.2.1-next.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.1...v6.2.1-next.2) (2021-01-26)
 
 

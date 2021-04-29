@@ -1,3 +1,10 @@
+## [6.2.1-next.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.3...v6.2.1-next.4) (2021-04-29)
+
+
+### Bug Fixes
+
+* Fixes introduced breaking changes ([eadb76d](https://github.com/Elders/Cronus.DomainModeling/commit/eadb76d1c96e5d53fc1dd2c786848c8a323eaa01))
+
 ## [6.2.1-next.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.2...v6.2.1-next.3) (2021-04-29)
 
 

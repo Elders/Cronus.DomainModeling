@@ -60,14 +60,17 @@ namespace Elders.Cronus
 
         public string AggregateRootName { get { DoFullInitialization(); return aggregateRootName; } }
 
-        public static bool TryParse(string urn, out AggregateUrn parsedUrn)
+        public static bool TryParse(string urn, out AggregateUrn parsedUrn, IUrnFormatProvider provider = null)
         {
+            IUrnFormatProvider urnFormatProvider = provider ?? Urn.UrnFormatProvider;
+
             parsedUrn = null;
 
-            if (IsUrn(urn) == false)
+            if (IsUrn(urn, urnFormatProvider) == false)
                 return false;
 
-            Urn baseUrn = new Urn(urn);
+            string plain = urnFormatProvider.Parse(urn);
+            Urn baseUrn = new Urn(plain);
 
             var match = System.Text.RegularExpressions.Regex.Match(baseUrn.NSS, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
             if (match.Success)
@@ -79,9 +82,12 @@ namespace Elders.Cronus
             return false;
         }
 
-        new public static AggregateUrn Parse(string urn)
+        new public static AggregateUrn Parse(string urn, IUrnFormatProvider provider = null)
         {
-            if (TryParse(urn, out AggregateUrn parsedUrn))
+            IUrnFormatProvider urnFormatProvider = provider ?? Urn.UrnFormatProvider;
+
+            string plain = urnFormatProvider.Parse(urn);
+            if (TryParse(plain, out AggregateUrn parsedUrn, Plain))
             {
                 return parsedUrn;
             }
@@ -89,12 +95,6 @@ namespace Elders.Cronus
             {
                 throw new ArgumentException($"Invalid {nameof(AggregateUrn)}: {urn}", nameof(urn));
             }
-        }
-
-        new public static AggregateUrn Parse(string urn, IUrnFormatProvider proviver)
-        {
-            string plain = proviver.Parse(urn);
-            return Parse(plain);
         }
     }
 }

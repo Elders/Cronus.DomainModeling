@@ -200,9 +200,10 @@ namespace Elders.Cronus
             return new Urn(urn);
         }
 
-        public static Urn Parse(string urn, IUrnFormatProvider proviver)
+        public static Urn Parse(string urn, IUrnFormatProvider proviver = null)
         {
-            string plain = proviver.Parse(urn);
+            IUrnFormatProvider urnFormatProvider = proviver ?? UrnFormatProvider;
+            string plain = urnFormatProvider.Parse(urn);
             return Parse(plain);
         }
 

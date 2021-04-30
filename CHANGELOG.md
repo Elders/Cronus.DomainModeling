@@ -1,3 +1,10 @@
+## [6.2.1-next.5](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.4...v6.2.1-next.5) (2021-04-30)
+
+
+### Bug Fixes
+
+* Fixes URN regex to properly capture 2/32 long NID ([5635cb2](https://github.com/Elders/Cronus.DomainModeling/commit/5635cb2ac482cc4721a546a966e3fccc5e5ef07a))
+
 ## [6.2.1-next.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.3...v6.2.1-next.4) (2021-04-29)
 
 

@@ -14,4 +14,48 @@ namespace Elders.Cronus
         static string urnPlain = @"urn:Tenant:arName:abc123()+,-.:=@;$_!*'%99a";
         static IUrn result;
     }
+
+    [Subject("Urn")]
+    public class When_matching_string_to_URN_regex_with_full_length_NID
+    {
+        Because of = () => result = Urn.IsUrn(fullSizeUrn);
+
+        It should_succeed = () => result.ShouldBeTrue();
+
+        static string fullSizeUrn = @"urn:X123456789012345678901234567890X:arName:abc123()+,-.:=@;$_!*'%99a";
+        static bool result = false;
+    }
+
+    [Subject("Urn")]
+    public class When_matching_string_to_URN_regex_with_min_length_NID
+    {
+        Because of = () => result = Urn.IsUrn(urn);
+
+        It should_succeed = () => result.ShouldBeTrue();
+
+        static string urn = @"urn:XX:arName:abc123()+,-.:=@;$_!*'%99a";
+        static bool result = false;
+    }
+
+    [Subject("Urn")]
+    public class When_matching_string_to_URN_regex_invalid_NID
+    {
+        Because of = () => result = Urn.IsUrn(fullSizeUrn);
+
+        It should_succeed = () => result.ShouldBeFalse();
+
+        static string fullSizeUrn = @"urn:X345678901234567890X-:arName:abc123()+,-.:=@;$_!*'%99a";
+        static bool result = false;
+    }
+
+    [Subject("Urn")]
+    public class When_matching_string_to_URN_regex_with_NID_exceeding_the_max_length
+    {
+        Because of = () => result = Urn.IsUrn(fullSizeUrn);
+
+        It should_succeed = () => result.ShouldBeFalse();
+
+        static string fullSizeUrn = @"urn:X123456789012345678901234567890X1:arName:abc123()+,-.:=@;$_!*'%99a";
+        static bool result = false;
+    }
 }

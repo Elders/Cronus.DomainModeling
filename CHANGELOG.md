@@ -1,3 +1,10 @@
+## [6.2.1-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.1...v6.2.1-preview.2) (2021-05-11)
+
+
+### Bug Fixes
+
+* Marks the base Port class as abstract so it is not picked as a handler ([cc82bbb](https://github.com/Elders/Cronus.DomainModeling/commit/cc82bbb62ec744fb3ffcceb24bf03d04da61e7f3))
+
 ## [6.2.1-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.5...v6.2.1-preview.1) (2021-05-05)
 
 

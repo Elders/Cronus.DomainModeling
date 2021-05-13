@@ -1,3 +1,10 @@
+## [6.2.1-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.2...v6.2.1-preview.3) (2021-05-13)
+
+
+### Bug Fixes
+
+* fix the parsing of the urn not using the correct format provider ([29d427e](https://github.com/Elders/Cronus.DomainModeling/commit/29d427ef52bae993ad94dfe027835953e551800d))
+
 ## [6.2.1-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.1...v6.2.1-preview.2) (2021-05-11)
 
 

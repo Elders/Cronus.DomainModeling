@@ -197,14 +197,15 @@ namespace Elders.Cronus
 
         public static Urn Parse(string urn)
         {
-            return new Urn(urn);
+            return Parse(urn, null);
         }
 
         public static Urn Parse(string urn, IUrnFormatProvider proviver = null)
         {
             IUrnFormatProvider urnFormatProvider = proviver ?? UrnFormatProvider;
             string plain = urnFormatProvider.Parse(urn);
-            return Parse(plain);
+
+            return new Urn(plain);
         }
 
         public override bool Equals(object comparand)

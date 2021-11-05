@@ -75,7 +75,7 @@ namespace Elders.Cronus
 
                 return true;
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 result = null;
                 return false;

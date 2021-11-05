@@ -98,7 +98,7 @@ namespace Elders.Cronus.Projections
                 return x =>
                 {
                     try { return projectionId((TEvent)x); }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if (fallback is null == false)
                             return fallback((TEvent)x);
@@ -141,7 +141,7 @@ namespace Elders.Cronus.Projections
                 return x =>
                 {
                     try { return projectionId((TEvent)x); }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if (fallback is null == false)
                             return fallback((TEvent)x);

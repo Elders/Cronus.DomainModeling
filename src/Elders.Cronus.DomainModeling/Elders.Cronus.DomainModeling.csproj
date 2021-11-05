@@ -10,7 +10,7 @@
 
     <Product>Cronus</Product>
     <Title>Cronus</Title>
-    <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
+    <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind.</Description>
     <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
 
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

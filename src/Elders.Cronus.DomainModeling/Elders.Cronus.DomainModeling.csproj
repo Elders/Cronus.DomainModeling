@@ -7,31 +7,30 @@
   <!--Nuget-->
   <PropertyGroup>
     <PackageId>Cronus.DomainModeling</PackageId>
+
     <Product>Cronus</Product>
     <Title>Cronus</Title>
-    <Authors>Elders OSS</Authors>
-    <Copyright>Copyright © Elders OSS 2013-2020</Copyright>
-    <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
+    <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind.</Description>
     <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
-    <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Elders/Cronus.DomainModeling.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+
+    <ReleaseNotes>https://github.com/Elders/Cronus.DomainModeling/blob/preview/CHANGELOG.md</ReleaseNotes>
+
     <PackageIconUrl>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Elders/Cronus.DomainModeling.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+
     <AssemblyName>Elders.Cronus.DomainModeling</AssemblyName>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <RootNamespace>Elders.Cronus</RootNamespace>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AssemblyVersion>6.0.0</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <EmbedSources>true</EmbedSources>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>

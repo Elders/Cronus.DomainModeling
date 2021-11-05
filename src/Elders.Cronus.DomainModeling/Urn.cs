@@ -21,7 +21,7 @@ namespace Elders.Cronus
         public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
         public static readonly IUrnFormatProvider Uber = new UberUrnFormatProvider();
 
-        public static IUrnFormatProvider UrnFormatProvider = new Base64UrnFormatProvider();
+        public static IUrnFormatProvider UrnFormatProvider = new PlainUrnFormatProvider();
 
         public const char PARTS_DELIMITER = ':';
         public const char HIERARCHICAL_DELIMITER = '/';
@@ -197,13 +197,15 @@ namespace Elders.Cronus
 
         public static Urn Parse(string urn)
         {
-            return new Urn(urn);
+            return Parse(urn, null);
         }
 
-        public static Urn Parse(string urn, IUrnFormatProvider proviver)
+        public static Urn Parse(string urn, IUrnFormatProvider proviver = null)
         {
-            string plain = proviver.Parse(urn);
-            return Parse(plain);
+            IUrnFormatProvider urnFormatProvider = proviver ?? UrnFormatProvider;
+            string plain = urnFormatProvider.Parse(urn);
+
+            return new Urn(plain);
         }
 
         public override bool Equals(object comparand)

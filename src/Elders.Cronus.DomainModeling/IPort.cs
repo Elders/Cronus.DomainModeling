@@ -8,7 +8,7 @@
     /// </summary>
     public interface IPort : IMessageHandler { }
 
-    public class Port : IPort
+    public abstract class Port : IPort
     {
         protected readonly IPublisher<ICommand> publisher;
 

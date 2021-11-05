@@ -4,7 +4,7 @@ namespace Elders.Cronus
 {
     public static class UrnRegex
     {
-        public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[a-z0-9][a-z0-9-]{1,31}[^-]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
+        public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
 
         public class Group
         {

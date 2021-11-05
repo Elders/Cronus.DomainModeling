@@ -1,3 +1,99 @@
+## [6.2.1-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.7...v6.2.1-preview.8) (2021-11-05)
+
+
+### Bug Fixes
+
+* specifies SymbolPackageFormat ([faf3b66](https://github.com/Elders/Cronus.DomainModeling/commit/faf3b66fadbb72cc734cc5046e662ef294f1379f))
+
+## [6.2.1-preview.7](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.6...v6.2.1-preview.7) (2021-11-05)
+
+
+### Bug Fixes
+
+* Updates packate meta ([487a056](https://github.com/Elders/Cronus.DomainModeling/commit/487a056bb7f923e083efbab625d0fd5dfa3b0a73))
+
+## [6.2.1-preview.6](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.5...v6.2.1-preview.6) (2021-11-05)
+
+
+### Bug Fixes
+
+* Finalizing version ([74bea5d](https://github.com/Elders/Cronus.DomainModeling/commit/74bea5d5ff5010780fa03680a308a74c39270d41))
+* Fixes package icon ([cd279a5](https://github.com/Elders/Cronus.DomainModeling/commit/cd279a5a1fcc37a801145630e3f7464d5ed435e8))
+
+## [6.2.1-preview.5](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.4...v6.2.1-preview.5) (2021-11-05)
+
+
+### Bug Fixes
+
+* Trying source link ([280295f](https://github.com/Elders/Cronus.DomainModeling/commit/280295f2d61fdfb2d08de063845c04fc3a164add))
+
+## [6.2.1-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.3...v6.2.1-preview.4) (2021-11-05)
+
+
+### Bug Fixes
+
+* Configures source link ([6f0370c](https://github.com/Elders/Cronus.DomainModeling/commit/6f0370c69d49cdf7ae6ff6f9da57e7bd374292a5))
+
+## [6.2.1-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.2...v6.2.1-preview.3) (2021-05-13)
+
+
+### Bug Fixes
+
+* fix the parsing of the urn not using the correct format provider ([29d427e](https://github.com/Elders/Cronus.DomainModeling/commit/29d427ef52bae993ad94dfe027835953e551800d))
+
+## [6.2.1-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.1...v6.2.1-preview.2) (2021-05-11)
+
+
+### Bug Fixes
+
+* Marks the base Port class as abstract so it is not picked as a handler ([cc82bbb](https://github.com/Elders/Cronus.DomainModeling/commit/cc82bbb62ec744fb3ffcceb24bf03d04da61e7f3))
+
+## [6.2.1-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.5...v6.2.1-preview.1) (2021-05-05)
+
+
+### Bug Fixes
+
+* Prepares preview version ([6ada8be](https://github.com/Elders/Cronus.DomainModeling/commit/6ada8be9c43b64ef69e6eab5edc910ee6d4c83da))
+
+## [6.2.1-next.5](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.4...v6.2.1-next.5) (2021-04-30)
+
+
+### Bug Fixes
+
+* Fixes URN regex to properly capture 2/32 long NID ([5635cb2](https://github.com/Elders/Cronus.DomainModeling/commit/5635cb2ac482cc4721a546a966e3fccc5e5ef07a))
+
+## [6.2.1-next.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.3...v6.2.1-next.4) (2021-04-29)
+
+
+### Bug Fixes
+
+* Fixes introduced breaking changes ([eadb76d](https://github.com/Elders/Cronus.DomainModeling/commit/eadb76d1c96e5d53fc1dd2c786848c8a323eaa01))
+
+## [6.2.1-next.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.2...v6.2.1-next.3) (2021-04-29)
+
+
+### Bug Fixes
+
+* Parsing URNs now respects global UrnFormatProvider configuration ([2389870](https://github.com/Elders/Cronus.DomainModeling/commit/2389870eac5021f8f2cb56b0aded01135e51256d))
+
+## [6.2.1-next.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-next.1...v6.2.1-next.2) (2021-01-26)
+
+
+### Bug Fixes
+
+* Renames pipeline job ([3811b52](https://github.com/Elders/Cronus.DomainModeling/commit/3811b528f6211976dbde4e62748c97320978165c))
+
+## [6.2.1-next.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.0...v6.2.1-next.1) (2021-01-25)
+
+
+### Bug Fixes
+
+* Configures dependabot ([f860c77](https://github.com/Elders/Cronus.DomainModeling/commit/f860c775bc0f58e6fee377eb9c4b5cc99ef54974))
+* Configures semantic release packages ([9d5e4bd](https://github.com/Elders/Cronus.DomainModeling/commit/9d5e4bd7ce69ced94e0bca139f3f95b55aed0bff))
+* Fixes project pack task ([a106f4b](https://github.com/Elders/Cronus.DomainModeling/commit/a106f4ba934cc7fad9b85d9c76a8775561705db7))
+* Removes gitversion.yml ([ced74a9](https://github.com/Elders/Cronus.DomainModeling/commit/ced74a9bf9647fa7de9222ced13b0d45c1eb7444))
+
+
 #### 6.1.0 - 24.08.2020
 * Ignores AggregateRootId property in EntityId because the System.Text.Json.Serializer can't handle it
 * Introduces a base class Port
@@ -30,10 +126,10 @@
 * Rename UrlEncode and UrlDecode methods to the correct names for the work they do
 * Change EntityStringId to use the hierarchical delimiter "/" for spliting the entityName and the entityId parts inside the nss of a urn used
 * Added tests
-* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
+* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities
 
 #### 5.2.2 - 28.08.2019
-* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities 
+* Re-factored 'AggregateRootExtensions' method 'PublishedEvents' to include also events coming from the entities
 
 #### 5.2.1 - 29.05.2019
 * Implemented byte array Compare with FOR
@@ -60,7 +156,7 @@
 * Replaces `IProjectionGetResult` with `ReadResult`
 * Renames IProjectionLoader to IProjectionReader
 * Replaces the `IAggregateRepository` property with a protected member in `AggregateRootApplicationService<AR>`
-* Adds Async functionality to IProjectionLoader 
+* Adds Async functionality to IProjectionLoader
 * Full net framework will be supported only for versions >= 4.7.2
 
 #### 4.0.10 - 29.08.2018

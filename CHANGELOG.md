@@ -1,3 +1,10 @@
+## [6.3.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.2...v6.3.3) (2021-11-05)
+
+
+### Bug Fixes
+
+* Adds documentation ([8feb90b](https://github.com/Elders/Cronus.DomainModeling/commit/8feb90b805f2b593a904b74c9f8fa71c03b81cb6))
+
 ## [6.3.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.1...v6.3.2) (2021-11-05)
 
 

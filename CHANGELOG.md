@@ -1,3 +1,10 @@
+## [6.2.1-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.7...v6.2.1-preview.8) (2021-11-05)
+
+
+### Bug Fixes
+
+* specifies SymbolPackageFormat ([faf3b66](https://github.com/Elders/Cronus.DomainModeling/commit/faf3b66fadbb72cc734cc5046e662ef294f1379f))
+
 ## [6.2.1-preview.7](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.6...v6.2.1-preview.7) (2021-11-05)
 
 

@@ -5,7 +5,13 @@
 
 version: 2
 updates:
-  - package-ecosystem: "nuget"
+  - package-ecosystem: "nuget" # See documentation for possible values
     directory: "/" # Location of package manifests
+    reviewers:
+    - Elders/cronus-team
+    assignees:
+    - mynkow
+    labels:
+    - dependencies
     schedule:
       interval: "daily"

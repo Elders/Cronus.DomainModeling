@@ -16,7 +16,9 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
 
-    <PackageIcon>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIcon>
+    <ReleaseNotes>https://github.com/Elders/Cronus.DomainModeling/blob/preview/CHANGELOG.md</ReleaseNotes>
+
+    <PackageIconUrl>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Elders/Cronus.DomainModeling.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>

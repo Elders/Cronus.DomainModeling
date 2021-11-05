@@ -1,3 +1,10 @@
+## [6.3.2](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.1...v6.3.2) (2021-11-05)
+
+
+### Bug Fixes
+
+* Adds the copyright tag ([336edbf](https://github.com/Elders/Cronus.DomainModeling/commit/336edbf4cd5e134704d9703c990c6ebfb3e92519))
+
 ## [6.3.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.0...v6.3.1) (2021-11-05)
 
 

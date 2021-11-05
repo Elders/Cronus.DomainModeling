@@ -7,33 +7,28 @@
   <!--Nuget-->
   <PropertyGroup>
     <PackageId>Cronus.DomainModeling</PackageId>
+
     <Product>Cronus</Product>
     <Title>Cronus</Title>
     <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
     <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
-    <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
+
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+
+    <PackageIcon>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIcon>
     <RepositoryUrl>https://github.com/Elders/Cronus.DomainModeling.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Elders/Cronus</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageIconUrl>https://raw.githubusercontent.com/Elders/logo/master/cronus/frame.png</PackageIconUrl>
+
     <AssemblyName>Elders.Cronus.DomainModeling</AssemblyName>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <RootNamespace>Elders.Cronus</RootNamespace>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AssemblyVersion>6.0.0</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <!--<DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <EmbedSources>true</EmbedSources>-->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>

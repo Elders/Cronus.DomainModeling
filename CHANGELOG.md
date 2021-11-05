@@ -1,3 +1,10 @@
+## [6.2.1-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.3...v6.2.1-preview.4) (2021-11-05)
+
+
+### Bug Fixes
+
+* Configures source link ([6f0370c](https://github.com/Elders/Cronus.DomainModeling/commit/6f0370c69d49cdf7ae6ff6f9da57e7bd374292a5))
+
 ## [6.2.1-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.2...v6.2.1-preview.3) (2021-05-13)
 
 

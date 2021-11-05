@@ -8,10 +8,10 @@ updates:
   - package-ecosystem: "nuget" # See documentation for possible values
     directory: "/" # Location of package manifests
     reviewers:
-    - Elders/cronus-team
+      - "Elders/cronus-team"
     assignees:
-    - mynkow
+      - "mynkow"
     labels:
-    - dependencies
+      - "dependencies"
     schedule:
       interval: "daily"

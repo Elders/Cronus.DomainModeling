@@ -5,13 +5,13 @@
 
 version: 2
 updates:
-  - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    reviewers:
-      - "Elders/cronus-team"
-    assignees:
-      - "mynkow"
-    labels:
-      - "dependencies"
+  - package-ecosystem: "nuget"
+    directory: "/"
     schedule:
       interval: "daily"
+    reviewers:
+      - "Elders/cronus-team"
+    assignees: 
+      - "mynkow"
+    commit-message:
+      prefix: "fix: "

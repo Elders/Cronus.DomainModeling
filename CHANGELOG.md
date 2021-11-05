@@ -1,3 +1,35 @@
+# [6.3.0](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.0...v6.3.0) (2021-11-05)
+
+
+### Bug Fixes
+
+* Configures dependabot ([f860c77](https://github.com/Elders/Cronus.DomainModeling/commit/f860c775bc0f58e6fee377eb9c4b5cc99ef54974))
+* Configures semantic release packages ([9d5e4bd](https://github.com/Elders/Cronus.DomainModeling/commit/9d5e4bd7ce69ced94e0bca139f3f95b55aed0bff))
+* Configures source link ([6f0370c](https://github.com/Elders/Cronus.DomainModeling/commit/6f0370c69d49cdf7ae6ff6f9da57e7bd374292a5))
+* Finalizing version ([74bea5d](https://github.com/Elders/Cronus.DomainModeling/commit/74bea5d5ff5010780fa03680a308a74c39270d41))
+* fix the parsing of the urn not using the correct format provider ([29d427e](https://github.com/Elders/Cronus.DomainModeling/commit/29d427ef52bae993ad94dfe027835953e551800d))
+* Fixes CI release ([329b45d](https://github.com/Elders/Cronus.DomainModeling/commit/329b45d38a4d6ae69c4f747350bc0c91f07cb628))
+* Fixes introduced breaking changes ([eadb76d](https://github.com/Elders/Cronus.DomainModeling/commit/eadb76d1c96e5d53fc1dd2c786848c8a323eaa01))
+* Fixes package icon ([cd279a5](https://github.com/Elders/Cronus.DomainModeling/commit/cd279a5a1fcc37a801145630e3f7464d5ed435e8))
+* Fixes project pack task ([a106f4b](https://github.com/Elders/Cronus.DomainModeling/commit/a106f4ba934cc7fad9b85d9c76a8775561705db7))
+* Fixes URN regex to properly capture 2/32 long NID ([5635cb2](https://github.com/Elders/Cronus.DomainModeling/commit/5635cb2ac482cc4721a546a966e3fccc5e5ef07a))
+* Marks the base Port class as abstract so it is not picked as a handler ([cc82bbb](https://github.com/Elders/Cronus.DomainModeling/commit/cc82bbb62ec744fb3ffcceb24bf03d04da61e7f3))
+* Nope ([fafa7b4](https://github.com/Elders/Cronus.DomainModeling/commit/fafa7b48234693e82fd0bc1caf163650c303923a))
+* Parsing URNs now respects global UrnFormatProvider configuration ([2389870](https://github.com/Elders/Cronus.DomainModeling/commit/2389870eac5021f8f2cb56b0aded01135e51256d))
+* Prepares preview version ([6ada8be](https://github.com/Elders/Cronus.DomainModeling/commit/6ada8be9c43b64ef69e6eab5edc910ee6d4c83da))
+* Removes gitversion.yml ([ced74a9](https://github.com/Elders/Cronus.DomainModeling/commit/ced74a9bf9647fa7de9222ced13b0d45c1eb7444))
+* Renames pipeline job ([3811b52](https://github.com/Elders/Cronus.DomainModeling/commit/3811b528f6211976dbde4e62748c97320978165c))
+* specifies SymbolPackageFormat ([faf3b66](https://github.com/Elders/Cronus.DomainModeling/commit/faf3b66fadbb72cc734cc5046e662ef294f1379f))
+* Trying dependabot, again. Hope it works 2 years later ([67fe6e9](https://github.com/Elders/Cronus.DomainModeling/commit/67fe6e9338da968d12f811f28c75dc85dbec590d))
+* Trying source link ([280295f](https://github.com/Elders/Cronus.DomainModeling/commit/280295f2d61fdfb2d08de063845c04fc3a164add))
+* Trying without package ecosystem ([a8fa6e2](https://github.com/Elders/Cronus.DomainModeling/commit/a8fa6e22b74ca86482e5de438a631712ff7b9f90))
+* Updates packate meta ([487a056](https://github.com/Elders/Cronus.DomainModeling/commit/487a056bb7f923e083efbab625d0fd5dfa3b0a73))
+
+
+### Features
+
+* Release ([4a2e6c3](https://github.com/Elders/Cronus.DomainModeling/commit/4a2e6c3069e8166f128542cac7f130d63029728a))
+
 ## [6.2.1-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.7...v6.2.1-preview.8) (2021-11-05)
 
 

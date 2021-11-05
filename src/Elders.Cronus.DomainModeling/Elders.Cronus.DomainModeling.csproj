@@ -10,7 +10,7 @@
     <Product>Cronus</Product>
     <Title>Cronus</Title>
     <Authors>Elders OSS</Authors>
-    <Copyright>Copyright © Elders OSS 2013-2020</Copyright>
+    <Copyright>Copyright © Elders OSS 2013-2022</Copyright>
     <Description>Cronus is a lightweight framework for building event driven systems with DDD/CQRS in mind</Description>
     <PackageTags>CQRS DDD ES Event store sourcing cronus</PackageTags>
     <PackageLicenseUrl>https://github.com/Elders/Cronus/blob/master/LICENSE</PackageLicenseUrl>
@@ -29,9 +29,11 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <EmbedSources>true</EmbedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 </Project>

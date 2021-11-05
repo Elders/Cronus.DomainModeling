@@ -1,3 +1,10 @@
+## [6.2.1-preview.7](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.6...v6.2.1-preview.7) (2021-11-05)
+
+
+### Bug Fixes
+
+* Updates packate meta ([487a056](https://github.com/Elders/Cronus.DomainModeling/commit/487a056bb7f923e083efbab625d0fd5dfa3b0a73))
+
 ## [6.2.1-preview.6](https://github.com/Elders/Cronus.DomainModeling/compare/v6.2.1-preview.5...v6.2.1-preview.6) (2021-11-05)
 
 

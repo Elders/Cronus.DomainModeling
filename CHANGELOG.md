@@ -1,3 +1,10 @@
+## [6.3.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.3...v6.3.4) (2021-11-05)
+
+
+### Bug Fixes
+
+* Fixes dependabot ([3e605be](https://github.com/Elders/Cronus.DomainModeling/commit/3e605beb7caf10207f6ab8c55410793ea984406b))
+
 ## [6.3.3](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.2...v6.3.3) (2021-11-05)
 
 

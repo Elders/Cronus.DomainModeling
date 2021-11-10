@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IUnderstandPublishedLanguage
 {
-    public interface IUnderstandPublishedLanguage
-    {
-        IEnumerable<IPublicEvent> UncommittedPublicEvents { get; }
-    }
+    IEnumerable<IPublicEvent> UncommittedPublicEvents { get; }
 }

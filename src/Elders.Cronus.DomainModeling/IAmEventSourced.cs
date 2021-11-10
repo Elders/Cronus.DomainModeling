@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IAmEventSourced
 {
-    public interface IAmEventSourced
-    {
-        void ReplayEvents(List<IEvent> events, int currentRevision);
-        void RegisterEventHandler(Type eventType, Action<IEvent> handleAction);
-        void RegisterEventHandler(IEntityId entityId, Type eventType, Action<IEvent> handleAction);
-        IEnumerable<IEvent> UncommittedEvents { get; }
-    }
+    void ReplayEvents(List<IEvent> events, int currentRevision);
+    void RegisterEventHandler(Type eventType, Action<IEvent> handleAction);
+    void RegisterEventHandler(IEntityId entityId, Type eventType, Action<IEvent> handleAction);
+    IEnumerable<IEvent> UncommittedEvents { get; }
 }

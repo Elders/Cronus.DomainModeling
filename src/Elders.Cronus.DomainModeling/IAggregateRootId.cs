@@ -1,9 +1,8 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IAggregateRootId : IUrn, IBlobId
 {
-    public interface IAggregateRootId : IUrn, IBlobId
-    {
-        string AggregateRootName { get; }
-        string Id { get; }
-        string Tenant { get; }
-    }
+    string AggregateRootName { get; }
+    string Id { get; }
+    string Tenant { get; }
 }

@@ -1,7 +1,6 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IBlobId
 {
-    public interface IBlobId
-    {
-        byte[] RawId { get; }
-    }
+    byte[] RawId { get; }
 }

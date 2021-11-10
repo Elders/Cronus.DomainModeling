@@ -1,7 +1,6 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IEntityState
 {
-    public interface IEntityState
-    {
-        IEntityId EntityId { get; }
-    }
+    IEntityId EntityId { get; }
 }

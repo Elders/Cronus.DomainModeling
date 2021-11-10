@@ -1,7 +1,6 @@
-namespace Elders.Cronus
-{
-    public interface IEntity : IHaveState<IEntityState>
-    {
+namespace Elders.Cronus;
 
-    }
+public interface IEntity : IHaveState<IEntityState>
+{
+
 }

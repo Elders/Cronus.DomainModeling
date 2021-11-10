@@ -1,7 +1,6 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IAggregateRoot : IAmEventSourced, IHaveState<IAggregateRootState>, IUnderstandPublishedLanguage
 {
-    public interface IAggregateRoot : IAmEventSourced, IHaveState<IAggregateRootState>, IUnderstandPublishedLanguage
-    {
-        int Revision { get; }
-    }
+    int Revision { get; }
 }

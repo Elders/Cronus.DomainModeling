@@ -1,8 +1,7 @@
-﻿namespace Elders.Cronus
+﻿namespace Elders.Cronus;
+
+public interface ISignalHandle<in T>
+    where T : ISignal
 {
-    public interface ISignalHandle<in T>
-        where T : ISignal
-    {
-        void Handle(T signal);
-    }
+    void Handle(T signal);
 }

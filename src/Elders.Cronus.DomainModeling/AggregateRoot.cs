@@ -162,3 +162,26 @@ public class EntityEvent : IEvent
     [DataMember(Order = 2)]
     public IEvent Event { get; private set; }
 }
+
+[DataContract(Name = "d7d01ea8-76c2-47d5-b902-9eeb21dcdace")]
+public class EntityPublicEvent : IPublicEvent
+{
+    EntityPublicEvent() { }
+
+    public EntityPublicEvent(IEntityId id, IPublicEvent @event)
+    {
+        this.EntityId = id;
+        this.Event = @event;
+        this.Tenant = @event.Tenant;
+    }
+
+    [DataMember(Order = 0)]
+    public string Tenant { get; private set; }
+
+    [DataMember(Order = 1)]
+    public IEntityId EntityId { get; private set; }
+
+    [DataMember(Order = 2)]
+    public IPublicEvent Event { get; private set; }
+
+}

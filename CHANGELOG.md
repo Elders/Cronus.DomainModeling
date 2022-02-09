@@ -1,3 +1,10 @@
+# [7.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0-preview.1...v7.0.0-preview.2) (2022-02-09)
+
+
+### Bug Fixes
+
+* Add EntityPublicEvent functionality ([#40](https://github.com/Elders/Cronus.DomainModeling/issues/40)) ([f86cfbf](https://github.com/Elders/Cronus.DomainModeling/commit/f86cfbfc06f8917600aeea90eef6555c26f4f329))
+
 # [7.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.4...v7.0.0-preview.1) (2021-11-11)
 
 ## [6.3.4](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.3...v6.3.4) (2021-11-05)

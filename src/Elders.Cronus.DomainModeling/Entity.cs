@@ -29,4 +29,11 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
         var ar = (dynamic)root;
         ar.Apply((dynamic)entityEvent);
     }
+
+    protected void Apply(IPublicEvent @event)
+    {
+        var entityEvent = new EntityPublicEvent(state.EntityId, @event);
+        var ar = (dynamic)root;
+        ar.Apply((dynamic)entityEvent);
+    }
 }

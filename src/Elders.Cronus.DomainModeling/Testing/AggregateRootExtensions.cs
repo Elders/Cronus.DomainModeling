@@ -32,6 +32,11 @@ public static class AggregateRootExtensions
         return root.UncommittedEvents.Any();
     }
 
+    public static bool HasNewPublicEvents(this IAggregateRoot root)
+    {
+        return root.UncommittedPublicEvents.Any();
+    }
+
     public static T RootState<T>(this AggregateRoot<T> root) where T : IAggregateRootState, new()
     {
         return (T)(root as IHaveState<IAggregateRootState>).State;

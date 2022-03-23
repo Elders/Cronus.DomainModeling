@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Elders.Cronus.Projections;
 
@@ -8,4 +9,5 @@ namespace Elders.Cronus.Projections;
 public interface IAmEventSourcedProjection
 {
     void ReplayEvents(IEnumerable<IEvent> events);
+    Task ReplayEventsAsync(IEnumerable<IEvent> events);
 }

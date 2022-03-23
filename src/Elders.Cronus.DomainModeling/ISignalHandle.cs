@@ -1,7 +1,9 @@
-﻿namespace Elders.Cronus;
+﻿using System.Threading.Tasks;
+
+namespace Elders.Cronus;
 
 public interface ISignalHandle<in T>
     where T : ISignal
 {
-    void Handle(T signal);
+    Task HandleAsync(T signal);
 }

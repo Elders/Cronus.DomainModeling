@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Elders.Cronus.Projections;
 
@@ -65,6 +66,20 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         foreach (IEvent @event in events)
         {
             projection.Apply(@event);
+        }
+    }
+
+    async Task IProjectionDefinition.ApplyAsync(IEvent @event)
+    {
+        await ((dynamic)this).HandleAsync((dynamic)@event).ConfigureAwait(false);
+    }
+
+    async Task IAmEventSourcedProjection.ReplayEventsAsync(IEnumerable<IEvent> events)
+    {
+        var projection = this as IProjectionDefinition;
+        foreach (IEvent @event in events)
+        {
+            await projection.ApplyAsync(@event).ConfigureAwait(false); // Replace this with async code
         }
     }
 

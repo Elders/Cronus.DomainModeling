@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Elders.Cronus;
 
@@ -21,7 +22,7 @@ public interface IScheduledMessage : IMessage
 
 public interface ISagaTimeoutHandler<in T> where T : IScheduledMessage
 {
-    void Handle(T sagaTimeout);
+    Task HandleAsync(T sagaTimeout);
 }
 
 public abstract class Saga : ISaga

@@ -7,6 +7,22 @@ namespace Elders.Cronus;
 /// it easy to map other namespaces (which share the properties of URNs) into URN-space.Therefore, the URN syntax provides a means to encode
 /// character data in a form that can be sent in existing protocols, transcribed on most keyboards, etc.
 /// </summary>
+/// <remarks>
+/// Where to use Base64/Base64URL/Plain
+///
+/// Base64 URL
+///
+/// - Transfer via HTTP
+///
+/// Base64
+///
+/// - Transfer via AMQP(RabbitMQ)
+/// - In storages
+///
+/// Plain
+///
+/// - Only in Memory operations
+/// </remarks>
 /// <example>"urn:NID:NSS</example>
 public interface IUrn : IEquatable<IUrn>
 {

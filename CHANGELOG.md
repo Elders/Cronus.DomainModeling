@@ -1,3 +1,10 @@
+# [7.0.0-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0-preview.3...v7.0.0-preview.4) (2022-03-24)
+
+
+### Bug Fixes
+
+* Adds remarks ([b6ee349](https://github.com/Elders/Cronus.DomainModeling/commit/b6ee349a459df445edae4da9c5821c79ca564553))
+
 # [7.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0-preview.2...v7.0.0-preview.3) (2022-02-09)
 
 

@@ -1,7 +1,6 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IHaveState<out TState>
 {
-    public interface IHaveState<out TState>
-    {
-        TState State { get; }
-    }
+    TState State { get; }
 }

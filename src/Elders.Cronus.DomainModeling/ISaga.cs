@@ -1,43 +1,42 @@
 ﻿using System;
 
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+/// <summary>
+/// When we have a workflow which involves several aggregates it is recommended to have the whole process described 
+/// in a single place such as Saga/ProcessManager.
+/// </summary>
+public interface ISaga : IMessageHandler { }
+
+/// <summary>
+/// Message which will be published in the future.
+/// </summary>
+public interface IScheduledMessage : IMessage
 {
     /// <summary>
-    /// When we have a workflow which involves several aggregates it is recommended to have the whole process described 
-    /// in a single place such as Saga/ProcessManager.
+    /// The date when this message will be published.
     /// </summary>
-    public interface ISaga : IMessageHandler { }
+    DateTime PublishAt { get; }
+}
 
-    /// <summary>
-    /// Message which will be published in the future.
-    /// </summary>
-    public interface IScheduledMessage : IMessage
+public interface ISagaTimeoutHandler<in T> where T : IScheduledMessage
+{
+    void Handle(T sagaTimeout);
+}
+
+public abstract class Saga : ISaga
+{
+    protected readonly IPublisher<ICommand> commandPublisher;
+    protected readonly IPublisher<IScheduledMessage> timeoutRequestPublisher;
+
+    public Saga(IPublisher<ICommand> commandPublisher, IPublisher<IScheduledMessage> timeoutRequestPublisher)
     {
-        /// <summary>
-        /// The date when this message will be published.
-        /// </summary>
-        DateTime PublishAt { get; }
+        this.commandPublisher = commandPublisher ?? throw new ArgumentNullException(nameof(commandPublisher));
+        this.timeoutRequestPublisher = timeoutRequestPublisher ?? throw new ArgumentNullException(nameof(timeoutRequestPublisher));
     }
 
-    public interface ISagaTimeoutHandler<in T> where T : IScheduledMessage
+    public void RequestTimeout<T>(T timeoutMessage) where T : IScheduledMessage
     {
-        void Handle(T sagaTimeout);
-    }
-
-    public abstract class Saga : ISaga
-    {
-        protected readonly IPublisher<ICommand> commandPublisher;
-        protected readonly IPublisher<IScheduledMessage> timeoutRequestPublisher;
-
-        public Saga(IPublisher<ICommand> commandPublisher, IPublisher<IScheduledMessage> timeoutRequestPublisher)
-        {
-            this.commandPublisher = commandPublisher ?? throw new ArgumentNullException(nameof(commandPublisher));
-            this.timeoutRequestPublisher = timeoutRequestPublisher ?? throw new ArgumentNullException(nameof(timeoutRequestPublisher));
-        }
-
-        public void RequestTimeout<T>(T timeoutMessage) where T : IScheduledMessage
-        {
-            timeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
-        }
+        timeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
     }
 }

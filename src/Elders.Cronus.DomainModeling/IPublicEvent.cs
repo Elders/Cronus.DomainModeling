@@ -1,10 +1,9 @@
-﻿namespace Elders.Cronus
+﻿namespace Elders.Cronus;
+
+/// <summary>
+/// An event which is part of the domain's Published Language
+/// </summary>
+public interface IPublicEvent : IMessage
 {
-    /// <summary>
-    /// An event which is part of the domain's Published Language
-    /// </summary>
-    public interface IPublicEvent : IMessage
-    {
-        string Tenant { get; }
-    }
+    string Tenant { get; }
 }

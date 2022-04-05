@@ -1,4 +1,3 @@
-﻿namespace Elders.Cronus
-{
-    public interface IMessageHandler { }
-}
+﻿namespace Elders.Cronus;
+
+public interface IMessageHandler { }

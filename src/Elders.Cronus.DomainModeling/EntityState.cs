@@ -1,10 +1,9 @@
-namespace Elders.Cronus
-{
-    public abstract class EntityState<TEntityId> : IEntityState
-        where TEntityId : IEntityId
-    {
-        IEntityId IEntityState.EntityId { get { return EntityId; } }
+namespace Elders.Cronus;
 
-        public abstract TEntityId EntityId { get; set; }
-    }
+public abstract class EntityState<TEntityId> : IEntityState
+    where TEntityId : IEntityId
+{
+    IEntityId IEntityState.EntityId { get { return EntityId; } }
+
+    public abstract TEntityId EntityId { get; set; }
 }

@@ -1,7 +1,6 @@
-namespace Elders.Cronus
+namespace Elders.Cronus;
+
+public interface IAggregateRootState
 {
-    public interface IAggregateRootState
-    {
-        IAggregateRootId Id { get; }
-    }
+    IAggregateRootId Id { get; }
 }

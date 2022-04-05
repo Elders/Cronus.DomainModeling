@@ -1,40 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Elders.Cronus.Testing
+namespace Elders.Cronus.Testing;
+
+public static class AggregateRootExtensions
 {
-    public static class AggregateRootExtensions
+    public static T PublishedEvent<T>(this IAggregateRoot root) where T : IEvent
     {
-        public static T PublishedEvent<T>(this IAggregateRoot root) where T : IEvent
-        {
-            var @event = PublishedEvents<T>(root).SingleOrDefault();
-            if (@event is null)
-                return default;
-            return (T)@event;
-        }
+        var @event = PublishedEvents<T>(root).SingleOrDefault();
+        if (@event is null)
+            return default;
+        return (T)@event;
+    }
 
-        public static IEnumerable<T> PublishedEvents<T>(this IAggregateRoot root) where T : IEvent
-        {
-            var arEvents = root.UncommittedEvents.Where(x => x is T).Select(x => (T)x);
+    public static IEnumerable<T> PublishedEvents<T>(this IAggregateRoot root) where T : IEvent
+    {
+        var arEvents = root.UncommittedEvents.Where(x => x is T).Select(x => (T)x);
 
-            var entityEvents = root.UncommittedEvents.Where(x => x is EntityEvent).Select(x => (EntityEvent)x);
+        var entityEvents = root.UncommittedEvents.Where(x => x is EntityEvent).Select(x => (EntityEvent)x);
 
-            return arEvents.Union(entityEvents.Where(x => x.Event is T).Select(x => (T)x.Event));
-        }
+        return arEvents.Union(entityEvents.Where(x => x.Event is T).Select(x => (T)x.Event));
+    }
 
-        public static bool IsEventPublished<T>(this IAggregateRoot root) where T : IEvent
-        {
-            return ReferenceEquals(default(T), PublishedEvent<T>(root)) == false;
-        }
+    public static bool IsEventPublished<T>(this IAggregateRoot root) where T : IEvent
+    {
+        return ReferenceEquals(default(T), PublishedEvent<T>(root)) == false;
+    }
 
-        public static bool HasNewEvents(this IAggregateRoot root)
-        {
-            return root.UncommittedEvents.Any();
-        }
+    public static bool HasNewEvents(this IAggregateRoot root)
+    {
+        return root.UncommittedEvents.Any();
+    }
 
-        public static T RootState<T>(this AggregateRoot<T> root) where T : IAggregateRootState, new()
-        {
-            return (T)(root as IHaveState<IAggregateRootState>).State;
-        }
+    public static bool HasNewPublicEvents(this IAggregateRoot root)
+    {
+        return root.UncommittedPublicEvents.Any();
+    }
+
+    public static T RootState<T>(this AggregateRoot<T> root) where T : IAggregateRootState, new()
+    {
+        return (T)(root as IHaveState<IAggregateRootState>).State;
     }
 }

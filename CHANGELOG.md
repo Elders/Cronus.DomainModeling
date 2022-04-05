@@ -1,3 +1,5 @@
+# [8.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0...v8.0.0-preview.1) (2022-04-05)
+
 # [7.0.0](https://github.com/Elders/Cronus.DomainModeling/compare/v6.3.4...v7.0.0) (2022-04-05)
 
 

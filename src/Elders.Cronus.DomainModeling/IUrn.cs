@@ -24,6 +24,7 @@ namespace Elders.Cronus;
 /// - Only in Memory operations
 /// </remarks>
 /// <example>"urn:NID:NSS</example>
+[Obsolete]
 public interface IUrn : IEquatable<IUrn>
 {
     /// <summary>

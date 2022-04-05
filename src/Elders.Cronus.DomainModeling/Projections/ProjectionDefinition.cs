@@ -55,20 +55,6 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         }
     }
 
-    void IProjectionDefinition.Apply(IEvent @event)
-    {
-        ((dynamic)this).Handle((dynamic)@event);
-    }
-
-    void IAmEventSourcedProjection.ReplayEvents(IEnumerable<IEvent> events)
-    {
-        var projection = this as IProjectionDefinition;
-        foreach (IEvent @event in events)
-        {
-            projection.Apply(@event);
-        }
-    }
-
     async Task IProjectionDefinition.ApplyAsync(IEvent @event)
     {
         await ((dynamic)this).HandleAsync((dynamic)@event).ConfigureAwait(false);

@@ -11,6 +11,5 @@ public interface IProjectionDefinition : IHaveState, IAmEventSourcedProjection
     /// <param name="event"></param>
     /// <returns></returns>
     IEnumerable<IBlobId> GetProjectionIds(IEvent @event);
-    void Apply(IEvent @event);
     Task ApplyAsync(IEvent @event);
 }

@@ -8,6 +8,5 @@ namespace Elders.Cronus.Projections;
 /// </summary>
 public interface IAmEventSourcedProjection
 {
-    void ReplayEvents(IEnumerable<IEvent> events);
     Task ReplayEventsAsync(IEnumerable<IEvent> events);
 }

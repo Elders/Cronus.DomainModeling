@@ -1,3 +1,10 @@
+# [8.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0-preview.2...v8.0.0-preview.3) (2022-04-08)
+
+
+### Bug Fixes
+
+* Provide async Save/Load ([0b81f4a](https://github.com/Elders/Cronus.DomainModeling/commit/0b81f4a88a569a822da76a0ea09ce6b509adea08))
+
 # [8.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0-preview.1...v8.0.0-preview.2) (2022-04-05)
 
 # [8.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0...v8.0.0-preview.1) (2022-04-05)

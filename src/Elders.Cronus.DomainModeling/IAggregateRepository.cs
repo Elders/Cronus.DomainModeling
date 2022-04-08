@@ -1,4 +1,6 @@
-﻿namespace Elders.Cronus;
+﻿using System.Threading.Tasks;
+
+namespace Elders.Cronus;
 
 /// <summary>
 /// Indicates the ability to store and retreive a stream of events.
@@ -13,7 +15,7 @@ public interface IAggregateRepository
     /// </summary>
     /// <typeparam name="AR"></typeparam>
     /// <param name="aggregateRoot"></param>
-    void Save<AR>(AR aggregateRoot) where AR : IAggregateRoot;
+    Task SaveAsync<AR>(AR aggregateRoot) where AR : IAggregateRoot;
 
     /// <summary>
     /// Reconstructs the entire aggregate (including entities and VOs)
@@ -21,5 +23,5 @@ public interface IAggregateRepository
     /// <typeparam name="AR"></typeparam>
     /// <param name="id"></param>
     /// <returns></returns>
-    ReadResult<AR> Load<AR>(IAggregateRootId id) where AR : IAggregateRoot;
+    Task<ReadResult<AR>> LoadAsync<AR>(IAggregateRootId id) where AR : IAggregateRoot;
 }

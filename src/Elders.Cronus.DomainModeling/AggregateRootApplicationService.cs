@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Elders.Cronus;
 
@@ -23,13 +24,13 @@ public abstract class ApplicationService<AR> : IApplicationService where AR : IA
     /// </summary>
     /// <param name="id"></param>
     /// <param name="update"></param>
-    public virtual void Update(IAggregateRootId id, Action<AR> update)
+    public virtual async Task UpdateAsync(IAggregateRootId id, Action<AR> update)
     {
-        ReadResult<AR> result = repository.Load<AR>(id);
+        ReadResult<AR> result = await repository.LoadAsync<AR>(id).ConfigureAwait(false);
         if (result.IsSuccess)
         {
             update(result.Data);
-            repository.Save(result.Data);
+            await repository.SaveAsync(result.Data).ConfigureAwait(false);
         }
         else
         {

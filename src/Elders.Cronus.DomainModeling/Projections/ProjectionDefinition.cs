@@ -65,7 +65,7 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         var projection = this as IProjectionDefinition;
         foreach (IEvent @event in events)
         {
-            await projection.ApplyAsync(@event).ConfigureAwait(false); // Replace this with async code
+            await projection.ApplyAsync(@event).ConfigureAwait(false);
         }
     }
 

@@ -24,7 +24,7 @@ namespace Elders.Cronus.Tests.InMemoryEventStoreSuite
             entity.MakeEntityPublicEvent();
         };
 
-        Because of = () => exception = Catch.Exception(() => aggregateRepository.Save(aggregateRoot));
+        Because of = () => exception = Catch.Exception(() => aggregateRepository.SaveAsync(aggregateRoot).GetAwaiter().GetResult());
 
         It should_throw_an_exception = () => exception.Message.Contains("Brad miii");
 

@@ -1,3 +1,10 @@
+# [8.0.0-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0-preview.3...v8.0.0-preview.4) (2022-04-26)
+
+
+### Bug Fixes
+
+* Performance improvement when replaying events ([c8e9e22](https://github.com/Elders/Cronus.DomainModeling/commit/c8e9e221982b89628933bce0abb502e9717c3c00))
+
 # [8.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0-preview.2...v8.0.0-preview.3) (2022-04-08)
 
 

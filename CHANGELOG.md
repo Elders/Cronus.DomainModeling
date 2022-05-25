@@ -1,3 +1,12 @@
+# [8.0.0](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0...v8.0.0) (2022-05-25)
+
+
+### Bug Fixes
+
+* bump Microsoft.NET.Test.Sdk from 17.1.0 to 17.2.0 ([7d430ca](https://github.com/Elders/Cronus.DomainModeling/commit/7d430cafde1f5c23f24c986dce57e2f20e4e5c9f))
+* Performance improvement when replaying events ([c8e9e22](https://github.com/Elders/Cronus.DomainModeling/commit/c8e9e221982b89628933bce0abb502e9717c3c00))
+* Provide async Save/Load ([0b81f4a](https://github.com/Elders/Cronus.DomainModeling/commit/0b81f4a88a569a822da76a0ea09ce6b509adea08))
+
 # [8.0.0-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0-preview.3...v8.0.0-preview.4) (2022-04-26)
 
 

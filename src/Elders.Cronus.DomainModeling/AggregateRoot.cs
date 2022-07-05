@@ -122,8 +122,22 @@ public class EventHandlerRegistrations // internal?
 
         if (stateHandler is null)
         {
-            aggregateRootHandlers.TryGetValue(candidate.BaseType, out stateHandler);
-            if (stateHandler is null)
+            if (candidate.BaseType is not null)
+            {
+                aggregateRootHandlers.TryGetValue(candidate.BaseType, out stateHandler);
+                if (stateHandler is null)
+                {
+                    foreach (var @interface in candidate.GetInterfaces())
+                    {
+                        aggregateRootHandlers.TryGetValue(@interface, out stateHandler);
+                        if (stateHandler is not null)
+                            return stateHandler;
+                    }
+
+                    return FindStateHandler(candidate.BaseType);
+                }
+            }
+            else
             {
                 foreach (var @interface in candidate.GetInterfaces())
                 {

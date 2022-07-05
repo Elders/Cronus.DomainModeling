@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus;
@@ -114,6 +115,30 @@ public class EventHandlerRegistrations // internal?
         }
     }
 
+    private Action<IEvent> FindStateHandler(Type candidate)
+    {
+        Action<IEvent> stateHandler = null;
+        aggregateRootHandlers.TryGetValue(candidate, out stateHandler);
+
+        if (stateHandler is null)
+        {
+            aggregateRootHandlers.TryGetValue(candidate.BaseType, out stateHandler);
+            if (stateHandler is null)
+            {
+                foreach (var @interface in candidate.GetInterfaces())
+                {
+                    aggregateRootHandlers.TryGetValue(@interface, out stateHandler);
+                    if (stateHandler is not null)
+                        return stateHandler;
+                }
+
+                return FindStateHandler(candidate.BaseType);
+            }
+        }
+
+        return stateHandler;
+    }
+
     public Action<IEvent> GetEventHandler(IEvent @event, out IEvent realEvent)
     {
         realEvent = @event;
@@ -123,7 +148,7 @@ public class EventHandlerRegistrations // internal?
 
         if (ReferenceEquals(null, entityEvent))
         {
-            aggregateRootHandlers.TryGetValue(realEventType, out stateHandler);
+            stateHandler = FindStateHandler(realEventType);
         }
         else
         {

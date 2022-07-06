@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.1...v8.1.0) (2022-07-06)
+
+
+### Features
+
+* Add additional null check ([8acab3e](https://github.com/Elders/Cronus.DomainModeling/commit/8acab3e279e8d10c0c33d3a9521c1d9c4e0ed942))
+
 ## [8.0.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0...v8.0.1) (2022-07-06)
 
 

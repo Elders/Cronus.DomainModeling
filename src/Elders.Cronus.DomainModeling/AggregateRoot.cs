@@ -114,6 +114,23 @@ public class EventHandlerRegistrations // internal?
         }
     }
 
+    private Action<IEvent> FindStateHandler(Type candidate)
+    {
+        aggregateRootHandlers.TryGetValue(candidate, out Action<IEvent> stateHandler);
+
+        if (stateHandler is not null)
+            return stateHandler;
+
+        foreach (var @interface in candidate.GetInterfaces())
+        {
+            aggregateRootHandlers.TryGetValue(@interface, out stateHandler);
+            if (stateHandler is not null)
+                return stateHandler;
+        }
+
+        return FindStateHandler(candidate.BaseType);
+    }
+
     public Action<IEvent> GetEventHandler(IEvent @event, out IEvent realEvent)
     {
         realEvent = @event;
@@ -123,7 +140,7 @@ public class EventHandlerRegistrations // internal?
 
         if (ReferenceEquals(null, entityEvent))
         {
-            aggregateRootHandlers.TryGetValue(realEventType, out stateHandler);
+            stateHandler = FindStateHandler(realEventType);
         }
         else
         {

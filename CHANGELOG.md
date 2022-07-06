@@ -1,3 +1,10 @@
+## [8.0.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.0...v8.0.1) (2022-07-06)
+
+
+### Bug Fixes
+
+* Add support for parrent types in Aggregate state handlers ([79e80ba](https://github.com/Elders/Cronus.DomainModeling/commit/79e80bafc9ecc9faa5a40a3ad0873162c209e7a1))
+
 # [8.0.0](https://github.com/Elders/Cronus.DomainModeling/compare/v7.0.0...v8.0.0) (2022-05-25)
 
 

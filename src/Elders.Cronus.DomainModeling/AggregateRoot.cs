@@ -116,6 +116,9 @@ public class EventHandlerRegistrations // internal?
 
     private Action<IEvent> FindStateHandler(Type candidate)
     {
+        if (candidate is null || typeof(IEvent).IsAssignableFrom(candidate) == false)
+            return null;
+
         aggregateRootHandlers.TryGetValue(candidate, out Action<IEvent> stateHandler);
 
         if (stateHandler is not null)
@@ -155,7 +158,7 @@ public class EventHandlerRegistrations // internal?
 
         if (ReferenceEquals(null, stateHandler))
         {
-            string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state.";
+            string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state. Make sure that the stand handler exists and the parameter inherits from IEvent";
             throw new Exception(error);
         }
         return stateHandler;

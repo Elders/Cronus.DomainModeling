@@ -107,7 +107,6 @@ namespace Elders.Cronus
         public string Name { get; private set; }
     }
 
-
     public class TestAggregate : AggregateRoot<TestAggregateState>
     {
         public TestAggregate() { }

@@ -1,7 +1,6 @@
-﻿using Machine.Specifications;
-using System;
+﻿using Elders.Cronus.Testing;
+using Machine.Specifications;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus
@@ -9,80 +8,39 @@ namespace Elders.Cronus
     [Subject(typeof(EventHandlerRegistrations))]
     public class When__GetEventHandler__for_event
     {
-        static EventHandlerRegistrations handlers;
-        static DomainObjectEventHandlerMapping mapping;
-        static Dictionary<Type, Action<IEvent>> arHandlers;
-
-        static TestEvent testEvent;
-        static TestEventParent testParent;
-        static TestEventIParent testIParent;
-        static TestEventBaseIParent testBaseIParent;
-        static IEvent realEvent;
-        static Action<IEvent> result;
+        static TestEventFromBaseClass TestEventFromBase;
+        static TestEventFromInterface testEventFromInterface;
+        static TestEventInRecursion testEventInRecursion;
+        static TestAggregate aggregate;
 
         Establish ctx = () =>
         {
-            mapping = new DomainObjectEventHandlerMapping();
-            arHandlers = mapping.GetEventHandlers(() => new TestAggregateState());
-            handlers = new EventHandlerRegistrations();
+            aggregate = new TestAggregate();
 
-            foreach (var handler in arHandlers)
-            {
-                handlers.Register(handler.Key, handler.Value);
-            }
-
-            testEvent = new TestEvent("test");
-            testParent = new TestEventParent("test");
-            testIParent = new TestEventIParent("test");
-            testBaseIParent = new TestEventBaseIParent("test");
+            TestEventFromBase = new TestEventFromBaseClass("test");
+            testEventFromInterface = new TestEventFromInterface("test");
+            testEventInRecursion = new TestEventInRecursion("test");
         };
 
-        class When_event_have_a_specific_handler
+        class When_real_event_type_inherited_from_parrent_base
         {
-            Because of = () => result = handlers.GetEventHandler(testEvent, out realEvent);
+            Because of = () => aggregate.PersistEvent(TestEventFromBase);
 
-            It shoul_have_proper_action = () =>
-            {
-                Action<IEvent> eventAction = arHandlers[testEvent.GetType()];
-
-                result.Method.ShouldEqual(eventAction.Method);
-            };
+            It shoul_be_added_to_uncommited_events = () => aggregate.RootState().persistedEvents.Contains(TestEventFromBase).ShouldBeTrue();
         }
 
-        class When_event_have_a__handler_by_parenttype
+        class When_real_event_type_inherited_from_contract
         {
-            Because of = () => result = handlers.GetEventHandler(testParent, out realEvent);
+            Because of = () => aggregate.PersistEvent(testEventFromInterface);
 
-            It shoul_have_proper_action = () =>
-            {
-                Action<IEvent> eventAction = arHandlers[testParent.GetType().BaseType];
-
-                result.Method.ShouldEqual(eventAction.Method);
-            };
+            It shoul_be_added_to_uncommited_events = () => aggregate.RootState().persistedEvents.Contains(testEventFromInterface).ShouldBeTrue();
         }
 
-        class When_event_have_a__handler_by_parenttype_2
+        class When_real_event_type_inherited_from_nested_parrents
         {
-            Because of = () => result = handlers.GetEventHandler(testBaseIParent, out realEvent);
+            Because of = () => aggregate.PersistEvent(testEventInRecursion);
 
-            It shoul_have_proper_action = () =>
-            {
-                Action<IEvent> eventAction = arHandlers[testBaseIParent.GetType().BaseType];
-
-                result.Method.ShouldEqual(eventAction.Method);
-            };
-        }
-
-        class When_event_have_a__handler_by_interface
-        {
-            Because of = () => result = handlers.GetEventHandler(testIParent, out realEvent);
-
-            It shoul_have_proper_action = () =>
-            {
-                Action<IEvent> eventAction = arHandlers[testIParent.GetType().GetInterfaces().First()];
-
-                result.Method.ShouldEqual(eventAction.Method);
-            };
+            It shoul_be_added_to_uncommited_events = () => aggregate.RootState().persistedEvents.Contains(testEventInRecursion).ShouldBeTrue();
         }
     }
 
@@ -100,14 +58,14 @@ namespace Elders.Cronus
         public string Name { get; private set; }
     }
 
-    public class Parent : IEvent { }
+    public abstract class ParentBase : IParent { }
 
     [DataContract(Name = "3a1ff2728-0dc3-4eb4-aa37-62a9163a1fb6")]
-    public class TestEventParent : Parent
+    public class TestEventFromBaseClass : ParentBase
     {
-        private TestEventParent() { }
+        private TestEventFromBaseClass() { }
 
-        public TestEventParent(string name)
+        public TestEventFromBaseClass(string name)
         {
             Name = name;
         }
@@ -119,11 +77,11 @@ namespace Elders.Cronus
     public interface IParent : IEvent { }
 
     [DataContract(Name = "47dac65f-02a3-470a-8dba-8ced047fe469")]
-    public class TestEventIParent : IParent
+    public class TestEventFromInterface : IParent
     {
-        private TestEventIParent() { }
+        private TestEventFromInterface() { }
 
-        public TestEventIParent(string name)
+        public TestEventFromInterface(string name)
         {
             Name = name;
         }
@@ -131,15 +89,16 @@ namespace Elders.Cronus
         [DataMember(Order = 1)]
         public string Name { get; private set; }
     }
-
-    public class ParentBase : IParent { }
+    public class ParentBase2 : ParentBase { }
+    public class ParentBase3 : ParentBase2 { }
+    public class ParentBase4 : ParentBase3 { }
 
     [DataContract(Name = "47dac65f-02a3-470a-8dba-8ced047fe469")]
-    public class TestEventBaseIParent : ParentBase
+    public class TestEventInRecursion : ParentBase4
     {
-        private TestEventBaseIParent() { }
+        private TestEventInRecursion() { }
 
-        public TestEventBaseIParent(string name)
+        public TestEventInRecursion(string name)
         {
             Name = name;
         }
@@ -152,21 +111,23 @@ namespace Elders.Cronus
     public class TestAggregate : AggregateRoot<TestAggregateState>
     {
         public TestAggregate() { }
+
+        public void PersistEvent(IEvent @event)
+        {
+            Apply(@event);
+        }
     }
 
     public class TestAggregateState : AggregateRootState<TestAggregate, TestAggregateRootId>
     {
-        public TestAggregateState() { }
-
+        public TestAggregateState() { persistedEvents = new List<IEvent>(); }
         public override TestAggregateRootId Id { get; set; }
 
-        public void When(TestEvent e) { }
+        public List<IEvent> persistedEvents;
 
-        public void When(Parent e) { }
+        public void When(IParent e) { persistedEvents.Add(e); }
 
-        public void When(IParent e) { }
-
-        public void When(ParentBase e) { }
+        public void When(ParentBase e) { persistedEvents.Add(e); }
     }
 
     [DataContract(Name = "19b290e1-9403-4414-9558-67a270f5bcc5")]

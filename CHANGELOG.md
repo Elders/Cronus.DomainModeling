@@ -1,3 +1,10 @@
+## [8.1.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.0...v8.1.1) (2022-08-16)
+
+
+### Bug Fixes
+
+* pipeline update ([8763e06](https://github.com/Elders/Cronus.DomainModeling/commit/8763e06190e61800ecdf97ec8db7ca5ca788f3d0))
+
 # [8.1.0](https://github.com/Elders/Cronus.DomainModeling/compare/v8.0.1...v8.1.0) (2022-07-06)
 
 

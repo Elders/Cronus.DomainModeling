@@ -84,7 +84,7 @@ public class AggregateRoot<TState> : IAggregateRoot
     }
 }
 
-internal sealed class EventHandlerRegistrations // internal?
+public sealed class EventHandlerRegistrations // internal?
 {
     private Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
     private Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;

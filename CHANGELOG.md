@@ -1,3 +1,10 @@
+# [9.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.1...v9.0.0-preview.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* Fix build ([23895b9](https://github.com/Elders/Cronus.DomainModeling/commit/23895b9cf05cadc1b1de3892ff4316d80c292716))
+
 ## [8.1.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.0...v8.1.1) (2022-08-16)
 
 

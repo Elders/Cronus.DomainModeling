@@ -1,3 +1,10 @@
+# [9.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.1...v9.0.0-preview.2) (2022-12-14)
+
+
+### Features
+
+* Adds OnReplayComplete method on IAmEventSourcedProjection ([44c6ded](https://github.com/Elders/Cronus.DomainModeling/commit/44c6ded2bd59816842393394d6f2539ed378dc93))
+
 # [9.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.1...v9.0.0-preview.1) (2022-09-14)
 
 

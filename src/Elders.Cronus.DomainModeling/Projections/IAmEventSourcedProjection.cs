@@ -18,7 +18,7 @@ public interface IAmEventSourcedProjection
     /// Called after all events are iterated. It allows you to clean up after the process is finished.
     /// </summary>
     /// <returns></returns>
-    Task OnReplayCompletedAsync();
+    Task OnReplayCompletedAsync() => Task.CompletedTask;
 }
 
 public interface IAmEventSourcedProjectionFast : IAmEventSourcedProjection

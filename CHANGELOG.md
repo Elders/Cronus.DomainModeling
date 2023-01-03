@@ -1,3 +1,10 @@
+# [9.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.2...v9.0.0-preview.3) (2023-01-03)
+
+
+### Bug Fixes
+
+* Adds static implementation on Complete ([475b34c](https://github.com/Elders/Cronus.DomainModeling/commit/475b34c8879c257772add282ece31225257d335e))
+
 # [9.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.1...v9.0.0-preview.2) (2022-12-14)
 
 

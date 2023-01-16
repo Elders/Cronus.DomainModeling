@@ -4,7 +4,7 @@ namespace Elders.Cronus;
 
 public class PlainUrnFormatProvider : IUrnFormatProvider
 {
-    public string Format(IUrn urn)
+    public string Format(Urn urn)
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 

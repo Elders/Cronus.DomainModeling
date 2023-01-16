@@ -8,7 +8,7 @@ namespace Elders.Cronus
         Establish context = () =>
         {
             urn = new Urn("urn:tenant:arName:123a/Entity:456E".ToLower());
-            origin = new AggregateRootId("123a", "arName", "Tenant");
+            origin = new AggregateRootId("Tenant", "arName", "123a");
         };
 
         Because of = () => result = new TestEntityUrnId("456E", origin, "Entity");

@@ -10,14 +10,14 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
 
     IEntityState IHaveState<IEntityState>.State { get { return state; } }
 
-    protected Entity(TAggregateRoot root, IEntityId entityId)
+    protected Entity(TAggregateRoot root, EntityId entityId)
     {
         this.root = root;
         this.state = new TEntityState();
         var dynamicState = (dynamic)this.state;
         dynamicState.EntityId = (dynamic)entityId;
         var mapping = new DomainObjectEventHandlerMapping();
-        foreach (var handlerAction in mapping.GetEventHandlers(() => this.state))
+        foreach (var handlerAction in DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state))
         {
             root.RegisterEventHandler(state.EntityId, handlerAction.Key, handlerAction.Value);
         }

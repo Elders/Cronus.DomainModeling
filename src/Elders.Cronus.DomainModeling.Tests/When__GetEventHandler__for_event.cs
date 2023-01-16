@@ -134,6 +134,6 @@ namespace Elders.Cronus
     {
         public TestAggregateRootId() { }
 
-        public TestAggregateRootId(string id, string tenant) : base(id, "test", tenant) { }
+        public TestAggregateRootId(string id, string tenant) : base(tenant, "test", id) { }
     }
 }

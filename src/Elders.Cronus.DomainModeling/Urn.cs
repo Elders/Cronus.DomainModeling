@@ -2,11 +2,12 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 [DataContract(Name = "d3ff08b5-38e2-4aaf-b3a8-ccc423ed096d")]
-public class Urn : IUrn, IEquatable<IUrn>, IBlobId
+public class Urn : IEquatable<Urn>, IBlobId
 {
     /// <summary>
     /// Specifies if the URNs will follow strictly the rfc(https://tools.ietf.org/html/rfc8141)
@@ -37,7 +38,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
         RawId = new byte[0];
     }
 
-    public Urn(IUrn urn) : this(urn.Value) { }
+    public Urn(Urn urn) : this(urn.Value) { }
 
     public Urn(string urnString)
     {
@@ -57,11 +58,9 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     /// <param name="nss">The Namespace Specific String</param>
     public Urn(string nid, string nss, string rcomponent = null, string qcomponent = null, string fcomponent = null)
     {
-        if (string.IsNullOrEmpty(nid))
-            throw new ArgumentException("NID is not valid", nameof(nid));
+        if (string.IsNullOrEmpty(nid)) throw new ArgumentException("NID is not valid", nameof(nid));
+        if (string.IsNullOrEmpty(nss)) throw new ArgumentException("NSS is not valid", nameof(nss));
 
-        if (string.IsNullOrEmpty(nss))
-            throw new ArgumentException("NSS is not valid", nameof(nss));
         string urn = BuildUrnString(nid, nss, rcomponent, qcomponent, fcomponent);
 
         if (UseCaseSensitiveUrns == false)
@@ -90,7 +89,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
 
     private void SetUri(Uri uri)
     {
-        var match = System.Text.RegularExpressions.Regex.Match(uri.AbsoluteUri, UrnRegex.Pattern, System.Text.RegularExpressions.RegexOptions.None);
+        System.Text.RegularExpressions.Match match = UrnRegex.Match(uri.AbsoluteUri);
         nid = match.Groups[UrnRegex.Group.NID.ToString()].Value;
         nss = match.Groups[UrnRegex.Group.NSS.ToString()].Value;
         r_Component = match.Groups[UrnRegex.Group.R_Component.ToString()].Value;
@@ -221,7 +220,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool Equals(IUrn other)
+    public bool Equals(Urn other)
     {
         return $"{NID.ToLower()}:{NSS}".Equals($"{other.NID.ToLower()}:{other.NSS}");
     }

@@ -10,7 +10,7 @@ namespace Elders.Cronus
         It should_build_urn = () => result.Value.ShouldEqual(urn.Value);
 
         static Base64UrlTokenUrnFormatProvider provider = new Base64UrlTokenUrnFormatProvider();
-        static IUrn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
-        static IUrn result;
+        static Urn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
+        static Urn result;
     }
 }

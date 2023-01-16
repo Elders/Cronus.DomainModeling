@@ -4,7 +4,7 @@ namespace Elders.Cronus;
 
 public class Base64UrlTokenUrnFormatProvider : IUrnFormatProvider
 {
-    public string Format(IUrn urn)
+    public string Format(Urn urn)
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
@@ -19,7 +19,7 @@ public class Base64UrlTokenUrnFormatProvider : IUrnFormatProvider
         return input.Base64UrlTokenDecode();
     }
 
-    public bool CanParse(string input)
+    public static bool CanParse(string input)
     {
         return input.CanBase64UrlTokenDecode();
     }

@@ -24,7 +24,7 @@ public abstract class ApplicationService<AR> : IApplicationService where AR : IA
     /// </summary>
     /// <param name="id"></param>
     /// <param name="update"></param>
-    public virtual async Task UpdateAsync(IAggregateRootId id, Action<AR> update)
+    public virtual async Task UpdateAsync(AggregateRootId id, Action<AR> update)
     {
         ReadResult<AR> result = await repository.LoadAsync<AR>(id).ConfigureAwait(false);
         if (result.IsSuccess)

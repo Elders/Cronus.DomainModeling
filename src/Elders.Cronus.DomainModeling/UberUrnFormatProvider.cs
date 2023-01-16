@@ -20,7 +20,7 @@ public class UberUrnFormatProvider : IUrnFormatProvider
         plainUrnFormatProvider = new PlainUrnFormatProvider();
     }
 
-    public string Format(IUrn urn)
+    public string Format(Urn urn)
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
@@ -29,10 +29,10 @@ public class UberUrnFormatProvider : IUrnFormatProvider
 
     public string Parse(string input)
     {
-        if (base64UrlTokenUrnFormatProvider.CanParse(input))
+        if (Base64UrlTokenUrnFormatProvider.CanParse(input))
             return base64UrlTokenUrnFormatProvider.Parse(input);
 
-        if (base64UrnFormatProvider.CanParse(input))
+        if (Base64UrnFormatProvider.CanParse(input))
             return base64UrnFormatProvider.Parse(input);
 
         return plainUrnFormatProvider.Parse(input);

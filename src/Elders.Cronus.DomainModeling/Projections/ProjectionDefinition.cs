@@ -163,8 +163,3 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         return Task.CompletedTask;
     }
 }
-
-public class ContinueId : IBlobId
-{
-    public byte[] RawId => null;
-}

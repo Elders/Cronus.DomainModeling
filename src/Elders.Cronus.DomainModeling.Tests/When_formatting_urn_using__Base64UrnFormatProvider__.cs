@@ -17,7 +17,7 @@ namespace Elders.Cronus
         It should_format_to_base64 = () => result.ShouldEqual(urnBase64);
 
         static Base64UrnFormatProvider provider = new Base64UrnFormatProvider();
-        static IUrn urn;
+        static Urn urn;
         static string urnBase64 = "dXJuOlRlbmFudDphck5hbWU6YWJjMTIzKCkrLC0uOj1AOyRfISonJTk5YQ==";
         static string result;
 

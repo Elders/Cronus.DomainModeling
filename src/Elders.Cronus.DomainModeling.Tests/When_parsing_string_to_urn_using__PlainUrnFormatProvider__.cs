@@ -10,9 +10,9 @@ namespace Elders.Cronus
         It should_build_urn = () => result.Value.ShouldEqual(urn.Value);
 
         static PlainUrnFormatProvider provider = new PlainUrnFormatProvider();
-        static IUrn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
+        static Urn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
         static string urnPlain = @"urn:Tenant:arName:abc123()+,-.:=@;$_!*'%99a";
-        static IUrn result;
+        static Urn result;
     }
 
     [Subject("Urn")]

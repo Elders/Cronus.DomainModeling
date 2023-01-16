@@ -7,7 +7,7 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
-            origin = new AggregateRootId("123a", "arName", "Tenant");
+            origin = new AggregateRootId("Tenant", "arName", "123a");
         };
 
         Because of = () => result = new TestEntityUrnId("456E", origin, "Entity");
@@ -18,7 +18,7 @@ namespace Elders.Cronus
 
         It should_have_id = () => result.Id.ShouldEqual("arname:123a/entity:456e");
 
-        It should_have_entity_id = () => result.EntityId.ShouldEqual("456e");
+        It should_have_entity_id = () => result.EntityID.ShouldEqual("456e");
 
         It should_have_entity_name = () => result.EntityName.ShouldEqual("entity");
 

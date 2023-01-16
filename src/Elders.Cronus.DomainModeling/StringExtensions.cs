@@ -207,22 +207,15 @@ public static class StringExtensions
 
     public static string Base64UrlTokenEncode(this string input)
     {
-
         var stringBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(input);
         var urlEncoded = Base64UrlTokenEncodeFromByteArray(stringBytes);
 
         return urlEncoded;
     }
 
-    public static bool IsUrn(this string s)
-    {
-        return System.Text.RegularExpressions.Regex.IsMatch(s, @"\b(urn):([a-z0-9][a-z0-9-]{0,31}):([a-z0-9()+,\-.=@;$_!:*'%\/?#]*[a-z0-9+=@$\/])", System.Text.RegularExpressions.RegexOptions.None);
-    }
-
     public static bool IsNumeric(this string str)
     {
-        double retNum;
-        return Double.TryParse(str, NumberStyles.Number ^ NumberStyles.AllowLeadingSign ^ NumberStyles.AllowTrailingSign, NumberFormatInfo.InvariantInfo, out retNum);
+        return Double.TryParse(str, NumberStyles.Number ^ NumberStyles.AllowLeadingSign ^ NumberStyles.AllowTrailingSign, NumberFormatInfo.InvariantInfo, out _);
     }
 
     public static string UrlEncode(this string str) => Uri.EscapeDataString(str);

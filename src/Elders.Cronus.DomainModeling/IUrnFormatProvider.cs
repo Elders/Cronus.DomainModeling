@@ -7,7 +7,7 @@ public interface IUrnFormatProvider
     /// </summary>
     /// <param name="urn">The urn</param>
     /// <returns>Retutns a string representation of the provided urn</returns>
-    string Format(IUrn urn);
+    string Format(Urn urn);
 
     /// <summary>
     /// Gets a plain urn string from specially formatted string created by <see cref="Format(IUrn)"/>

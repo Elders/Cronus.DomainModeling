@@ -10,15 +10,15 @@ namespace Elders.Cronus
         It should_build_urn = () => result.Value.ShouldEqual(urn.Value);
 
         static Base64UrnFormatProvider provider = new Base64UrnFormatProvider();
-        static IUrn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
+        static Urn urn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
         static string urnBase64 = "dXJuOlRlbmFudDphck5hbWU6YWJjMTIzKCkrLC0uOj1AOyRfISonJTk5YQ==";
-        static IUrn result;
+        static Urn result;
     }
 
     [Subject("Urn")]
     public class When_parsing_string_to__AggregateUrn__
     {
-        Because of = () => result = AggregateUrn.Parse(urnString);
+        Because of = () => result = AggregateRootId.Parse(urnString);
 
         It should_build_urn = () => result.Value.ShouldEqual("urn:elders:arname:something:3");
 
@@ -33,6 +33,6 @@ namespace Elders.Cronus
         It should_have_id = () => result.Id.ShouldEqual("something:3");
 
         static string urnString = "urn:elders:arname:something:3";
-        static AggregateUrn result;
+        static AggregateRootId result;
     }
 }

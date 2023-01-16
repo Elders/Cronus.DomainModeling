@@ -22,7 +22,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
         var mapping = new DomainObjectEventHandlerMapping();
         handlers = new EventHandlerRegistrations();
-        var arHandlers = mapping.GetEventHandlers(() => this.state);
+        var arHandlers = DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state);
         foreach (var handler in arHandlers)
         {
             handlers.Register(handler.Key, handler.Value);
@@ -78,7 +78,7 @@ public class AggregateRoot<TState> : IAggregateRoot
         handlers.Register(eventType, handleAction);
     }
 
-    void IAmEventSourced.RegisterEventHandler(IEntityId entityId, Type eventType, Action<IEvent> handleAction)
+    void IAmEventSourced.RegisterEventHandler(EntityId entityId, Type eventType, Action<IEvent> handleAction)
     {
         handlers.Register(entityId, eventType, handleAction);
     }
@@ -86,13 +86,13 @@ public class AggregateRoot<TState> : IAggregateRoot
 
 public sealed class EventHandlerRegistrations // internal?
 {
-    private Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
-    private Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;
+    private readonly Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
+    private readonly Dictionary<EntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;
 
     public EventHandlerRegistrations()
     {
         aggregateRootHandlers = new Dictionary<Type, Action<IEvent>>();
-        entityHandlers = new Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>>();
+        entityHandlers = new Dictionary<EntityId, Dictionary<Type, Action<IEvent>>>();
     }
 
     public void Register(Type eventType, Action<IEvent> handler)
@@ -100,7 +100,7 @@ public sealed class EventHandlerRegistrations // internal?
         aggregateRootHandlers.Add(eventType, handler);
     }
 
-    public void Register(IEntityId entityId, Type eventType, Action<IEvent> handler)
+    public void Register(EntityId entityId, Type eventType, Action<IEvent> handler)
     {
         Dictionary<Type, Action<IEvent>> specificEntityHandlers;
         if (entityHandlers.TryGetValue(entityId, out specificEntityHandlers))
@@ -141,7 +141,7 @@ public sealed class EventHandlerRegistrations // internal?
         var entityEvent = @event as EntityEvent;
         Action<IEvent> stateHandler = null;
 
-        if (ReferenceEquals(null, entityEvent))
+        if (entityEvent is null)
         {
             stateHandler = FindStateHandler(realEventType);
         }
@@ -156,7 +156,7 @@ public sealed class EventHandlerRegistrations // internal?
             }
         }
 
-        if (ReferenceEquals(null, stateHandler))
+        if (stateHandler is null)
         {
             string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state. Make sure that the stand handler exists and the parameter inherits from IEvent";
             throw new Exception(error);
@@ -170,14 +170,14 @@ public class EntityEvent : IEvent
 {
     EntityEvent() { }
 
-    public EntityEvent(IEntityId id, IEvent @event)
+    public EntityEvent(EntityId id, IEvent @event)
     {
         this.EntityId = id;
         this.Event = @event;
     }
 
     [DataMember(Order = 1)]
-    public IEntityId EntityId { get; private set; }
+    public EntityId EntityId { get; private set; }
 
     [DataMember(Order = 2)]
     public IEvent Event { get; private set; }

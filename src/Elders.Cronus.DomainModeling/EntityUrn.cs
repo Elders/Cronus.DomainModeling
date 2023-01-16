@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
-public class EntityUrn : Urn
+public class EntityId : Urn
 {
     const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<entityid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
+    private static readonly Regex EntityRegex = new Regex(NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
 
     private string id;
     private string entityId;
     private string entityName;
-    private IAggregateRootId aggregateRootId;
+    private AggregateRootId aggregateRootId;
     private bool isFullyInitialized;
 
-    protected EntityUrn()
+    protected EntityId()
     {
         entityId = string.Empty;
         entityName = string.Empty;
         aggregateRootId = default;
     }
 
-    public EntityUrn(IAggregateRootId arUrn, string entityName, string entityId)
+    public EntityId(AggregateRootId arUrn, string entityName, string entityId)
         : base(arUrn.Tenant, $"{arUrn.AggregateRootName}{PARTS_DELIMITER}{arUrn.Id}{HIERARCHICAL_DELIMITER}{entityName}{PARTS_DELIMITER}{entityId}")
     {
         this.aggregateRootId = arUrn ?? throw new ArgumentNullException(nameof(arUrn));
@@ -27,13 +29,13 @@ public class EntityUrn : Urn
         this.entityId = entityId;
     }
 
-    public IAggregateRootId AggregateRootId { get { DoFullInitialization(); return aggregateRootId; } }
+    public AggregateRootId AggregateRootId { get { DoFullInitialization(); return aggregateRootId; } }
 
     public string EntityName { get { DoFullInitialization(); return entityName; } }
 
     public string Id { get { DoFullInitialization(); return id; } }
 
-    public string EntityId { get { DoFullInitialization(); return entityId; } }
+    public string EntityID { get { DoFullInitialization(); return entityId; } }
 
     protected override void DoFullInitialization()
     {
@@ -41,10 +43,10 @@ public class EntityUrn : Urn
         {
             base.DoFullInitialization();
 
-            var match = System.Text.RegularExpressions.Regex.Match(nss, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
+            var match = EntityRegex.Match(nss);
             if (match.Success)
             {
-                aggregateRootId = new AggregateUrn(nid, match.Groups["arname"].Value, match.Groups["arid"].Value);
+                aggregateRootId = new AggregateRootId(nid, match.Groups["arname"].Value, match.Groups["arid"].Value);
                 id = nss;
                 entityName = match.Groups["entityname"].Value;
                 entityId = match.Groups["entityid"].Value;
@@ -54,21 +56,21 @@ public class EntityUrn : Urn
         }
     }
 
-    new public static EntityUrn Parse(string urn)
+    new public static EntityId Parse(string urn)
     {
         Urn baseUrn = new Urn(urn);
 
-        var match = System.Text.RegularExpressions.Regex.Match(baseUrn.NSS, NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
+        var match = EntityRegex.Match(baseUrn.NSS);
         if (match.Success)
         {
-            var rootUrn = new AggregateUrn(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);
-            return new EntityUrn(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
+            var rootUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);
+            return new EntityId(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
         }
 
-        throw new ArgumentException($"Invalid {nameof(EntityUrn)}: {urn}", nameof(urn));
+        throw new ArgumentException($"Invalid {nameof(Cronus.EntityId)}: {urn}", nameof(urn));
     }
 
-    new public static EntityUrn Parse(string urn, IUrnFormatProvider proviver)
+    new public static EntityId Parse(string urn, IUrnFormatProvider proviver)
     {
         string plain = proviver.Parse(urn);
         return Parse(plain);

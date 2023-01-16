@@ -17,7 +17,7 @@ namespace Elders.Cronus
         It should_format_to_base64 = () => result.ShouldEqual(urnPlain);
 
         static PlainUrnFormatProvider provider = new PlainUrnFormatProvider();
-        static IUrn urn;
+        static Urn urn;
         static string urnPlain = @"urn:Tenant:arName:abc123()+,-.:=@;$_!*'%99a";
         static string result;
 

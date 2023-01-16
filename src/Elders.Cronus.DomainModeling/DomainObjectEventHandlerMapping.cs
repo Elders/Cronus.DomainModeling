@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace Elders.Cronus;
 
-public class DomainObjectEventHandlerMapping
+internal class DomainObjectEventHandlerMapping
 {
-    public Dictionary<Type, Action<IEvent>> GetEventHandlers(Func<object> target)
+    public static Dictionary<Type, Action<IEvent>> GetEventHandlers(Func<object> target)
     {
         var targetType = target().GetType();
         var handlers = new Dictionary<Type, Action<IEvent>>();

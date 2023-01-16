@@ -20,7 +20,7 @@ namespace Elders.Cronus
 
         It should_have_value = () => result.Value.ShouldEqual("urn:tenant:arName:123");
 
-        static IUrn result;
+        static Urn result;
         static string urn;
 
         Cleanup after = () => Urn.UseCaseSensitiveUrns = false;

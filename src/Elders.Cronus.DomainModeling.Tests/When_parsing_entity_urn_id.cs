@@ -10,11 +10,11 @@ namespace Elders.Cronus
             urnString = "urn:tenant:arName:123a/Entity:456E";
         };
 
-        Because of = () => result = EntityUrn.Parse(urnString);
+        Because of = () => result = EntityId.Parse(urnString);
 
         It should_have_urn_instance = () => result.ShouldNotBeNull();
 
         static string urnString;
-        static EntityUrn result;
+        static EntityId result;
     }
 }

@@ -11,7 +11,7 @@ public class AggregateRoot<TState> : IAggregateRoot
     protected List<IEvent> uncommittedEvents;
     protected List<IPublicEvent> uncommittedPublicEvents;
     private int revision;
-    private EventHandlerRegistrations handlers;
+    private readonly EventHandlerRegistrations handlers;
 
     public AggregateRoot()
     {
@@ -43,8 +43,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     internal protected void Apply(IEvent @event)
     {
-        IEvent realEvent;
-        var handler = handlers.GetEventHandler(@event, out realEvent);
+        var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
         handler(realEvent);
         uncommittedEvents.Add(@event);
     }
@@ -63,8 +62,7 @@ public class AggregateRoot<TState> : IAggregateRoot
         state = InitializeState();
         foreach (IEvent @event in events)
         {
-            IEvent realEvent;
-            var handler = handlers.GetEventHandler(@event, out realEvent);
+            var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
             handler(realEvent);
         }
         this.revision = revision;

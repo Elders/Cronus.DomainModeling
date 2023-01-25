@@ -1,3 +1,10 @@
+# [9.0.0-preview.5](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.4...v9.0.0-preview.5) (2023-01-25)
+
+
+### Features
+
+* Introduces IPublicEventHandler ([a2ac80f](https://github.com/Elders/Cronus.DomainModeling/commit/a2ac80f1bc1a90d35e0d5cd2926e6a25494c655e))
+
 # [9.0.0-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.3...v9.0.0-preview.4) (2023-01-16)
 
 # [9.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.2...v9.0.0-preview.3) (2023-01-03)

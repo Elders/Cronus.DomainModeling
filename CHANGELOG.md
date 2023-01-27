@@ -1,3 +1,10 @@
+# [9.0.0-preview.6](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.5...v9.0.0-preview.6) (2023-01-27)
+
+
+### Bug Fixes
+
+* Fix IsEventPublished not to throw exception on multiple events ([4d66f86](https://github.com/Elders/Cronus.DomainModeling/commit/4d66f8690dfe09b904292dd9d43cb337252f106c))
+
 # [9.0.0-preview.5](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.4...v9.0.0-preview.5) (2023-01-25)
 
 

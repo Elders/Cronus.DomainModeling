@@ -10,19 +10,18 @@ namespace Elders.Cronus
     {
         Establish context = () =>
         {
-            aggregateRootId = "urn:tenant:arName:123a";
-            urnString = $"{aggregateRootId}/Entity:456E";
+            urnString = $"urn:tenant:arname:randomid/entityname:randomguid:somethingelse";
         };
 
         Because of = () => result = EntityId.Parse(urnString);
 
         It should_have_urn_instance = () => result.ShouldNotBeNull();
 
-        It should_have_proper_aggregate_id = () => result.AggregateRootId.Value.ShouldBeEqualIgnoringCase(aggregateRootId);
+        It should_have_proper_aggregate_id = () => result.AggregateRootId.Value.ShouldBeEqualIgnoringCase("urn:tenant:arname:randomid");
 
-        It should_have_proper_entity_name = () => result.EntityName.ShouldBeEqualIgnoringCase("Entity");
+        It should_have_proper_entity_name = () => result.EntityName.ShouldBeEqualIgnoringCase("entityname");
 
-        It should_have_proper_entity_id = () => result.EntityID.ShouldBeEqualIgnoringCase("456E");
+        It should_have_proper_entity_id = () => result.EntityID.ShouldBeEqualIgnoringCase("randomguid:somethingelse");
 
         It should_have_proper_value_as_string = () => result.Value.ShouldBeEqualIgnoringCase(urnString);
 
@@ -30,6 +29,5 @@ namespace Elders.Cronus
 
         static string urnString;
         static EntityId result;
-        static string aggregateRootId;
     }
 }

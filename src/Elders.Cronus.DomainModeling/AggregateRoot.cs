@@ -15,7 +15,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     public AggregateRoot()
     {
-        state = InitializeState();
+        state = InitializeState(new TState());
         uncommittedEvents = new List<IEvent>();
         uncommittedPublicEvents = new List<IPublicEvent>();
         revision = 0;
@@ -29,12 +29,13 @@ public class AggregateRoot<TState> : IAggregateRoot
         }
     }
 
-    public TState InitializeState()
+    public TState InitializeState() => InitializeState(new TState());
+
+    public TState InitializeState(IAggregateRootState initialState)
     {
-        var state = new TState();
-        var dynamicState = (dynamic)state;
+        var dynamicState = (dynamic)initialState;
         dynamicState.Root = (dynamic)this;
-        return state;
+        return dynamicState;
     }
 
     IAggregateRootState IHaveState<IAggregateRootState>.State { get { return state; } }
@@ -59,16 +60,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
     {
-        state = InitializeState();
-        foreach (IEvent @event in events)
-        {
-            var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
-            handler(realEvent);
-        }
-        this.revision = revision;
-
-        if (state.Id == null || state.Id.RawId == default(byte[]))
-            throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
+        ((IAmEventSourced)this).ReplayEvents(events, revision, new TState());
     }
 
     void IAmEventSourced.RegisterEventHandler(Type eventType, Action<IEvent> handleAction)
@@ -79,6 +71,21 @@ public class AggregateRoot<TState> : IAggregateRoot
     void IAmEventSourced.RegisterEventHandler(EntityId entityId, Type eventType, Action<IEvent> handleAction)
     {
         handlers.Register(entityId, eventType, handleAction);
+    }
+
+    void IAmEventSourced.ReplayEvents(List<IEvent> events, int currentRevision, IAggregateRootState snapshot)
+    {
+        state = InitializeState(snapshot);
+        foreach (IEvent @event in events)
+        {
+            var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
+            handler(realEvent);
+        }
+
+        revision = currentRevision;
+
+        if (state.Id == null || state.Id.RawId == default(byte[]))
+            throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
     }
 }
 

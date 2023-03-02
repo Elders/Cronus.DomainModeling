@@ -23,6 +23,11 @@ public static class MessageInfo
         return messageId;
     }
 
+    public static bool IsSnapshotable(this Type type)
+    {
+        return typeof(IAmSnapshotable).IsAssignableFrom(type);
+    }
+
     public static string GetBoundedContext(this Type messageType, string defaultBoundedContext = "implicit")
     {
         string boundedContext;

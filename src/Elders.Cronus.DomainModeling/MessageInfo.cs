@@ -23,9 +23,19 @@ public static class MessageInfo
         return messageId;
     }
 
-    public static bool IsSnapshotable(this Type type)
+    public static bool IsSnapshotable(this Type rootType)
     {
-        return typeof(IAmSnapshotable).IsAssignableFrom(type);
+        return rootType.GetTypeInfo().ImplementedInterfaces
+            .Where(x => x.IsGenericType)
+            .Any(x => x.GetGenericTypeDefinition() == typeof(IAmSnapshotable<>).GetGenericTypeDefinition());
+    }
+
+    public static bool IsSnapshotable(this IAggregateRoot root)
+    {
+        if (root is null)
+            return false;
+
+        return IsSnapshotable(root.GetType());
     }
 
     public static string GetBoundedContext(this Type messageType, string defaultBoundedContext = "implicit")

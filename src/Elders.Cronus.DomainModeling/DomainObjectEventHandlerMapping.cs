@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Elders.Cronus;
 
-internal class DomainObjectEventHandlerMapping
+internal static class DomainObjectEventHandlerMapping
 {
     public static Dictionary<Type, Action<IEvent>> GetEventHandlers(Func<object> target)
     {

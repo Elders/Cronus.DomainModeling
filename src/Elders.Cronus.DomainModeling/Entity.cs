@@ -13,13 +13,12 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
     protected Entity(TAggregateRoot root, EntityId entityId)
     {
         this.root = root;
-        this.state = new TEntityState();
-        var dynamicState = (dynamic)this.state;
+        state = new TEntityState();
+        var dynamicState = (dynamic)state;
         dynamicState.EntityId = (dynamic)entityId;
-        var mapping = new DomainObjectEventHandlerMapping();
-        foreach (var handlerAction in DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state))
+        foreach (var handlerAction in DomainObjectEventHandlerMapping.GetEventHandlers(() => state))
         {
-            root.RegisterEventHandler(state.EntityId, handlerAction.Key, handlerAction.Value);
+            this.root.RegisterEventHandler(state.EntityId, handlerAction.Key, handlerAction.Value);
         }
     }
 

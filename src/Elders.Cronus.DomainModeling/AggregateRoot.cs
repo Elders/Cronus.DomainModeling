@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus;
@@ -15,12 +16,11 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     public AggregateRoot()
     {
-        state = InitializeState();
+        state = InitializeState(new TState());
         uncommittedEvents = new List<IEvent>();
         uncommittedPublicEvents = new List<IPublicEvent>();
         revision = 0;
 
-        var mapping = new DomainObjectEventHandlerMapping();
         handlers = new EventHandlerRegistrations();
         var arHandlers = DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state);
         foreach (var handler in arHandlers)
@@ -29,12 +29,13 @@ public class AggregateRoot<TState> : IAggregateRoot
         }
     }
 
-    public TState InitializeState()
+    public TState InitializeState() => InitializeState(new TState());
+
+    public TState InitializeState(IAggregateRootState initialState)
     {
-        var state = new TState();
-        var dynamicState = (dynamic)state;
+        var dynamicState = (dynamic)initialState;
         dynamicState.Root = (dynamic)this;
-        return state;
+        return dynamicState;
     }
 
     IAggregateRootState IHaveState<IAggregateRootState>.State { get { return state; } }
@@ -59,12 +60,16 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
     {
+        if (events is null) throw new ArgumentNullException(nameof(events));
+
         state = InitializeState();
+
         foreach (IEvent @event in events)
         {
             var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
             handler(realEvent);
         }
+
         this.revision = revision;
 
         if (state.Id == null || state.Id.RawId == default(byte[]))
@@ -79,6 +84,29 @@ public class AggregateRoot<TState> : IAggregateRoot
     void IAmEventSourced.RegisterEventHandler(EntityId entityId, Type eventType, Action<IEvent> handleAction)
     {
         handlers.Register(entityId, eventType, handleAction);
+    }
+
+    void IAmEventSourced.ReplayEvents(List<IEvent> events, int currentRevision, object snapshot)
+    {
+        if (events is null) throw new ArgumentNullException(nameof(events));
+        if (snapshot is null) throw new ArgumentNullException(nameof(snapshot));
+        if (GetType().IsSnapshotable() == false) throw new InvalidOperationException("Trying to restore a non-snapshotable aggregate from a snapshot.");
+
+        state = InitializeState();
+
+        var method = GetType().GetMethod(nameof(IAmSnapshotable<object>.RestoreFromSnapshot), BindingFlags.Public | BindingFlags.Instance);
+        method.Invoke(this, new object[] { snapshot });
+
+        foreach (IEvent @event in events)
+        {
+            var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
+            handler(realEvent);
+        }
+
+        revision = currentRevision;
+
+        if (state.Id == null || state.Id.RawId == default(byte[]))
+            throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
     }
 }
 
@@ -95,11 +123,18 @@ public sealed class EventHandlerRegistrations // internal?
 
     public void Register(Type eventType, Action<IEvent> handler)
     {
+        if (eventType is null) throw new ArgumentNullException(nameof(eventType));
+        if (handler is null) throw new ArgumentNullException(nameof(handler));
+
         aggregateRootHandlers.Add(eventType, handler);
     }
 
     public void Register(EntityId entityId, Type eventType, Action<IEvent> handler)
     {
+        if (entityId is null) throw new ArgumentNullException(nameof(entityId));
+        if (eventType is null) throw new ArgumentNullException(nameof(eventType));
+        if (handler is null) throw new ArgumentNullException(nameof(handler));
+
         Dictionary<Type, Action<IEvent>> specificEntityHandlers;
         if (entityHandlers.TryGetValue(entityId, out specificEntityHandlers))
         {

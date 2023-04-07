@@ -1,3 +1,10 @@
+# [9.0.0-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.7...v9.0.0-preview.8) (2023-04-07)
+
+
+### Features
+
+* Publisher can send raw message bytes. ([660fd4d](https://github.com/Elders/Cronus.DomainModeling/commit/660fd4d54da0080868109e22d0d8d8ac3a3d5720))
+
 # [9.0.0-preview.7](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.6...v9.0.0-preview.7) (2023-02-16)
 
 

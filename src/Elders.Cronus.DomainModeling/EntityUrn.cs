@@ -69,10 +69,4 @@ public class EntityId : Urn
 
         throw new ArgumentException($"Invalid {nameof(Cronus.EntityId)}: {urn}", nameof(urn));
     }
-
-    new public static EntityId Parse(string urn, IUrnFormatProvider proviver)
-    {
-        string plain = proviver.Parse(urn);
-        return Parse(plain);
-    }
 }

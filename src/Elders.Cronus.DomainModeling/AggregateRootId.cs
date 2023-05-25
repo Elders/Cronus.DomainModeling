@@ -7,8 +7,6 @@ namespace Elders.Cronus;
 public abstract class AggregateRootId<T> : AggregateRootId
     where T : AggregateRootId<T>
 {
-    static UberUrnFormatProvider urnFormatProvider = new UberUrnFormatProvider();
-
     protected AggregateRootId() { }
 
     protected AggregateRootId(string tenant, string rootName, string id) : base(tenant, rootName, id) { }
@@ -31,7 +29,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
     {
         var instance = (T)System.Activator.CreateInstance(typeof(T), true);
 
-        var stringTenantUrn = AggregateRootId.Parse(id, urnFormatProvider);
+        var stringTenantUrn = AggregateRootId.Parse(id);
         var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
         if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
             return newId;
@@ -46,7 +44,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
         {
             var instance = (T)System.Activator.CreateInstance(typeof(T), true);
 
-            var stringTenantUrn = AggregateRootId.Parse(id, urnFormatProvider);
+            var stringTenantUrn = AggregateRootId.Parse(id);
             var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
             if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
                 result = newId;
@@ -131,25 +129,12 @@ public class AggregateRootId : Urn
 
     public static bool TryParse(string urn, out AggregateRootId parsedUrn)
     {
-        return TryParse(urn, out parsedUrn, null);
-    }
-
-    new public static AggregateRootId Parse(string urn)
-    {
-        return Parse(urn, null);
-    }
-
-    public static bool TryParse(string urn, out AggregateRootId parsedUrn, IUrnFormatProvider provider = null)
-    {
-        IUrnFormatProvider urnFormatProvider = provider ?? Urn.UrnFormatProvider;
-
         parsedUrn = null;
 
-        if (IsUrn(urn, urnFormatProvider) == false)
+        if (IsUrn(urn) == false)
             return false;
 
-        string plain = urnFormatProvider.Parse(urn);
-        Urn baseUrn = new Urn(plain);
+        Urn baseUrn = new Urn(urn);
 
         Match match = NssRegex.Match(baseUrn.NSS);
         if (match.Success)
@@ -161,12 +146,9 @@ public class AggregateRootId : Urn
         return false;
     }
 
-    new public static AggregateRootId Parse(string urn, IUrnFormatProvider provider = null)
+    new public static AggregateRootId Parse(string urn)
     {
-        IUrnFormatProvider urnFormatProvider = provider ?? Urn.UrnFormatProvider;
-
-        string plain = urnFormatProvider.Parse(urn);
-        if (TryParse(plain, out AggregateRootId parsedUrn, Plain))
+        if (TryParse(urn, out AggregateRootId parsedUrn))
         {
             return parsedUrn;
         }

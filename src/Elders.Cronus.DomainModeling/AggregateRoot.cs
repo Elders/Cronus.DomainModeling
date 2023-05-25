@@ -60,8 +60,10 @@ public class AggregateRoot<TState> : IAggregateRoot
     void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
     {
         state = InitializeState();
+        int i = 0;
         foreach (IEvent @event in events)
         {
+            i++;
             var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
             handler(realEvent);
         }

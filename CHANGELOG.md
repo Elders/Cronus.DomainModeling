@@ -1,3 +1,10 @@
+# [9.0.0-preview.9](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.8...v9.0.0-preview.9) (2023-06-06)
+
+
+### Bug Fixes
+
+* Prevents null reference exception ([a54c06b](https://github.com/Elders/Cronus.DomainModeling/commit/a54c06ba54d7c08b978c4a87b7aa7b8360983ed7))
+
 # [9.0.0-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.7...v9.0.0-preview.8) (2023-04-07)
 
 

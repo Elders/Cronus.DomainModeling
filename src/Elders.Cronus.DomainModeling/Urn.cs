@@ -152,15 +152,15 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public string F_Component { get { DoFullInitialization(); return f_Component; } }
 
-    public string Value => Uri.ToString();
+    public string Value => Uri?.ToString();
 
     public override string ToString() => Value;
 
     public string ToString(IUrnFormatProvider provider) => provider.Format(this);
 
-    public static implicit operator string(Urn urn) => urn.Value;
+    public static implicit operator string(Urn urn) => urn?.Value;
 
-    public static implicit operator byte[](Urn urn) => urn.RawId;
+    public static implicit operator byte[](Urn urn) => urn?.RawId;
 
     public static bool operator ==(Urn left, Urn right)
     {

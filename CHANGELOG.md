@@ -1,3 +1,10 @@
+# [9.0.0-preview.10](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.9...v9.0.0-preview.10) (2023-07-12)
+
+
+### Bug Fixes
+
+* Publisher adjustments ([bf712b7](https://github.com/Elders/Cronus.DomainModeling/commit/bf712b7ffda049ce2b7494b24f2304c04263ec0f))
+
 # [9.0.0-preview.9](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.8...v9.0.0-preview.9) (2023-06-06)
 
 

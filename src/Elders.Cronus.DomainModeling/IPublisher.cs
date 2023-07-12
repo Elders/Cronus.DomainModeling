@@ -37,5 +37,5 @@ public interface IPublisher<in TMessage> where TMessage : IMessage
     /// <param name="messageType">The type of the message.</param>
     /// <param name="messageHeaders">The message headers.</param>
     /// <returns>Returns true if sending the message was successful.</returns>
-    bool Publish(ReadOnlyMemory<byte> messageRaw, Type messageType, Dictionary<string, string> messageHeaders);
+    bool Publish(byte[] messageRaw, Type messageType, Dictionary<string, string> messageHeaders);
 }

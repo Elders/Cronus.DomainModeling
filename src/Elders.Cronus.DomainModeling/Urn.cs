@@ -17,13 +17,6 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     internal static readonly PropertyInfo RawIdProperty = typeof(Urn).GetProperty(nameof(RawId), BindingFlags.Instance | BindingFlags.Public);
 
-    public static readonly IUrnFormatProvider Plain = new PlainUrnFormatProvider();
-    public static readonly IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
-    public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
-    public static readonly IUrnFormatProvider Uber = new UberUrnFormatProvider();
-
-    public static IUrnFormatProvider UrnFormatProvider = new PlainUrnFormatProvider();
-
     public const char PARTS_DELIMITER = ':';
     public const char HIERARCHICAL_DELIMITER = '/';
     public const string UriSchemeUrn = "urn";
@@ -156,8 +149,6 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public override string ToString() => Value;
 
-    public string ToString(IUrnFormatProvider provider) => provider.Format(this);
-
     public static implicit operator string(Urn urn) => urn?.Value;
 
     public static implicit operator byte[](Urn urn) => urn?.RawId;
@@ -182,29 +173,6 @@ public class Urn : IEquatable<Urn>, IBlobId
     {
         try { return UrnRegex.Matches(candidate); }
         catch (Exception) { return false; }
-    }
-
-    public static bool IsUrn(string candidate, IUrnFormatProvider provider)
-    {
-        try
-        {
-            var parsedUrn = Parse(candidate, provider);
-            return true;
-        }
-        catch (Exception) { return false; }
-    }
-
-    public static Urn Parse(string urn)
-    {
-        return Parse(urn, null);
-    }
-
-    public static Urn Parse(string urn, IUrnFormatProvider proviver = null)
-    {
-        IUrnFormatProvider urnFormatProvider = proviver ?? UrnFormatProvider;
-        string plain = urnFormatProvider.Parse(urn);
-
-        return new Urn(plain);
     }
 
     public override bool Equals(object comparand)
@@ -234,8 +202,5 @@ public class Urn : IEquatable<Urn>, IBlobId
                 : Uri.GetHashCode();
         }
     }
-
-    public string ToBase64() => this.ToString(Base64);
-    public string ToBase64UrlToken() => this.ToString(Base64UrlToken);
 }
 

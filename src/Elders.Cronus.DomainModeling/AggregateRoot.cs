@@ -57,7 +57,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     IEnumerable<IPublicEvent> IUnderstandPublishedLanguage.UncommittedPublicEvents { get { return uncommittedPublicEvents.AsReadOnly(); } }
 
-    void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
+    void IAmEventSourced.ReplayEvents(IEnumerable<IEvent> events, int revision)
     {
         state = InitializeState();
         foreach (IEvent @event in events)

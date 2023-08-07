@@ -57,13 +57,11 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     IEnumerable<IPublicEvent> IUnderstandPublishedLanguage.UncommittedPublicEvents { get { return uncommittedPublicEvents.AsReadOnly(); } }
 
-    void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
+    void IAmEventSourced.ReplayEvents(IEnumerable<IEvent> events, int revision)
     {
         state = InitializeState();
-        int i = 0;
         foreach (IEvent @event in events)
         {
-            i++;
             var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
             handler(realEvent);
         }

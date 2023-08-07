@@ -129,24 +129,32 @@ public class AggregateRootId : Urn
 
     public static bool TryParse(string urn, out AggregateRootId parsedUrn)
     {
-        parsedUrn = null;
-
-        if (IsUrn(urn) == false)
-            return false;
-
-        Urn baseUrn = new Urn(urn);
-
-        Match match = NssRegex.Match(baseUrn.NSS);
-        if (match.Success)
+        try
         {
-            parsedUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);
-            return true;
-        }
+            parsedUrn = null;
 
-        return false;
+            if (IsUrn(urn) == false)
+                return false;
+
+            Urn baseUrn = new Urn(urn);
+
+            Match match = NssRegex.Match(baseUrn.NSS);
+            if (match.Success)
+            {
+                parsedUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);
+                return true;
+            }
+
+            return false;
+        }
+        catch (Exception)
+        {
+            parsedUrn = null;
+            return false;
+        }
     }
 
-    new public static AggregateRootId Parse(string urn)
+    public static AggregateRootId Parse(string urn)
     {
         if (TryParse(urn, out AggregateRootId parsedUrn))
         {

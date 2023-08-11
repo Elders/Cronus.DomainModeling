@@ -1,3 +1,10 @@
+# [9.0.0-preview.12](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.11...v9.0.0-preview.12) (2023-08-11)
+
+
+### Bug Fixes
+
+* Extends one of the overloads of Publish ([9f3cfc0](https://github.com/Elders/Cronus.DomainModeling/commit/9f3cfc03e3c7aca4e1f7de340147b0f75073c077))
+
 # [9.0.0-preview.11](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.10...v9.0.0-preview.11) (2023-08-07)
 
 # [9.0.0-preview.10](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.9...v9.0.0-preview.10) (2023-07-12)

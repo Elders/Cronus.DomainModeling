@@ -1,3 +1,10 @@
+# [9.0.0-preview.13](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.12...v9.0.0-preview.13) (2023-08-22)
+
+
+### Bug Fixes
+
+* Fixes entity urn parsing ([b75fc39](https://github.com/Elders/Cronus.DomainModeling/commit/b75fc39ef8d198df3fb15afd74c97cebfb816ff5))
+
 # [9.0.0-preview.12](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.11...v9.0.0-preview.12) (2023-08-11)
 
 

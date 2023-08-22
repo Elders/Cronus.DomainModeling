@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <!--Nuget-->
@@ -28,6 +28,6 @@
     <RootNamespace>Elders.Cronus</RootNamespace>
     <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <AssemblyVersion>9.0.0</AssemblyVersion>
+    <AssemblyVersion>10.0.0</AssemblyVersion>
   </PropertyGroup>
 </Project>

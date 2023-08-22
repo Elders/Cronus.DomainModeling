@@ -23,5 +23,5 @@ public interface IAggregateRepository
     /// <typeparam name="AR"></typeparam>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ReadResult<AR>> LoadAsync<AR>(IAggregateRootId id) where AR : IAggregateRoot;
+    Task<ReadResult<AR>> LoadAsync<AR>(AggregateRootId id) where AR : IAggregateRoot;
 }

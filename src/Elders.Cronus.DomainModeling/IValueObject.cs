@@ -4,10 +4,8 @@ using System.Reflection;
 
 namespace Elders.Cronus;
 
-public interface IValueObject<T> : IEqualityComparer<T>, IEquatable<T>
-{
+public interface IValueObject<T> : IEqualityComparer<T>, IEquatable<T> { }
 
-}
 /// <summary>
 /// The class which implements ValueObject<T> have to be marked with sealed keyword.
 /// </summary>
@@ -16,7 +14,7 @@ public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
 {
     public override bool Equals(object obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
+        if (obj is null) return false;
         if (ReferenceEquals(this, obj)) return true;
         return Equals(obj as T);
     }
@@ -45,7 +43,7 @@ public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
 
     public virtual bool Equals(T other)
     {
-        if (ReferenceEquals(null, other)) return false;
+        if (other is null) return false;
         if (ReferenceEquals(this, other)) return true;
 
         var t = GetType();
@@ -59,9 +57,9 @@ public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
             object value1 = field.GetValue(other);
             object value2 = field.GetValue(this);
 
-            if (ReferenceEquals(null, value1))
+            if (value1 is null)
             {
-                if (!ReferenceEquals(null, value2))
+                if (value2 is not null)
                     return false;
             }
             else if (!value1.Equals(value2))
@@ -72,8 +70,8 @@ public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
 
     public static bool operator ==(ValueObject<T> left, ValueObject<T> right)
     {
-        if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;
-        if (ReferenceEquals(null, left))
+        if (left is null && right is null) return true;
+        if (left is null)
             return false;
         else
             return left.Equals(right);
@@ -87,8 +85,8 @@ public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
 
     public bool Equals(T left, T right)
     {
-        if (ReferenceEquals(null, left) && ReferenceEquals(null, right)) return true;
-        if (ReferenceEquals(null, left))
+        if (left is null && right is null) return true;
+        if (left is null)
             return false;
         else
             return left.Equals(right);

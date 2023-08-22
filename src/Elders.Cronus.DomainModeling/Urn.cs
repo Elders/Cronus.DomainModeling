@@ -2,11 +2,12 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 [DataContract(Name = "d3ff08b5-38e2-4aaf-b3a8-ccc423ed096d")]
-public class Urn : IUrn, IEquatable<IUrn>, IBlobId
+public class Urn : IEquatable<Urn>, IBlobId
 {
     /// <summary>
     /// Specifies if the URNs will follow strictly the rfc(https://tools.ietf.org/html/rfc8141)
@@ -15,13 +16,6 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     public static bool UseCaseSensitiveUrns = false;
 
     internal static readonly PropertyInfo RawIdProperty = typeof(Urn).GetProperty(nameof(RawId), BindingFlags.Instance | BindingFlags.Public);
-
-    public static readonly IUrnFormatProvider Plain = new PlainUrnFormatProvider();
-    public static readonly IUrnFormatProvider Base64 = new Base64UrnFormatProvider();
-    public static readonly IUrnFormatProvider Base64UrlToken = new Base64UrlTokenUrnFormatProvider();
-    public static readonly IUrnFormatProvider Uber = new UberUrnFormatProvider();
-
-    public static IUrnFormatProvider UrnFormatProvider = new PlainUrnFormatProvider();
 
     public const char PARTS_DELIMITER = ':';
     public const char HIERARCHICAL_DELIMITER = '/';
@@ -37,7 +31,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
         RawId = new byte[0];
     }
 
-    public Urn(IUrn urn) : this(urn.Value) { }
+    public Urn(Urn urn) : this(urn.Value) { }
 
     public Urn(string urnString)
     {
@@ -57,11 +51,9 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     /// <param name="nss">The Namespace Specific String</param>
     public Urn(string nid, string nss, string rcomponent = null, string qcomponent = null, string fcomponent = null)
     {
-        if (string.IsNullOrEmpty(nid))
-            throw new ArgumentException("NID is not valid", nameof(nid));
+        if (string.IsNullOrEmpty(nid)) throw new ArgumentException("NID is not valid", nameof(nid));
+        if (string.IsNullOrEmpty(nss)) throw new ArgumentException("NSS is not valid", nameof(nss));
 
-        if (string.IsNullOrEmpty(nss))
-            throw new ArgumentException("NSS is not valid", nameof(nss));
         string urn = BuildUrnString(nid, nss, rcomponent, qcomponent, fcomponent);
 
         if (UseCaseSensitiveUrns == false)
@@ -90,7 +82,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
 
     private void SetUri(Uri uri)
     {
-        var match = System.Text.RegularExpressions.Regex.Match(uri.AbsoluteUri, UrnRegex.Pattern, System.Text.RegularExpressions.RegexOptions.None);
+        System.Text.RegularExpressions.Match match = UrnRegex.Match(uri.AbsoluteUri);
         nid = match.Groups[UrnRegex.Group.NID.ToString()].Value;
         nss = match.Groups[UrnRegex.Group.NSS.ToString()].Value;
         r_Component = match.Groups[UrnRegex.Group.R_Component.ToString()].Value;
@@ -153,15 +145,13 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
 
     public string F_Component { get { DoFullInitialization(); return f_Component; } }
 
-    public string Value => Uri.ToString();
+    public string Value => Uri?.ToString();
 
     public override string ToString() => Value;
 
-    public string ToString(IUrnFormatProvider provider) => provider.Format(this);
+    public static implicit operator string(Urn urn) => urn?.Value;
 
-    public static implicit operator string(Urn urn) => urn.Value;
-
-    public static implicit operator byte[](Urn urn) => urn.RawId;
+    public static implicit operator byte[](Urn urn) => urn?.RawId;
 
     public static bool operator ==(Urn left, Urn right)
     {
@@ -185,29 +175,6 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
         catch (Exception) { return false; }
     }
 
-    public static bool IsUrn(string candidate, IUrnFormatProvider provider)
-    {
-        try
-        {
-            var parsedUrn = Parse(candidate, provider);
-            return true;
-        }
-        catch (Exception) { return false; }
-    }
-
-    public static Urn Parse(string urn)
-    {
-        return Parse(urn, null);
-    }
-
-    public static Urn Parse(string urn, IUrnFormatProvider proviver = null)
-    {
-        IUrnFormatProvider urnFormatProvider = proviver ?? UrnFormatProvider;
-        string plain = urnFormatProvider.Parse(urn);
-
-        return new Urn(plain);
-    }
-
     public override bool Equals(object comparand)
     {
         if (comparand is Urn)
@@ -221,7 +188,7 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool Equals(IUrn other)
+    public bool Equals(Urn other)
     {
         return $"{NID.ToLower()}:{NSS}".Equals($"{other.NID.ToLower()}:{other.NSS}");
     }
@@ -235,8 +202,5 @@ public class Urn : IUrn, IEquatable<IUrn>, IBlobId
                 : Uri.GetHashCode();
         }
     }
-
-    public string ToBase64() => this.ToString(Base64);
-    public string ToBase64UrlToken() => this.ToString(Base64UrlToken);
 }
 

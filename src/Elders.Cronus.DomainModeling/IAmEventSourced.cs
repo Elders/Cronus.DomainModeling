@@ -5,8 +5,8 @@ namespace Elders.Cronus;
 
 public interface IAmEventSourced
 {
-    void ReplayEvents(List<IEvent> events, int currentRevision);
+    void ReplayEvents(IEnumerable<IEvent> events, int currentRevision);
     void RegisterEventHandler(Type eventType, Action<IEvent> handleAction);
-    void RegisterEventHandler(IEntityId entityId, Type eventType, Action<IEvent> handleAction);
+    void RegisterEventHandler(EntityId entityId, Type eventType, Action<IEvent> handleAction);
     IEnumerable<IEvent> UncommittedEvents { get; }
 }

@@ -11,7 +11,7 @@ public class AggregateRoot<TState> : IAggregateRoot
     protected List<IEvent> uncommittedEvents;
     protected List<IPublicEvent> uncommittedPublicEvents;
     private int revision;
-    private EventHandlerRegistrations handlers;
+    private readonly EventHandlerRegistrations handlers;
 
     public AggregateRoot()
     {
@@ -22,7 +22,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
         var mapping = new DomainObjectEventHandlerMapping();
         handlers = new EventHandlerRegistrations();
-        var arHandlers = mapping.GetEventHandlers(() => this.state);
+        var arHandlers = DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state);
         foreach (var handler in arHandlers)
         {
             handlers.Register(handler.Key, handler.Value);
@@ -43,8 +43,7 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     internal protected void Apply(IEvent @event)
     {
-        IEvent realEvent;
-        var handler = handlers.GetEventHandler(@event, out realEvent);
+        var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
         handler(realEvent);
         uncommittedEvents.Add(@event);
     }
@@ -58,13 +57,12 @@ public class AggregateRoot<TState> : IAggregateRoot
 
     IEnumerable<IPublicEvent> IUnderstandPublishedLanguage.UncommittedPublicEvents { get { return uncommittedPublicEvents.AsReadOnly(); } }
 
-    void IAmEventSourced.ReplayEvents(List<IEvent> events, int revision)
+    void IAmEventSourced.ReplayEvents(IEnumerable<IEvent> events, int revision)
     {
         state = InitializeState();
         foreach (IEvent @event in events)
         {
-            IEvent realEvent;
-            var handler = handlers.GetEventHandler(@event, out realEvent);
+            var handler = handlers.GetEventHandler(@event, out IEvent realEvent);
             handler(realEvent);
         }
         this.revision = revision;
@@ -78,21 +76,21 @@ public class AggregateRoot<TState> : IAggregateRoot
         handlers.Register(eventType, handleAction);
     }
 
-    void IAmEventSourced.RegisterEventHandler(IEntityId entityId, Type eventType, Action<IEvent> handleAction)
+    void IAmEventSourced.RegisterEventHandler(EntityId entityId, Type eventType, Action<IEvent> handleAction)
     {
         handlers.Register(entityId, eventType, handleAction);
     }
 }
 
-public class EventHandlerRegistrations // internal?
+public sealed class EventHandlerRegistrations // internal?
 {
-    private Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
-    private Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;
+    private readonly Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
+    private readonly Dictionary<EntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;
 
     public EventHandlerRegistrations()
     {
         aggregateRootHandlers = new Dictionary<Type, Action<IEvent>>();
-        entityHandlers = new Dictionary<IEntityId, Dictionary<Type, Action<IEvent>>>();
+        entityHandlers = new Dictionary<EntityId, Dictionary<Type, Action<IEvent>>>();
     }
 
     public void Register(Type eventType, Action<IEvent> handler)
@@ -100,7 +98,7 @@ public class EventHandlerRegistrations // internal?
         aggregateRootHandlers.Add(eventType, handler);
     }
 
-    public void Register(IEntityId entityId, Type eventType, Action<IEvent> handler)
+    public void Register(EntityId entityId, Type eventType, Action<IEvent> handler)
     {
         Dictionary<Type, Action<IEvent>> specificEntityHandlers;
         if (entityHandlers.TryGetValue(entityId, out specificEntityHandlers))
@@ -141,7 +139,7 @@ public class EventHandlerRegistrations // internal?
         var entityEvent = @event as EntityEvent;
         Action<IEvent> stateHandler = null;
 
-        if (ReferenceEquals(null, entityEvent))
+        if (entityEvent is null)
         {
             stateHandler = FindStateHandler(realEventType);
         }
@@ -156,7 +154,7 @@ public class EventHandlerRegistrations // internal?
             }
         }
 
-        if (ReferenceEquals(null, stateHandler))
+        if (stateHandler is null)
         {
             string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state. Make sure that the stand handler exists and the parameter inherits from IEvent";
             throw new Exception(error);
@@ -170,14 +168,14 @@ public class EntityEvent : IEvent
 {
     EntityEvent() { }
 
-    public EntityEvent(IEntityId id, IEvent @event)
+    public EntityEvent(EntityId id, IEvent @event)
     {
         this.EntityId = id;
         this.Event = @event;
     }
 
     [DataMember(Order = 1)]
-    public IEntityId EntityId { get; private set; }
+    public EntityId EntityId { get; private set; }
 
     [DataMember(Order = 2)]
     public IEvent Event { get; private set; }

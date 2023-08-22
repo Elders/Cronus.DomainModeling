@@ -1,3 +1,84 @@
+# [9.0.0-preview.13](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.12...v9.0.0-preview.13) (2023-08-22)
+
+
+### Bug Fixes
+
+* Fixes entity urn parsing ([b75fc39](https://github.com/Elders/Cronus.DomainModeling/commit/b75fc39ef8d198df3fb15afd74c97cebfb816ff5))
+
+# [9.0.0-preview.12](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.11...v9.0.0-preview.12) (2023-08-11)
+
+
+### Bug Fixes
+
+* Extends one of the overloads of Publish ([9f3cfc0](https://github.com/Elders/Cronus.DomainModeling/commit/9f3cfc03e3c7aca4e1f7de340147b0f75073c077))
+
+# [9.0.0-preview.11](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.10...v9.0.0-preview.11) (2023-08-07)
+
+# [9.0.0-preview.10](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.9...v9.0.0-preview.10) (2023-07-12)
+
+
+### Bug Fixes
+
+* Publisher adjustments ([bf712b7](https://github.com/Elders/Cronus.DomainModeling/commit/bf712b7ffda049ce2b7494b24f2304c04263ec0f))
+
+# [9.0.0-preview.9](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.8...v9.0.0-preview.9) (2023-06-06)
+
+
+### Bug Fixes
+
+* Prevents null reference exception ([a54c06b](https://github.com/Elders/Cronus.DomainModeling/commit/a54c06ba54d7c08b978c4a87b7aa7b8360983ed7))
+
+# [9.0.0-preview.8](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.7...v9.0.0-preview.8) (2023-04-07)
+
+
+### Features
+
+* Publisher can send raw message bytes. ([660fd4d](https://github.com/Elders/Cronus.DomainModeling/commit/660fd4d54da0080868109e22d0d8d8ac3a3d5720))
+
+# [9.0.0-preview.7](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.6...v9.0.0-preview.7) (2023-02-16)
+
+
+### Bug Fixes
+
+* Actually adds tests for entity urn parsing ([79c1d62](https://github.com/Elders/Cronus.DomainModeling/commit/79c1d629f9d9ba023662ef30b19e5f3f5e2b4ba8))
+
+# [9.0.0-preview.6](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.5...v9.0.0-preview.6) (2023-01-27)
+
+
+### Bug Fixes
+
+* Fix IsEventPublished not to throw exception on multiple events ([4d66f86](https://github.com/Elders/Cronus.DomainModeling/commit/4d66f8690dfe09b904292dd9d43cb337252f106c))
+
+# [9.0.0-preview.5](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.4...v9.0.0-preview.5) (2023-01-25)
+
+
+### Features
+
+* Introduces IPublicEventHandler ([a2ac80f](https://github.com/Elders/Cronus.DomainModeling/commit/a2ac80f1bc1a90d35e0d5cd2926e6a25494c655e))
+
+# [9.0.0-preview.4](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.3...v9.0.0-preview.4) (2023-01-16)
+
+# [9.0.0-preview.3](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.2...v9.0.0-preview.3) (2023-01-03)
+
+
+### Bug Fixes
+
+* Adds static implementation on Complete ([475b34c](https://github.com/Elders/Cronus.DomainModeling/commit/475b34c8879c257772add282ece31225257d335e))
+
+# [9.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.1...v9.0.0-preview.2) (2022-12-14)
+
+
+### Features
+
+* Adds OnReplayComplete method on IAmEventSourcedProjection ([44c6ded](https://github.com/Elders/Cronus.DomainModeling/commit/44c6ded2bd59816842393394d6f2539ed378dc93))
+
+# [9.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.1...v9.0.0-preview.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* Fix build ([23895b9](https://github.com/Elders/Cronus.DomainModeling/commit/23895b9cf05cadc1b1de3892ff4316d80c292716))
+
 ## [8.1.1](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.0...v8.1.1) (2022-08-16)
 
 

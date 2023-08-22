@@ -1,6 +1,11 @@
-﻿namespace Elders.Cronus;
+﻿using System;
+
+namespace Elders.Cronus;
 
 /// <summary>
 /// Domain events represent business changes which already happened
 /// </summary>
-public interface IEvent : IMessage { }
+public interface IEvent : IMessage
+{
+
+}

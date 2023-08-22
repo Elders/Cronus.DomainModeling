@@ -3,8 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Elders.Cronus;
 
-public abstract class EntityId<TAggregateRootId> : EntityUrn, IEntityId
-    where TAggregateRootId : IAggregateRootId
+public abstract class EntityId<TAggregateRootId> : EntityId
+    where TAggregateRootId : AggregateRootId
 {
     protected EntityId() { }
 
@@ -12,8 +12,6 @@ public abstract class EntityId<TAggregateRootId> : EntityUrn, IEntityId
     {
 
     }
-
-    IAggregateRootId IEntityId.AggregateRootId { get { return base.AggregateRootId; } }
 
     TAggregateRootId aggregateRootId;
 

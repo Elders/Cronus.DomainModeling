@@ -22,8 +22,8 @@ namespace Elders.Cronus
 
         It should_have_value = () => result.Value.ShouldEqual(urn.Value);
 
-        static IUrn result;
-        static IUrn urn;
+        static Urn result;
+        static Urn urn;
         static string tenant;
         static string valuePart;
         static string aggregateName;

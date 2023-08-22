@@ -17,8 +17,8 @@ namespace Elders.Cronus
 
         It should_not_have_equal_hashcodes = () => firstUrn.GetHashCode().ShouldNotEqual(secondUrn.GetHashCode());
 
-        static IUrn firstUrn;
-        static IUrn secondUrn;
+        static Urn firstUrn;
+        static Urn secondUrn;
 
         Cleanup after = () => Urn.UseCaseSensitiveUrns = false;
     }

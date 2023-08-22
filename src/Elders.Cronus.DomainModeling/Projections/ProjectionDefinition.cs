@@ -157,9 +157,9 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
     {
         return Subscribe(projectionId, null);
     }
-}
 
-public class ContinueId : IBlobId
-{
-    public byte[] RawId => null;
+    public virtual Task OnReplayCompletedAsync()
+    {
+        return Task.CompletedTask;
+    }
 }

@@ -12,7 +12,7 @@ namespace Elders.Cronus
             urn = "urn:tenant:arName:123";
         };
 
-        Because of = () => result = Urn.Parse(urn);
+        Because of = () => result = new Urn(urn);
 
         It should_have_tenant_as_base_part = () => result.NID.ShouldEqual("tenant");
 
@@ -20,7 +20,7 @@ namespace Elders.Cronus
 
         It should_have_value = () => result.Value.ShouldEqual("urn:tenant:arName:123");
 
-        static IUrn result;
+        static Urn result;
         static string urn;
 
         Cleanup after = () => Urn.UseCaseSensitiveUrns = false;

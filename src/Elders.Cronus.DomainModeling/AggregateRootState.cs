@@ -2,9 +2,9 @@ namespace Elders.Cronus;
 
 public abstract class AggregateRootState<TAggregateRoot, TAggregateRootId> : IAggregateRootState
     where TAggregateRoot : IAggregateRoot
-    where TAggregateRootId : IAggregateRootId
+    where TAggregateRootId : AggregateRootId
 {
-    IAggregateRootId IAggregateRootState.Id { get { return Id; } }
+    AggregateRootId IAggregateRootState.Id { get { return Id; } }
 
     public abstract TAggregateRootId Id { get; set; }
 

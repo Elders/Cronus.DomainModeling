@@ -21,7 +21,7 @@ public struct ReadResult<T>
     /// Indicates whether a data is found. In this case the query was successful but no data was found
     /// See <see cref="NotFoundHint"/> for details
     /// </summary>
-    public bool NotFound => (ReferenceEquals(null, Data));
+    public bool NotFound => (Data is null);
 
     /// <summary>
     /// https://www.youtube.com/watch?v=7heswgZgJJs&feature=youtu.be&t=221

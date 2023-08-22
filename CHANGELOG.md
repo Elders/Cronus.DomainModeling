@@ -1,3 +1,24 @@
+# [9.0.0](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.1...v9.0.0) (2023-08-22)
+
+
+### Bug Fixes
+
+* Actually adds tests for entity urn parsing ([79c1d62](https://github.com/Elders/Cronus.DomainModeling/commit/79c1d629f9d9ba023662ef30b19e5f3f5e2b4ba8))
+* Adds static implementation on Complete ([475b34c](https://github.com/Elders/Cronus.DomainModeling/commit/475b34c8879c257772add282ece31225257d335e))
+* Extends one of the overloads of Publish ([9f3cfc0](https://github.com/Elders/Cronus.DomainModeling/commit/9f3cfc03e3c7aca4e1f7de340147b0f75073c077))
+* Fix build ([23895b9](https://github.com/Elders/Cronus.DomainModeling/commit/23895b9cf05cadc1b1de3892ff4316d80c292716))
+* Fix IsEventPublished not to throw exception on multiple events ([4d66f86](https://github.com/Elders/Cronus.DomainModeling/commit/4d66f8690dfe09b904292dd9d43cb337252f106c))
+* Fixes entity urn parsing ([b75fc39](https://github.com/Elders/Cronus.DomainModeling/commit/b75fc39ef8d198df3fb15afd74c97cebfb816ff5))
+* Prevents null reference exception ([a54c06b](https://github.com/Elders/Cronus.DomainModeling/commit/a54c06ba54d7c08b978c4a87b7aa7b8360983ed7))
+* Publisher adjustments ([bf712b7](https://github.com/Elders/Cronus.DomainModeling/commit/bf712b7ffda049ce2b7494b24f2304c04263ec0f))
+
+
+### Features
+
+* Adds OnReplayComplete method on IAmEventSourcedProjection ([44c6ded](https://github.com/Elders/Cronus.DomainModeling/commit/44c6ded2bd59816842393394d6f2539ed378dc93))
+* Introduces IPublicEventHandler ([a2ac80f](https://github.com/Elders/Cronus.DomainModeling/commit/a2ac80f1bc1a90d35e0d5cd2926e6a25494c655e))
+* Publisher can send raw message bytes. ([660fd4d](https://github.com/Elders/Cronus.DomainModeling/commit/660fd4d54da0080868109e22d0d8d8ac3a3d5720))
+
 # [9.0.0-preview.13](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0-preview.12...v9.0.0-preview.13) (2023-08-22)
 
 

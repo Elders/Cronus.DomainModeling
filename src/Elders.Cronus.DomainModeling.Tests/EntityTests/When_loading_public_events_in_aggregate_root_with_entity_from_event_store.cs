@@ -17,8 +17,8 @@ namespace Elders.Cronus.Tests.InMemoryEventStoreSuite
 
             aggregateRoot = Aggregate<TestAggregateRoot>
                 .FromHistory(stream => stream
-                    .AddEvent(new TestCreateEvent(id))
-                    .AddEvent(new TestCreateEntityEvent(entityId)));
+                    .AddEvent(new TestCreateEvent(id, DateTimeOffset.Now))
+                    .AddEvent(new TestCreateEntityEvent(entityId, DateTimeOffset.Now)));
 
             entity = aggregateRoot.State.Entities.First();
             entity.MakeEntityPublicEvent();

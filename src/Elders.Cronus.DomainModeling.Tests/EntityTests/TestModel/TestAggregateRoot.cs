@@ -7,13 +7,13 @@ namespace Elders.Cronus.EntityTests.TestModel
         TestAggregateRoot() { }
         public TestAggregateRoot(TestAggregateId id)
         {
-            var @event = new TestCreateEvent(id);
+            var @event = new TestCreateEvent(id, DateTimeOffset.Now);
             Apply(@event);
         }
 
         public TestEntity CreateEntity(TestEntityId id)
         {
-            var evnt = new TestCreateEntityEvent(id);
+            var evnt = new TestCreateEntityEvent(id, DateTimeOffset.Now);
             Apply(evnt);
 
             var entity = new TestEntity(this, id);
@@ -27,7 +27,7 @@ namespace Elders.Cronus.EntityTests.TestModel
 
         public void DoSomething(string text)
         {
-            var @event = new TestUpdateEvent(state.Id, text);
+            var @event = new TestUpdateEvent(state.Id, text, DateTimeOffset.Now);
             Apply(@event);
         }
 
@@ -49,7 +49,7 @@ namespace Elders.Cronus.EntityTests.TestModel
 
         public void MakeEntityPublicEvent()
         {
-            var @event = new TestCreateEntityPublicEvent(state.EntityId);
+            var @event = new TestCreateEntityPublicEvent(state.EntityId, DateTimeOffset.Now);
             Apply(@event);
         }
 

@@ -1,3 +1,10 @@
+# [10.0.0-preview.2](https://github.com/Elders/Cronus.DomainModeling/compare/v10.0.0-preview.1...v10.0.0-preview.2) (2023-10-19)
+
+
+### Bug Fixes
+
+* Updates packages ([fedf808](https://github.com/Elders/Cronus.DomainModeling/commit/fedf8087584e27be2d9aabc80853e0ed008484b9))
+
 # [10.0.0-preview.1](https://github.com/Elders/Cronus.DomainModeling/compare/v9.0.0...v10.0.0-preview.1) (2023-08-22)
 
 # [9.0.0](https://github.com/Elders/Cronus.DomainModeling/compare/v8.1.1...v9.0.0) (2023-08-22)

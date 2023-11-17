@@ -179,4 +179,6 @@ public class EntityEvent : IEvent
 
     [DataMember(Order = 2)]
     public IEvent Event { get; private set; }
+
+    public DateTimeOffset Timestamp => Event.Timestamp;
 }

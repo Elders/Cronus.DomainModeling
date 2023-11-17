@@ -1,3 +1,8 @@
+using System;
+
 namespace Elders.Cronus;
 
-public interface IMessage { }
+public interface IMessage
+{
+    DateTimeOffset Timestamp { get; }
+}

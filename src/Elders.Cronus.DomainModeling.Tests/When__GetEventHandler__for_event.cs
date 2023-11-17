@@ -1,5 +1,6 @@
 ﻿using Elders.Cronus.Testing;
 using Machine.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -17,8 +18,8 @@ namespace Elders.Cronus
         {
             aggregate = new TestAggregate();
 
-            TestEventFromBase = new TestEventFromBaseClass("test");
-            testEventFromInterface = new TestEventFromInterface("test");
+            TestEventFromBase = new TestEventFromBaseClass("test", DateTimeOffset.Now);
+            testEventFromInterface = new TestEventFromInterface("test", DateTimeOffset.Now);
             testEventInRecursion = new TestEventInRecursion("test");
         };
 
@@ -49,25 +50,33 @@ namespace Elders.Cronus
     {
         private TestEvent() { }
 
-        public TestEvent(string name)
+        public TestEvent(string name, DateTimeOffset timestamp)
         {
             Name = name;
+            Timestamp = timestamp;
         }
 
         [DataMember(Order = 1)]
         public string Name { get; private set; }
+
+        [DataMember(Order = 2)]
+        public DateTimeOffset Timestamp { get; private set; }
     }
 
-    public abstract class ParentBase : IParent { }
+    public abstract class ParentBase : IParent
+    {
+        public DateTimeOffset Timestamp { get; protected set; }
+    }
 
     [DataContract(Name = "3a1ff2728-0dc3-4eb4-aa37-62a9163a1fb6")]
     public class TestEventFromBaseClass : ParentBase
     {
         private TestEventFromBaseClass() { }
 
-        public TestEventFromBaseClass(string name)
+        public TestEventFromBaseClass(string name, DateTimeOffset timestamp)
         {
             Name = name;
+            Timestamp = timestamp;
         }
 
         [DataMember(Order = 1)]
@@ -81,13 +90,17 @@ namespace Elders.Cronus
     {
         private TestEventFromInterface() { }
 
-        public TestEventFromInterface(string name)
+        public TestEventFromInterface(string name, DateTimeOffset timestamp)
         {
             Name = name;
+            Timestamp = timestamp;
         }
 
         [DataMember(Order = 1)]
         public string Name { get; private set; }
+
+        [DataMember(Order = 2)]
+        public DateTimeOffset Timestamp { get; private set; }
     }
     public class ParentBase2 : ParentBase { }
     public class ParentBase3 : ParentBase2 { }

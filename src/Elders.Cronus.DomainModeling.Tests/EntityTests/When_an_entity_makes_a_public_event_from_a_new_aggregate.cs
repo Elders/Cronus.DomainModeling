@@ -1,6 +1,7 @@
 ﻿using Elders.Cronus.EntityTests.TestModel;
 using Elders.Cronus.Testing;
 using Machine.Specifications;
+using System;
 using System.Linq;
 
 namespace Elders.Cronus.EntityTests
@@ -47,8 +48,8 @@ namespace Elders.Cronus.EntityTests
 
             aggregateRoot = Aggregate<TestAggregateRoot>
                 .FromHistory(stream => stream
-                    .AddEvent(new TestCreateEvent(id))
-                    .AddEvent(new TestCreateEntityEvent(entityId)));
+                    .AddEvent(new TestCreateEvent(id, DateTimeOffset.Now))
+                    .AddEvent(new TestCreateEntityEvent(entityId, DateTimeOffset.Now)));
 
             entity = aggregateRoot.State.Entities.First();
 

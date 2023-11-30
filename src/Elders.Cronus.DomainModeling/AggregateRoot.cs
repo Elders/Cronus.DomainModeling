@@ -134,6 +134,8 @@ public sealed class EventHandlerRegistrations // internal?
 
     public Action<IEvent> GetEventHandler(IEvent @event, out IEvent realEvent)
     {
+        if (@event is null) throw new ArgumentNullException(nameof(@event));
+
         realEvent = @event;
         var realEventType = realEvent.GetType();
         var entityEvent = @event as EntityEvent;

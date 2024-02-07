@@ -60,13 +60,6 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         await ((dynamic)this).HandleAsync((dynamic)@event).ConfigureAwait(false);
     }
 
-    Task IAmEventSourcedProjection.ReplayEventAsync(IEvent @event)
-    {
-        var projection = this as IProjectionDefinition;
-
-        return projection.ApplyAsync(@event);
-    }
-
     void IHaveState.InitializeState(IBlobId projectionId, object state)
     {
         ((IHaveState)this).Id = projectionId;

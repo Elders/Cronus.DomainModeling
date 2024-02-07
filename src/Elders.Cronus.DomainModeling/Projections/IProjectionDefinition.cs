@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Elders.Cronus.Projections;
 
-public interface IProjectionDefinition : IHaveState, IAmEventSourcedProjection
+public interface IProjectionDefinition : IHaveState
 {
     /// <summary>
     /// Gets all projection identifiers based on an event.

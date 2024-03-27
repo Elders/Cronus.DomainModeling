@@ -74,6 +74,8 @@ public static class MessageInfo
         if (contract is null == false && contract.IsNamespaceSetExplicitly)
             boundedContext = contract.Namespace;
 
+        boundedContext = boundedContext.ToLower(); // Keep in mind that rabbitmq exchanges and queues are case-sensitive
+
         typeToBoundedContext.TryAdd(contractType, boundedContext);
 
         return boundedContext;

@@ -6,7 +6,7 @@ namespace Elders.Cronus;
 public static class UrnRegex
 {
     public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
-    private static Regex UrnRegexMather = new Regex(Pattern, RegexOptions.None);
+    private static Regex UrnRegexMather = new Regex(Pattern, RegexOptions.Compiled);
 
     public class Group
     {

@@ -63,10 +63,12 @@ public abstract class AggregateRootId<T> : AggregateRootId
 }
 
 [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
-public class AggregateRootId : Urn
+public partial class AggregateRootId : Urn
 {
     private const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
-    private static Regex NssRegex = new Regex(NSS_REGEX, RegexOptions.None);
+
+    [GeneratedRegex(NSS_REGEX)]
+    private static partial Regex NssRegex();
 
     protected AggregateRootId()
     {
@@ -109,7 +111,7 @@ public class AggregateRootId : Urn
         {
             base.DoFullInitialization();
 
-            var match = NssRegex.Match(nss);
+            var match = NssRegex().Match(nss);
             if (match.Success)
             {
                 id = match.Groups["id"].Value;
@@ -138,7 +140,7 @@ public class AggregateRootId : Urn
 
             Urn baseUrn = new Urn(urn);
 
-            Match match = NssRegex.Match(baseUrn.NSS);
+            Match match = NssRegex().Match(baseUrn.NSS);
             if (match.Success)
             {
                 parsedUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);

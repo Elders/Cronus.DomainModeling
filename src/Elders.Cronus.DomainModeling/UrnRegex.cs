@@ -3,10 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
-public static class UrnRegex
+public static partial class UrnRegex
 {
     public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
-    private static Regex UrnRegexMather = new Regex(Pattern, RegexOptions.Compiled);
+
+    [GeneratedRegex(Pattern)]
+    private static partial Regex UrnRegexMather();
 
     public class Group
     {
@@ -47,18 +49,18 @@ public static class UrnRegex
 
     public static bool Matches(Uri urn)
     {
-        var match = UrnRegexMather.Match(urn.AbsoluteUri);
+        var match = UrnRegexMather().Match(urn.AbsoluteUri);
 
         return match.Success;
     }
 
-    public static Match Match(string urn) => UrnRegexMather.Match(urn);
+    public static Match Match(string urn) => UrnRegexMather().Match(urn);
 
     public static bool Matches(string urn)
     {
         try
         {
-            Match match = UrnRegexMather.Match(urn);
+            Match match = UrnRegexMather().Match(urn);
             if (match.Success == false)
                 return false;
 
@@ -79,7 +81,7 @@ public static class UrnRegex
 
     public static string GetGroup(Uri urn, Group group)
     {
-        Match match = UrnRegexMather.Match(urn.AbsoluteUri);
+        Match match = UrnRegexMather().Match(urn.AbsoluteUri);
         return match.Groups[group.ToString()].Value;
     }
 }

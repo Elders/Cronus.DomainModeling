@@ -3,10 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
-public class EntityId : Urn
+public partial class EntityId : Urn
 {
     const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+?):(?<entityid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
-    private static readonly Regex EntityRegex = new Regex(NSS_REGEX, System.Text.RegularExpressions.RegexOptions.None);
+
+    [GeneratedRegex(NSS_REGEX)]
+    private static partial Regex EntityRegex();
 
     private string id;
     private string entityId;
@@ -43,7 +45,7 @@ public class EntityId : Urn
         {
             base.DoFullInitialization();
 
-            var match = EntityRegex.Match(nss);
+            var match = EntityRegex().Match(nss);
             if (match.Success)
             {
                 aggregateRootId = new AggregateRootId(nid, match.Groups["arname"].Value, match.Groups["arid"].Value);
@@ -60,7 +62,7 @@ public class EntityId : Urn
     {
         Urn baseUrn = new Urn(urn);
 
-        var match = EntityRegex.Match(baseUrn.NSS);
+        var match = EntityRegex().Match(baseUrn.NSS);
         if (match.Success)
         {
             var rootUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);

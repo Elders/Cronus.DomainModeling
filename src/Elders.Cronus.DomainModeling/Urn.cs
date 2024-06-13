@@ -27,7 +27,7 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     protected Urn()
     {
-        RawId = new byte[0];
+        RawId = [];
     }
 
     public Urn(Urn urn) : this(urn.Value) { }
@@ -189,7 +189,10 @@ public class Urn : IEquatable<Urn>, IBlobId
     /// <returns></returns>
     public bool Equals(Urn other)
     {
-        return $"{NID.ToLower()}:{NSS}".Equals($"{other.NID.ToLower()}:{other.NSS}");
+        if (UseCaseSensitiveUrns)
+            return NID.Equals(other.NID) && NSS.Equals(other.NSS);
+
+        return NID.Equals(other.NID, StringComparison.OrdinalIgnoreCase) && NSS.Equals(other.NSS, StringComparison.OrdinalIgnoreCase);
     }
 
     public override int GetHashCode()

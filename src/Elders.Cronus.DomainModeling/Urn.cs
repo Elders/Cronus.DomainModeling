@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
@@ -112,7 +111,7 @@ public class Urn : IEquatable<Urn>, IBlobId
             if (rcomponent.Contains(PREFIX_Q_COMPONENT) || rcomponent.Contains(PREFIX_F_COMPONENT))
                 throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
 
-            urn.Append(rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent : $"?{PREFIX_R_COMPONENT}{rcomponent}");
+            urn.Append(rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent : $"{PREFIX_R_COMPONENT}{rcomponent}");
         }
 
         if (string.IsNullOrEmpty(qcomponent) == false)

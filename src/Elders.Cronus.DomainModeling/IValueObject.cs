@@ -7,7 +7,7 @@ namespace Elders.Cronus;
 public interface IValueObject<T> : IEqualityComparer<T>, IEquatable<T> { }
 
 /// <summary>
-/// The class which implements ValueObject<T> have to be marked with sealed keyword.
+/// The class which implements ValueObject<T> has to be marked with sealed keyword.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>

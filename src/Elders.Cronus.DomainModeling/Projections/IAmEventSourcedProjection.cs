@@ -5,7 +5,7 @@ namespace Elders.Cronus.Projections;
 /// <summary>
 /// Specifies that a projection supports event sourcing.
 /// </summary>
-public interface IAmEventSourcedProjection
+public interface IAmEventSourcedProjection : IAmPartionableProjection
 {
     /// <summary>
     /// Every event is sequentially passed to the projection handler and guarantees the order. If you do not care about this just use <see cref="IAmEventSourcedProjectionFast"/>

@@ -18,9 +18,10 @@ public class SubscriptionIdResolver
     public Func<IEvent, IBlobId> IdResolver { get; private set; }
 }
 
-public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition, IProjection
+public abstract class ProjectionDefinition<TState, TId, TPartitionDefiner> : IProjectionDefinition, IProjection
     where TState : new()
     where TId : IBlobId
+    where TPartitionDefiner : IProjectionPartitionDefinition, new()
 {
     /// <summary>
     /// Signals the engine to skip this event without raising an error.
@@ -29,10 +30,14 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
 
     private readonly Dictionary<Type, List<Func<IEvent, IBlobId>>> subscriptionResolvers;
 
+    private readonly TPartitionDefiner partitionDefiner;
+
     public ProjectionDefinition()
     {
         ((IProjectionDefinition)this).State = new TState();
         subscriptionResolvers = new Dictionary<Type, List<Func<IEvent, IBlobId>>>();
+
+        partitionDefiner = new TPartitionDefiner();
     }
 
     public TId ProjectionId { get { return (TId)((IHaveState)this).Id; } private set { ((IHaveState)this).Id = value; } }
@@ -42,6 +47,11 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
     IBlobId IHaveState.Id { get; set; }
 
     object IHaveState.State { get; set; }
+
+    long IAmPartionableProjection.GetPartition(IEvent @event)
+    {
+        return partitionDefiner.CalculatePartition(@event);
+    }
 
     IEnumerable<IBlobId> IProjectionDefinition.GetProjectionIds(IEvent @event)
     {
@@ -73,7 +83,7 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
     /// <param name="projectionId"></param>
     /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
     /// <returns></returns>
-    protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback)
+    protected ProjectionDefinition<TState, TId, TPartitionDefiner> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId, Func<TEvent, IBlobId> fallback)
         where TEvent : IEvent
     {
         Type eventType = typeof(TEvent);
@@ -109,14 +119,14 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
     /// <param name="projectionId"></param>
     /// <param name="fallback">The fallback function in case the projectionId function fails.</param>
     /// <returns></returns>
-    protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
+    protected ProjectionDefinition<TState, TId, TPartitionDefiner> Subscribe<TEvent>(Func<TEvent, IBlobId> projectionId)
         where TEvent : IEvent
     {
         return Subscribe(projectionId, null);
     }
 
     // Used by replay projection atm
-    protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback)
+    protected ProjectionDefinition<TState, TId, TPartitionDefiner> Subscribe<TEvent>(Func<TEvent, TId> projectionId, Func<TEvent, TId> fallback)
         where TEvent : IEvent
     {
         Type eventType = typeof(TEvent);
@@ -145,7 +155,7 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         }
     }
 
-    protected ProjectionDefinition<TState, TId> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
+    protected ProjectionDefinition<TState, TId, TPartitionDefiner> Subscribe<TEvent>(Func<TEvent, TId> projectionId)
         where TEvent : IEvent
     {
         return Subscribe(projectionId, null);

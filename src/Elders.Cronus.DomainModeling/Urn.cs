@@ -29,7 +29,13 @@ public class Urn : IEquatable<Urn>, IBlobId
         RawId = [];
     }
 
-    public Urn(Urn urn) : this(Encoding.UTF8.GetChars(urn.RawId)) { }
+    public Urn(Urn urn)
+    {
+        if (urn is null) throw new ArgumentNullException(nameof(urn));
+
+        RawId = new byte[urn.RawId.Length];
+        urn.RawId.AsSpan().CopyTo(RawId);
+    }
 
     public Urn(string urnString)
     {
@@ -70,7 +76,7 @@ public class Urn : IEquatable<Urn>, IBlobId
             {
                 if (char.IsUpper(c))
                 {
-                    var chars = new Span<char>(new char[urnSpan.Length]);
+                    Span<char> chars = new char[urnSpan.Length];
                     urnSpan.ToLowerInvariant(chars);
                     urnSpan = chars;
                     break;
@@ -90,7 +96,108 @@ public class Urn : IEquatable<Urn>, IBlobId
         if (nid.Length == 0) throw new ArgumentException("NID is not valid", nameof(nid));
         if (nss.Length == 0) throw new ArgumentException("NSS is not valid", nameof(nss));
 
-        var urn = BuildUrnSpan(nid, nss, rcomponent, qcomponent, fcomponent);
+        var rcomponentLength = 0;
+        var qcomponentLength = 0;
+        var fcomponentLength = 0;
+
+        if (rcomponent.Length > 0)
+        {
+            for (int i = 0; i < rcomponent.Length; i++)
+            {
+                if (i + 1 < rcomponent.Length && rcomponent[i] == PREFIX_Q_COMPONENT[0] && rcomponent[i + 1] == PREFIX_Q_COMPONENT[1])
+                    throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
+
+                if (rcomponent[i] == PREFIX_F_COMPONENT[0])
+                    throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
+            }
+
+            rcomponentLength = rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent.Length : rcomponent.Length + PREFIX_R_COMPONENT.Length;
+        }
+
+        if (qcomponent.Length > 0)
+        {
+            for (int i = 0; i < qcomponent.Length; i++)
+            {
+                if (i + 1 < qcomponent.Length && qcomponent[i] == PREFIX_R_COMPONENT[0] && qcomponent[i + 1] == PREFIX_R_COMPONENT[1])
+                    throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
+
+                if (qcomponent[i] == PREFIX_F_COMPONENT[0])
+                    throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
+            }
+
+            qcomponentLength = qcomponent.StartsWith(PREFIX_Q_COMPONENT) ? qcomponent.Length : qcomponent.Length + PREFIX_Q_COMPONENT.Length;
+        }
+
+        if (fcomponent.Length > 0)
+        {
+            for (int i = 0; i < fcomponent.Length; i++)
+            {
+                if (i + 1 < fcomponent.Length && fcomponent[i] == PREFIX_R_COMPONENT[0] && fcomponent[i + 1] == PREFIX_R_COMPONENT[1])
+                    throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
+
+                if (i + 1 < fcomponent.Length && fcomponent[i] == PREFIX_Q_COMPONENT[0] && fcomponent[i + 1] == PREFIX_Q_COMPONENT[1])
+                    throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
+            }
+
+            fcomponentLength = fcomponent.StartsWith(PREFIX_F_COMPONENT) ? fcomponent.Length : fcomponent.Length + PREFIX_F_COMPONENT.Length;
+        }
+
+        Span<char> urn = stackalloc char[5 + nid.Length + nss.Length + rcomponentLength + qcomponentLength + fcomponentLength];
+        urn[0] = 'u';
+        urn[1] = 'r';
+        urn[2] = 'n';
+        urn[3] = PARTS_DELIMITER;
+        var index = 4;
+        nid.CopyTo(urn.Slice(index, nid.Length));
+        index += nid.Length;
+        urn[index++] = PARTS_DELIMITER;
+        nss.CopyTo(urn.Slice(index, nss.Length));
+        index += nss.Length;
+        if (rcomponent.Length > 0)
+        {
+            if (rcomponent.StartsWith(PREFIX_R_COMPONENT) == false)
+            {
+                PREFIX_R_COMPONENT.CopyTo(urn.Slice(index, PREFIX_R_COMPONENT.Length));
+                index += PREFIX_R_COMPONENT.Length;
+            }
+
+            rcomponent.CopyTo(urn.Slice(index, rcomponent.Length));
+            index += rcomponent.Length;
+        }
+
+        if (qcomponent.Length > 0)
+        {
+            if (qcomponent.StartsWith(PREFIX_Q_COMPONENT) == false)
+            {
+                PREFIX_Q_COMPONENT.CopyTo(urn.Slice(index, PREFIX_Q_COMPONENT.Length));
+                index += PREFIX_Q_COMPONENT.Length;
+            }
+
+            qcomponent.CopyTo(urn.Slice(index, qcomponent.Length));
+            index += qcomponent.Length;
+        }
+
+
+        if (fcomponent.Length > 0)
+        {
+            if (fcomponent.StartsWith(PREFIX_F_COMPONENT) == false)
+            {
+                PREFIX_F_COMPONENT.CopyTo(urn.Slice(index, PREFIX_F_COMPONENT.Length));
+                index += PREFIX_F_COMPONENT.Length;
+            }
+
+            fcomponent.CopyTo(urn.Slice(index, fcomponent.Length));
+        }
+
+        if (UseCaseSensitiveUrns == false)
+        {
+            for (int i = 0; i < urn.Length; i++)
+            {
+                if (char.IsUpper(urn[i]))
+                    urn[i] = char.ToLower(urn[i]);
+            }
+        }
+
         RawId = new byte[urn.Length];
         Encoding.UTF8.GetBytes(urn, RawId);
     }
@@ -155,113 +262,6 @@ public class Urn : IEquatable<Urn>, IBlobId
         return urn.ToString();
     }
 
-    private static ReadOnlySpan<char> BuildUrnSpan(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss, ReadOnlySpan<char> rcomponent, ReadOnlySpan<char> qcomponent, ReadOnlySpan<char> fcomponent)
-    {
-        var rcomponentLength = 0;
-        var qcomponentLength = 0;
-        var fcomponentLength = 0;
-
-        if (rcomponent.Length > 0)
-        {
-            for (int i = 0; i < rcomponent.Length; i++)
-            {
-                if (i + 1 < rcomponent.Length && rcomponent[i] == PREFIX_Q_COMPONENT[0] && rcomponent[i + 1] == PREFIX_Q_COMPONENT[1])
-                    throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
-
-                if (rcomponent[i] == PREFIX_F_COMPONENT[0])
-                    throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
-            }
-
-            rcomponentLength = rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent.Length : rcomponent.Length + PREFIX_R_COMPONENT.Length;
-        }
-
-        if (qcomponent.Length > 0)
-        {
-            for (int i = 0; i < qcomponent.Length; i++)
-            {
-                if (i + 1 < qcomponent.Length && qcomponent[i] == PREFIX_R_COMPONENT[0] && qcomponent[i + 1] == PREFIX_R_COMPONENT[1])
-                    throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
-
-                if (qcomponent[i] == PREFIX_F_COMPONENT[0])
-                    throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
-            }
-
-            qcomponentLength = qcomponent.StartsWith(PREFIX_Q_COMPONENT) ? qcomponent.Length : qcomponent.Length + PREFIX_Q_COMPONENT.Length;
-        }
-
-        if (fcomponent.Length > 0)
-        {
-            for (int i = 0; i < fcomponent.Length; i++)
-            {
-                if (i + 1 < fcomponent.Length && fcomponent[i] == PREFIX_R_COMPONENT[0] && fcomponent[i + 1] == PREFIX_R_COMPONENT[1])
-                    throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
-
-                if (i + 1 < fcomponent.Length && fcomponent[i] == PREFIX_Q_COMPONENT[0] && fcomponent[i + 1] == PREFIX_Q_COMPONENT[1])
-                    throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
-            }
-
-            fcomponentLength = fcomponent.StartsWith(PREFIX_F_COMPONENT) ? fcomponent.Length : fcomponent.Length + PREFIX_F_COMPONENT.Length;
-        }
-
-        var index = 0;
-        Span<char> result = new char[5 + nid.Length + nss.Length + rcomponentLength + qcomponentLength + fcomponentLength];
-        "urn".AsSpan().CopyTo(result);
-        index = 3;
-        result[index++] = PARTS_DELIMITER;
-        nid.CopyTo(result.Slice(index, nid.Length));
-        index += nid.Length;
-        result[index++] = PARTS_DELIMITER;
-        nss.CopyTo(result.Slice(index, nss.Length));
-        index += nss.Length;
-
-        if (rcomponent.Length > 0)
-        {
-            if (rcomponent.StartsWith(PREFIX_R_COMPONENT) == false)
-            {
-                PREFIX_R_COMPONENT.CopyTo(result.Slice(index, PREFIX_R_COMPONENT.Length));
-                index += PREFIX_R_COMPONENT.Length;
-            }
-
-            rcomponent.CopyTo(result.Slice(index, rcomponent.Length));
-            index += rcomponent.Length;
-        }
-
-        if (qcomponent.Length > 0)
-        {
-            if (qcomponent.StartsWith(PREFIX_Q_COMPONENT) == false)
-            {
-                PREFIX_Q_COMPONENT.CopyTo(result.Slice(index, PREFIX_Q_COMPONENT.Length));
-                index += PREFIX_Q_COMPONENT.Length;
-            }
-
-            qcomponent.CopyTo(result.Slice(index, qcomponent.Length));
-            index += qcomponent.Length;
-        }
-
-
-        if (fcomponent.Length > 0)
-        {
-            if (fcomponent.StartsWith(PREFIX_F_COMPONENT) == false)
-            {
-                PREFIX_F_COMPONENT.CopyTo(result.Slice(index, PREFIX_F_COMPONENT.Length));
-                index += PREFIX_F_COMPONENT.Length;
-            }
-
-            fcomponent.CopyTo(result.Slice(index, fcomponent.Length));
-        }
-
-        if (UseCaseSensitiveUrns == false)
-        {
-            for (int i = 0; i < result.Length; i++)
-            {
-                if (char.IsUpper(result[i]))
-                    result[i] = char.ToLower(result[i]);
-            }
-        }
-
-        return result;
-    }
-
     public string NID { get { DoFullInitialization(); return nid; } }
 
     public string NSS { get { DoFullInitialization(); return nss; } }
@@ -272,7 +272,7 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public string F_Component { get { DoFullInitialization(); return f_Component; } }
 
-    public string Value => Encoding.UTF8.GetString(RawId)?.ToString();
+    public string Value => Encoding.UTF8.GetString(RawId);
 
     public override string ToString() => Value;
 
@@ -322,7 +322,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     /// <returns></returns>
     public bool Equals(Urn other)
     {
-        if (ReferenceEquals(other, null))
+        if (other is null)
             return false;
 
         if (ReferenceEquals(this, other))

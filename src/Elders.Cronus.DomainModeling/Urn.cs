@@ -219,7 +219,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     }
 
     [DataMember(Order = 10)]
-    public byte[] RawId { get; private set; }
+    public byte[] RawId { get; protected set; }
 
     private bool isFullyInitialized;
     protected virtual void DoFullInitialization()
@@ -304,6 +304,9 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public static bool IsUrn(ReadOnlySpan<char> candidate)
     {
+        if (candidate.Length == 0)
+            return false;
+
         return UrnRegex.Matches(candidate);
     }
 

@@ -7,7 +7,7 @@ public static partial class UrnRegex
 {
     public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
 
-    [GeneratedRegex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline, 1000)]
+    [GeneratedRegex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline, 500)]
     internal static partial Regex UrnRegexMatcher();
 
     public class Group

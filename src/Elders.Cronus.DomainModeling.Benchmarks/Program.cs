@@ -6,14 +6,13 @@ using Perfolizer.Horology;
 var cfg = DefaultConfig.Instance.WithSummaryStyle(SummaryStyle.Default.WithTimeUnit(TimeUnit.Millisecond));
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, cfg);
 
+//using Elders.Cronus;
 //using Elders.Cronus.DomainModeling.Benchmarks;
-//List<AggregateRootIdBenchmarks.TestId> arr = [];
 
 //for (int i = 0; i < 100_000; i++)
 //{
-//    //AggregateRootIdBenchmarks.TestId.New("tenant".AsSpan(), "id");
-//    var gg = AggregateRootIdBenchmarks.TestId.Parse("urn:tenant:test:id");
-//    arr.Add(gg);
+//    EntityIdBenchmarks.TestEntityId id = EntityId.Parse<EntityIdBenchmarks.TestEntityId>("urn:tenant:test:id/testentity:entityid");
+//    EntityId entityId = EntityId.Parse("urn:tenant:test:id/testentity:entityid");
 //}
 
 //Console.WriteLine("done");
@@ -35,3 +34,11 @@ BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, cfg);
 //var arid = new AggregateRootId(urn);
 
 //Console.WriteLine(arid.Value);
+
+//using static Elders.Cronus.DomainModeling.Benchmarks.EntityIdBenchmarks;
+
+//var gg = TestId.Parse("urn:tenant:test:id".AsSpan());
+//var arId = new TestId("tenant", "id");
+//var entityId = TestEntityId.Parse<TestEntityId>("urn:tenant:test:id/testentity:entityid");
+
+//Console.WriteLine(entityId);

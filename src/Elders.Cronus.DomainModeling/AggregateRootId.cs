@@ -43,7 +43,8 @@ public abstract class AggregateRootId<T> : AggregateRootId
     protected abstract T Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant);
     protected virtual T Construct(AggregateRootId from)
     {
-        if (from.AggregateRootName != AggregateRootName)
+        var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+        if (from.AggregateRootName.Equals(AggregateRootName, comparisoin) == false)
             throw new System.Exception($"Failed to construct aggregate root id of type {typeof(T).Name}. Aggregate root name mismatch.");
 
         RawId = new byte[from.RawId.Length];
@@ -51,38 +52,58 @@ public abstract class AggregateRootId<T> : AggregateRootId
         return (T)this;
     }
 
-    new public static T Parse(string candidate)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-
-        var stringTenantUrn = AggregateRootId.Parse(candidate);
-        var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
-        if (newId.AggregateRootName != stringTenantUrn.AggregateRootName)
-            throw new System.Exception($"Failed to construct aggregate root id of type {typeof(T).Name}. Aggregate root name mismatch.");
-
-        return newId;
-    }
-
     new public static T Parse(ReadOnlySpan<char> candidate)
     {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        var arId = AggregateRootId.Parse(candidate);
-        return instance.Construct(arId);
+        if (TryParse(candidate, out var instance))
+        {
+            return instance;
+        }
+
+        throw new ArgumentException("Invalid aggregate root id.", nameof(candidate));
     }
 
-    public static bool TryParse(string candidate, out T result)
+    public static bool TryParse(ReadOnlySpan<char> candidate, out T aggregateRootId)
     {
         try
         {
             var instance = (T)System.Activator.CreateInstance(typeof(T), true);
+            var arId = new AggregateRootId(candidate);
+            aggregateRootId = instance.Construct(arId);
 
-            var stringTenantUrn = AggregateRootId.Parse(candidate);
-            result = instance.Construct(stringTenantUrn);
             return true;
         }
         catch (Exception)
         {
-            result = null;
+            aggregateRootId = null;
+            return false;
+        }
+    }
+
+    new public static T Parse(string candidate)
+    {
+        if (TryParse(candidate, out var instance))
+        {
+            return instance;
+        }
+
+        throw new ArgumentException("Invalid aggregate root id.", nameof(candidate));
+    }
+
+    public static bool TryParse(string candidate, out T aggregateRootId)
+    {
+        try
+        {
+            aggregateRootId = (T)System.Activator.CreateInstance(typeof(T), true);
+            var stringTenantUrn = AggregateRootId.Parse(candidate);
+            aggregateRootId = aggregateRootId.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
+            if (aggregateRootId.AggregateRootName != stringTenantUrn.AggregateRootName)
+                return false;
+
+            return true;
+        }
+        catch (Exception)
+        {
+            aggregateRootId = null;
             return false;
         }
     }
@@ -93,7 +114,7 @@ public partial class AggregateRootId : Urn
 {
     private const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
-    [GeneratedRegex(NSS_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline, 500)]
+    [GeneratedRegex(NSS_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking, 500)]
     internal static partial Regex NssRegex();
 
     protected AggregateRootId() { }

@@ -8,10 +8,8 @@ public abstract class EntityId<TAggregateRootId> : EntityId
 {
     protected EntityId() { }
 
-    public EntityId(string idBase, TAggregateRootId rootId, string entityName) : base(rootId, entityName, idBase)
-    {
-
-    }
+    public EntityId(string idBase, TAggregateRootId rootId, string entityName) : base(rootId, entityName, idBase) { }
+    public EntityId(ReadOnlySpan<char> idBase, TAggregateRootId rootId, ReadOnlySpan<char> entityName) : base(rootId, entityName, idBase) { }
 
     TAggregateRootId aggregateRootId;
 

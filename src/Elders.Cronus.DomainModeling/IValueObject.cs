@@ -4,12 +4,14 @@ using System.Reflection;
 
 namespace Elders.Cronus;
 
+[Obsolete("Use record classes instead.")]
 public interface IValueObject<T> : IEqualityComparer<T>, IEquatable<T> { }
 
 /// <summary>
 /// The class which implements ValueObject<T> has to be marked with sealed keyword.
 /// </summary>
 /// <typeparam name="T"></typeparam>
+[Obsolete("Use record classes instead.")]
 public abstract class ValueObject<T> : IValueObject<T> where T : ValueObject<T>
 {
     public override bool Equals(object obj)

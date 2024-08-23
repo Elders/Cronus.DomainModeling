@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 public static partial class UrnRegex
 {
+    [StringSyntax(StringSyntaxAttribute.Regex)]
     public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
 
     [GeneratedRegex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture, 500)]

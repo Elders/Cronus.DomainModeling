@@ -5,30 +5,30 @@ using System.Reflection;
 
 namespace Elders.Cronus;
 
-internal class DomainObjectEventHandlerMapping
+internal static class DomainObjectEventHandlerMapping
 {
-    public static Dictionary<Type, Action<IEvent>> GetEventHandlers(Func<object> target)
+    public static MethodInfo[] GetEventHandlersMethodInfo(Type stateType)
+    {
+        var methodsToMatch = stateType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        return (from method in methodsToMatch
+                let parameters = method.GetParameters()
+                where
+                   method.Name.Equals("when", StringComparison.OrdinalIgnoreCase) &&
+                   parameters.Length == 1 &&
+                   typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType)
+                select method).ToArray();
+    }
+
+    public static Dictionary<Type, Action<IEvent>> GetEventHandlers(IEnumerable<MethodInfo> whenMethods, Func<object> target)
     {
         var targetType = target().GetType();
         var handlers = new Dictionary<Type, Action<IEvent>>();
 
-        var methodsToMatch = targetType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-        var matchedMethods = from method in methodsToMatch
-                             let parameters = method.GetParameters()
-                             where
-                                method.Name.Equals("when", StringComparison.OrdinalIgnoreCase) &&
-                                parameters.Length == 1 &&
-                                typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType)
-                             select
-                                new { MethodInfo = method, FirstParameter = method.GetParameters()[0] };
-
-        foreach (var method in matchedMethods)
+        foreach (var method in whenMethods)
         {
-            var methodCopy = method.MethodInfo;
-            Type eventType = methodCopy.GetParameters().First().ParameterType;
+            Type eventType = method.GetParameters().First().ParameterType;
 
-            Action<IEvent> handler = (e) => methodCopy.Invoke(target(), new[] { e });
+            Action<IEvent> handler = (e) => method.Invoke(target(), [e]);
 
             handlers.Add(eventType, handler);
         }

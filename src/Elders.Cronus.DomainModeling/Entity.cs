@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace Elders.Cronus;
 
@@ -9,7 +10,7 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
     private readonly TAggregateRoot root;
 
     protected TEntityState state;
-    private static readonly MethodInfo[] whenMethods;
+    private static readonly List<MethodInfo> whenMethods;
 
     static Entity()
     {

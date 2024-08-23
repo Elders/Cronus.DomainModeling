@@ -7,16 +7,25 @@ namespace Elders.Cronus;
 
 internal static class DomainObjectEventHandlerMapping
 {
-    public static MethodInfo[] GetEventHandlersMethodInfo(Type stateType)
+    private static readonly Type eventType = typeof(IEvent);
+
+    public static List<MethodInfo> GetEventHandlersMethodInfo(Type stateType)
     {
         var methodsToMatch = stateType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        return (from method in methodsToMatch
-                let parameters = method.GetParameters()
-                where
-                   method.Name.Equals("when", StringComparison.OrdinalIgnoreCase) &&
-                   parameters.Length == 1 &&
-                   typeof(IEvent).IsAssignableFrom(parameters[0].ParameterType)
-                select method).ToArray();
+
+        List<MethodInfo> result = [];
+        foreach (var method in methodsToMatch)
+        {
+            var parameters = method.GetParameters();
+            if (method.Name.Equals("when", StringComparison.OrdinalIgnoreCase)
+                && parameters.Length == 1
+                && eventType.IsAssignableFrom(parameters[0].ParameterType))
+            {
+                result.Add(method);
+            }
+        }
+
+        return result;
     }
 
     public static Dictionary<Type, Action<IEvent>> GetEventHandlers(IEnumerable<MethodInfo> whenMethods, Func<object> target)

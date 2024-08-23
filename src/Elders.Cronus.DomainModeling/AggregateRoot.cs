@@ -13,7 +13,7 @@ public class AggregateRoot<TState> : IAggregateRoot
     protected List<IPublicEvent> uncommittedPublicEvents;
     private int revision;
     private readonly EventHandlerRegistrations handlers;
-    private static readonly MethodInfo[] whenMethods;
+    private static readonly List<MethodInfo> whenMethods;
 
     static AggregateRoot()
     {

@@ -45,7 +45,8 @@ public class Urn : IEquatable<Urn>, IBlobId
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
-        RawId = urn.RawId.ToArray();
+        RawId = new byte[urn.RawId.Length];
+        urn.RawId.AsSpan().CopyTo(RawId);
     }
 
     public Urn(string urnString)

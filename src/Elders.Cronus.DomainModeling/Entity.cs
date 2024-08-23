@@ -1,4 +1,6 @@
-﻿namespace Elders.Cronus;
+﻿using System.Reflection;
+
+namespace Elders.Cronus;
 
 public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
     where TAggregateRoot : IAggregateRoot
@@ -7,6 +9,12 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
     private readonly TAggregateRoot root;
 
     protected TEntityState state;
+    private static readonly MethodInfo[] whenMethods;
+
+    static Entity()
+    {
+        whenMethods = DomainObjectEventHandlerMapping.GetEventHandlersMethodInfo(typeof(TEntityState));
+    }
 
     IEntityState IHaveState<IEntityState>.State { get { return state; } }
 
@@ -16,8 +24,7 @@ public abstract class Entity<TAggregateRoot, TEntityState> : IEntity
         this.state = new TEntityState();
         var dynamicState = (dynamic)this.state;
         dynamicState.EntityId = (dynamic)entityId;
-        var mapping = new DomainObjectEventHandlerMapping();
-        foreach (var handlerAction in DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state))
+        foreach (var handlerAction in DomainObjectEventHandlerMapping.GetEventHandlers(whenMethods, () => this.state))
         {
             root.RegisterEventHandler(state.EntityId, handlerAction.Key, handlerAction.Value);
         }

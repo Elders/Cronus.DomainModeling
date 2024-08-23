@@ -10,8 +10,8 @@ public class EntityIdBenchmarks
         public const string TestRootName = "test";
 
         TestId() { }
-        public TestId(string tenant, string id) : base(tenant, TestRootName, id) { }
-        public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, TestRootName, id) { }
+        public TestId(string tenant, string id) : base(tenant, id) { }
+        public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override string AggregateRootName => TestRootName;
 
@@ -23,10 +23,12 @@ public class EntityIdBenchmarks
     {
         public const string TestEntityName = "testentity";
 
+        public override string Entity_name_but_not_really_because_the_tests_are_failing => TestEntityName;
+
         TestEntityId() { }
 
         public TestEntityId(string idBase, TestId rootId) : base(idBase, rootId, TestEntityName) { }
-        public TestEntityId(ReadOnlySpan<char> idBase, TestId rootId) : base(idBase, rootId, TestEntityName) { }
+        public TestEntityId(ReadOnlySpan<char> idBase, TestId rootId) : base(idBase, rootId) { }
     }
 
     private static readonly TestId testId = new("tenant", "id");

@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 public partial class EntityId : Urn
 {
+    [StringSyntax(StringSyntaxAttribute.Regex)]
     const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+?):(?<entityid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
     [GeneratedRegex(NSS_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking, 500)]
-    private static partial Regex EntityRegex();
+    internal static partial Regex EntityRegex();
 
     private string id;
     private string entityId;
@@ -36,13 +38,9 @@ public partial class EntityId : Urn
 
     private EntityId(ReadOnlySpan<char> urn) : base(urn)
     {
-        var urnMatch = UrnRegex.Match(urn.ToString());
-        if (urnMatch.Success == false)
-            throw new ArgumentException("Invalid entity id");
+        base.DoFullInitialization();
 
-        var nss = urnMatch.Groups[UrnRegex.Group.NSS.ToString()].Value; // not using the NSS property to prevent full initialization and more GC
-        if (EntityRegex().IsMatch(nss.AsSpan()) == false)
-            throw new ArgumentException("Invalid entity id");
+        if (EntityRegex().IsMatch(nss.AsSpan()) == false) throw new ArgumentException("Invalid entity id");
     }
 
     public AggregateRootId AggregateRootId { get { DoFullInitialization(); return aggregateRootId; } }
@@ -59,13 +57,18 @@ public partial class EntityId : Urn
         {
             base.DoFullInitialization();
 
-            var match = EntityRegex().Match(nss);
-            if (match.Success)
+            var nssSpan = nss.AsSpan();
+            if (EntityRegex().IsMatch(nssSpan))
             {
-                aggregateRootId = new AggregateRootId(nid, match.Groups["arname"].Value, match.Groups["arid"].Value);
+                var lastSlash = nssSpan.LastIndexOf(HIERARCHICAL_DELIMITER);
+                var arNss = nssSpan[0..lastSlash];
+                aggregateRootId = new AggregateRootId(nid, arNss);
+
+                var entityPart = nssSpan[(lastSlash + 1)..];
+                var firstDelimiter = entityPart.IndexOf(PARTS_DELIMITER);
                 id = nss;
-                entityName = match.Groups["entityname"].Value;
-                entityId = match.Groups["entityid"].Value;
+                entityName = entityPart[0..firstDelimiter].ToString();
+                entityId = entityPart[(firstDelimiter + 1)..].ToString();
             }
 
             isFullyInitialized = true;
@@ -131,7 +134,7 @@ public partial class EntityId : Urn
             RawIdProperty.SetValue(entityId, parsed.RawId);
 
             var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-            if (entityId.EntityName.Equals(parsed.EntityName, comparisoin) == false) // <- very slow and 6x more memory allocations! TODO: prevent full initializatoin
+            if (entityId.EntityName.Equals(parsed.EntityName, comparisoin) == false)
                 return false;
 
             return true;

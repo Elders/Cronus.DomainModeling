@@ -10,7 +10,7 @@ namespace Elders.Cronus
             origin = new AggregateRootId("Tenant", "arName", "123a");
         };
 
-        Because of = () => result = new TestEntityUrnId("456E", origin, "Entity");
+        Because of = () => result = new TestEntityUrnId("456E", origin);
 
         It should_have_tenant_as_base_part = () => result.AggregateRootId.Tenant.ShouldBeEqualIgnoringCase("Tenant");
 
@@ -19,8 +19,6 @@ namespace Elders.Cronus
         It should_have_id = () => result.Id.ShouldEqual("arname:123a/entity:456e");
 
         It should_have_entity_id = () => result.EntityID.ShouldEqual("456e");
-
-        It should_have_entity_name = () => result.EntityName.ShouldEqual("entity");
 
         static AggregateRootId origin;
         static EntityId<AggregateRootId> result;

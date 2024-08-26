@@ -11,7 +11,7 @@ namespace Elders.Cronus
             origin = new AggregateRootId("Tenant", "arName", "123a");
         };
 
-        Because of = () => result = new TestEntityUrnId("456E", origin, "Entity");
+        Because of = () => result = new TestEntityUrnId("456E", origin);
 
         It should_be_equal = () => (result == urn).ShouldBeTrue();
 

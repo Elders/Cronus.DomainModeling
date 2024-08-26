@@ -45,7 +45,7 @@ public partial class EntityId : Urn
 
     public AggregateRootId AggregateRootId { get { DoFullInitialization(); return aggregateRootId; } }
 
-    public string EntityName { get { DoFullInitialization(); return entityName; } }
+    protected string EntityName { get { DoFullInitialization(); return entityName; } }
 
     public string Id { get { DoFullInitialization(); return id; } }
 
@@ -131,7 +131,7 @@ public partial class EntityId : Urn
         {
             entityId = (T)Activator.CreateInstance(typeof(T), true);
             var parsed = new EntityId(candidate);
-            RawIdProperty.SetValue(entityId, parsed.RawId);
+            entityId.SetRawId(parsed.rawId.Span);
 
             var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
             if (entityId.EntityName.Equals(parsed.EntityName, comparisoin) == false)

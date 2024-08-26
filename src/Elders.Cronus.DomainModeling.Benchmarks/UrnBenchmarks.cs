@@ -7,11 +7,13 @@ public class UrnBenchmarks
 {
     private const string urnString = "urn:nid:nss?+r_comp?=q_comp#f_comp";
     private static readonly Urn urn = new Urn("nid", "nss", "r_comp", "q_comp", "f_comp");
-    private static readonly Urn equalUrn = new Urn("nid", "nss", "r_comp", "q_comp", "f_comp");
+    private static readonly Urn equalUrn = new Urn("NID", "NSS", "r_comp", "q_comp", "f_comp");
+    private static readonly Urn notEqualUrn = new Urn("nid1", "nss1", "r_comp", "q_comp", "f_comp");
 
     private const string urnStringWithoutComponents = "urn:nid:nss";
     private static readonly Urn urnWithoutComponents = new Urn("nid", "nss");
-    private static readonly Urn equalUrnWithoutComponents = new Urn("nid", "nss");
+    private static readonly Urn equalUrnWithoutComponents = new Urn("NID", "NSS");
+    private static readonly Urn notEqualUrnWithoutComponents = new Urn("nid1", "nss1");
 
     private Urn[] urns;
 
@@ -144,5 +146,23 @@ public class UrnBenchmarks
     public bool Compare_Equal_Urns_Without_Components()
     {
         return urnWithoutComponents.Equals(equalUrnWithoutComponents);
+    }
+
+    [Benchmark]
+    public bool Compare_Not_Equal_Urns()
+    {
+        return urn.Equals(notEqualUrn);
+    }
+
+    [Benchmark]
+    public bool Compare_Not_Equal_Urns_Without_Components()
+    {
+        return urnWithoutComponents.Equals(notEqualUrnWithoutComponents);
+    }
+
+    [Benchmark]
+    public int GetHashcode()
+    {
+        return urn.GetHashCode();
     }
 }

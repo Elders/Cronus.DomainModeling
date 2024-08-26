@@ -33,7 +33,7 @@ public class AggregateRootBenchmarks
         public TestId(string tenant, string id) : base(tenant, id) { }
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
-        public override string AggregateRootName => TestRootName;
+        public override ReadOnlySpan<char> AggregateRootName => TestRootName;
 
         protected override TestId Construct(string id, string tenant) => new(tenant, id);
         protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
@@ -54,7 +54,7 @@ public class AggregateRootBenchmarks
     private TestAggregateRoot[] roots;
     private TestAggregateRoot[] roots_ApplyEvent;
 
-    [Params(1, 1000, 10_000, 100_000)]
+    [Params(1, 100, 1000)]
     public int N;
 
     [GlobalSetup]

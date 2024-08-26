@@ -1,6 +1,8 @@
+using System;
+
 namespace Elders.Cronus;
 
 public interface IBlobId
 {
-    byte[] RawId { get; }
+    ReadOnlySpan<byte> RawId { get; }
 }

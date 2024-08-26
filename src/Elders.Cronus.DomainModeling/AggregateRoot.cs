@@ -73,7 +73,7 @@ public class AggregateRoot<TState> : IAggregateRoot
         }
         this.revision = revision;
 
-        if (state.Id == null || (state.Id.RawId ?? []).Length == 0)
+        if (state.Id == null || state.Id.RawId.IsEmpty)
             throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
     }
 

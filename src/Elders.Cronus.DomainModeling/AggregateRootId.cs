@@ -15,7 +15,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
     {
         if (string.IsNullOrEmpty(tenant)) throw new ArgumentException($"'{nameof(tenant)}' cannot be null or empty.", nameof(tenant));
         if (string.IsNullOrEmpty(id)) throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
-        if (string.IsNullOrEmpty(AggregateRootName)) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
+        if (AggregateRootName.IsEmpty) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
 
         var nss = $"{AggregateRootName}{PARTS_DELIMITER}{id}";
         var urn = $"urn{PARTS_DELIMITER}{tenant}{PARTS_DELIMITER}{nss}";
@@ -25,17 +25,14 @@ public abstract class AggregateRootId<T> : AggregateRootId
         if (NssRegex().IsMatch(nss) == false)
             throw new ArgumentException($"Invalid aggregate root id.");
 
-        RawId = Encoding.UTF8.GetBytes(urn);
+        rawId = Encoding.UTF8.GetBytes(urn);
     }
-
-    [Obsolete("Use the AggregateRootId(string tenant, string id) constructor instead.")]
-    protected AggregateRootId(string tenant, string rootName, string id) : base(tenant, rootName, id) { }
 
     protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
     {
         if (tenant.IsEmpty) throw new ArgumentException("Tenant cannot be empty", nameof(tenant));
         if (id.IsEmpty) throw new ArgumentException("Id cannot be empty", nameof(tenant));
-        if (string.IsNullOrEmpty(AggregateRootName)) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
+        if (AggregateRootName.IsEmpty) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
 
         Span<char> nss = stackalloc char[AggregateRootName.Length + 1 + id.Length];
         AggregateRootName.CopyTo(nss[..AggregateRootName.Length]);
@@ -54,15 +51,11 @@ public abstract class AggregateRootId<T> : AggregateRootId
         if (NssRegex().IsMatch(nss) == false)
             throw new ArgumentException($"Invalid aggregate root id.");
 
-        Span<byte> buffer = stackalloc byte[urn.Length];
-        Encoding.UTF8.GetBytes(urn, buffer);
-        RawId = buffer.ToArray();
+        rawId = new byte[urn.Length];
+        Encoding.UTF8.GetBytes(urn, rawId.Span);
     }
 
-    [Obsolete("Use the AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) constructor instead.")]
-    protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> rootName, ReadOnlySpan<char> id) : base(tenant, rootName, id) { }
-
-    new public abstract string AggregateRootName { get; }
+    new public abstract ReadOnlySpan<char> AggregateRootName { get; }
 
     public static T New(string tenant)
     {
@@ -92,10 +85,10 @@ public abstract class AggregateRootId<T> : AggregateRootId
     protected abstract T Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant);
     protected virtual T Construct(AggregateRootId from)
     {
-        RawId = from.RawId;
+        SetRawId(from.rawId.Span);
 
         var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-        if (from.AggregateRootName.Equals(AggregateRootName, comparisoin) == false)
+        if (from.AggregateRootName.AsSpan().Equals(AggregateRootName, comparisoin) == false)
             throw new ArgumentException($"Failed to construct aggregate root id of type {typeof(T).Name}. Aggregate root name mismatch.", nameof(from));
 
         return (T)this;

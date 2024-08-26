@@ -34,19 +34,18 @@ public class Urn : IEquatable<Urn>, IBlobId
     protected string f_Component;
 
     private bool isFullyInitialized;
-    private byte[] rawId;
+    internal Memory<byte> rawId;
 
     protected Urn()
     {
-        RawId = [];
+        rawId = Memory<byte>.Empty;
     }
 
     public Urn(Urn urn)
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
-        RawId = new byte[urn.RawId.Length];
-        urn.RawId.AsSpan().CopyTo(RawId);
+        SetRawId(urn.rawId.Span);
     }
 
     public Urn(string urnString)
@@ -56,7 +55,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         if (UseCaseSensitiveUrns == false && urnString.Any(char.IsUpper))
             urnString = urnString.ToLower();
 
-        RawId = Encoding.UTF8.GetBytes(urnString);
+        rawId = Encoding.UTF8.GetBytes(urnString);
     }
 
     /// <summary>
@@ -74,7 +73,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         if (UseCaseSensitiveUrns == false && urn.Any(char.IsUpper))
             urn = urn.ToLower();
 
-        RawId = Encoding.UTF8.GetBytes(urn);
+        rawId = Encoding.UTF8.GetBytes(urn);
     }
 
     public Urn(ReadOnlySpan<char> urnSpan)
@@ -89,20 +88,18 @@ public class Urn : IEquatable<Urn>, IBlobId
                 if (char.IsUpper(c))
                 {
                     Span<char> chars = stackalloc char[urnSpan.Length];
-                    urnSpan.ToLowerInvariant(chars);
+                    urnSpan.ToLower(chars, null);
 
-                    Span<byte> rawIdBuffer = stackalloc byte[chars.Length];
-                    Encoding.UTF8.GetBytes(chars, rawIdBuffer);
-                    RawId = rawIdBuffer.ToArray();
+                    rawId = new byte[chars.Length];
+                    Encoding.UTF8.GetBytes(chars, rawId.Span);
 
                     break;
                 }
             }
         }
 
-        Span<byte> buffer = stackalloc byte[urnSpan.Length];
-        Encoding.UTF8.GetBytes(urnSpan, buffer);
-        RawId = buffer.ToArray();
+        rawId = new byte[urnSpan.Length];
+        Encoding.UTF8.GetBytes(urnSpan, rawId.Span);
     }
 
     public Urn(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss) : this(nid, nss, [], [], []) { }
@@ -111,7 +108,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     public Urn(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss, ReadOnlySpan<char> rcomponent, ReadOnlySpan<char> qcomponent, ReadOnlySpan<char> fcomponent)
     {
         if (nid.Length < 2 || nid.Length > 32) throw new ArgumentOutOfRangeException(nameof(nid), "NID must be at least 2 and less than 32 symbols");
-        if (nid[^1] == '-') throw new ArgumentException("NID cannot end with '-'", nameof(nid));
+        if (nid[0] == '-' || nid[^1] == '-') throw new ArgumentException("NID cannot start or end with '-'", nameof(nid));
         if (nid.Contains("urn:", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("NID cannot contain the string 'urn'", nameof(nid));
         if (nid.ContainsAnyExcept(allowedNidSymbols)) throw new ArgumentException("NID is not valid", nameof(nid));
 
@@ -208,6 +205,21 @@ public class Urn : IEquatable<Urn>, IBlobId
             fcomponent.CopyTo(urn.Slice(index, fcomponent.Length));
         }
 
+        ConvertCaseIfNeeded(urn);
+
+        rawId = new byte[urn.Length];
+        Encoding.UTF8.GetBytes(urn, rawId.Span);
+    }
+
+    internal void SetRawId(ReadOnlySpan<byte> span)
+    {
+        rawId = new byte[span.Length];
+        span.CopyTo(rawId.Span);
+        isFullyInitialized = false;
+    }
+
+    private protected static void ConvertCaseIfNeeded(Span<char> urn)
+    {
         if (UseCaseSensitiveUrns == false)
         {
             for (int i = 0; i < urn.Length; i++)
@@ -216,14 +228,10 @@ public class Urn : IEquatable<Urn>, IBlobId
                     urn[i] = char.ToLower(urn[i]);
             }
         }
-
-        Span<byte> rawId = stackalloc byte[urn.Length];
-        Encoding.UTF8.GetBytes(urn, rawId);
-        RawId = rawId.ToArray();
     }
 
     [DataMember(Order = 10)]
-    public byte[] RawId { get => rawId; protected set { rawId = value; isFullyInitialized = false; } }
+    public ReadOnlySpan<byte> RawId { get => rawId.Span; protected set { rawId = value.ToArray(); isFullyInitialized = false; } }
 
     public string NID { get { DoFullInitialization(); return nid; } }
 
@@ -408,7 +416,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         unchecked
         {
             if (UseCaseSensitiveUrns)
-                return HashCode.Combine(14923, NID.ToLowerInvariant(), NSS); // TODO: do not create strings
+                return HashCode.Combine(14923, NID.ToLower(), NSS);
 
             const int p = 16777619;
             int hash = (int)2166136261;

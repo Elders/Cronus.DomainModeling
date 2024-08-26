@@ -9,7 +9,7 @@ public class AggregateRootBenchmarks
     {
         public void DoStuff()
         {
-            Apply(new DidStuff(new TestId("tenant".AsSpan(), "id"), DateTimeOffset.UtcNow));
+            Apply(new DidStuff(new TestId("tenant", "id"), DateTimeOffset.UtcNow));
         }
     }
 
@@ -30,12 +30,10 @@ public class AggregateRootBenchmarks
         public const string TestRootName = "test";
 
         TestId() { }
-        public TestId(string tenant, string id) : base(tenant, id) { }
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override ReadOnlySpan<char> AggregateRootName => TestRootName;
 
-        protected override TestId Construct(string id, string tenant) => new(tenant, id);
         protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
     }
 

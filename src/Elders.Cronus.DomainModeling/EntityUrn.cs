@@ -25,14 +25,6 @@ public partial class EntityId : Urn
         aggregateRootId = default;
     }
 
-    public EntityId(AggregateRootId arUrn, string entityName, string entityId)
-        : base(arUrn.Tenant, $"{arUrn.AggregateRootName}{PARTS_DELIMITER}{arUrn.Id}{HIERARCHICAL_DELIMITER}{entityName}{PARTS_DELIMITER}{entityId}")
-    {
-        this.aggregateRootId = arUrn ?? throw new ArgumentNullException(nameof(arUrn));
-        this.entityName = entityName;
-        this.entityId = entityId;
-    }
-
     public EntityId(AggregateRootId arUrn, ReadOnlySpan<char> entityName, ReadOnlySpan<char> entityId)
         : base(arUrn.Tenant.AsSpan(), $"{arUrn.AggregateRootName}{PARTS_DELIMITER}{arUrn.Id}{HIERARCHICAL_DELIMITER}{entityName}{PARTS_DELIMITER}{entityId}") { }
 
@@ -73,20 +65,6 @@ public partial class EntityId : Urn
 
             isFullyInitialized = true;
         }
-    }
-
-    public static EntityId Parse(string urn)
-    {
-        Urn baseUrn = new Urn(urn);
-
-        var match = EntityRegex().Match(baseUrn.NSS);
-        if (match.Success)
-        {
-            var rootUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);
-            return new EntityId(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
-        }
-
-        throw new ArgumentException($"Invalid {nameof(Cronus.EntityId)}: {urn}", nameof(urn));
     }
 
     public static EntityId Parse(ReadOnlySpan<char> candidate)

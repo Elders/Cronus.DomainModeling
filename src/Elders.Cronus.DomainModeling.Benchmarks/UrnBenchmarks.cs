@@ -26,8 +26,9 @@ public class UrnBenchmarks
         urns = new Urn[N];
     }
 
+
     [Benchmark(Baseline = true)]
-    public Urn[] Create_N_Urns_From_String()
+    public Urn[] Create_N_Urns_From_Span()
     {
         for (int i = 0; i < N; i++)
         {
@@ -38,7 +39,7 @@ public class UrnBenchmarks
     }
 
     [Benchmark]
-    public Urn[] Create_N_Urns_From_String_Without_Components()
+    public Urn[] Create_N_Urns_From_Span_Without_Components()
     {
         for (int i = 0; i < N; i++)
         {
@@ -49,7 +50,7 @@ public class UrnBenchmarks
     }
 
     [Benchmark]
-    public Urn[] Create_N_Urns_From_String_Parts()
+    public Urn[] Create_N_Urns_From_Span_Parts()
     {
         for (int i = 0; i < N; i++)
         {
@@ -60,55 +61,11 @@ public class UrnBenchmarks
     }
 
     [Benchmark]
-    public Urn[] Create_N_Urns_From_String_Parts_Without_Components()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            urns[i] = new Urn("nid", "nss");
-        }
-
-        return urns;
-    }
-
-    [Benchmark]
-    public Urn[] Create_N_Urns_From_Span()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            urns[i] = new Urn(urnString.AsSpan());
-        }
-
-        return urns;
-    }
-
-    [Benchmark]
-    public Urn[] Create_N_Urns_From_Span_Without_Components()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            urns[i] = new Urn(urnStringWithoutComponents.AsSpan());
-        }
-
-        return urns;
-    }
-
-    [Benchmark]
-    public Urn[] Create_N_Urns_From_Span_Parts()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            urns[i] = new Urn("nid".AsSpan(), "nss", "r_comp", "q_comp", "f_comp");
-        }
-
-        return urns;
-    }
-
-    [Benchmark]
     public Urn[] Create_N_Urns_From_Span_Parts_Without_Components()
     {
         for (int i = 0; i < N; i++)
         {
-            urns[i] = new Urn("nid".AsSpan(), "nss");
+            urns[i] = new Urn("nid", "nss");
         }
 
         return urns;

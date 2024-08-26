@@ -10,12 +10,10 @@ public class EntityIdBenchmarks
         public const string TestRootName = "test";
 
         TestId() { }
-        public TestId(string tenant, string id) : base(tenant, id) { }
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override ReadOnlySpan<char> AggregateRootName => TestRootName;
 
-        protected override TestId Construct(string id, string tenant) => new(tenant, id);
         protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
     }
 
@@ -27,7 +25,6 @@ public class EntityIdBenchmarks
 
         TestEntityId() { }
 
-        public TestEntityId(string idBase, TestId rootId) : base(idBase, rootId) { }
         public TestEntityId(ReadOnlySpan<char> idBase, TestId rootId) : base(idBase, rootId) { }
     }
 
@@ -51,7 +48,7 @@ public class EntityIdBenchmarks
     }
 
     [Benchmark(Baseline = true)]
-    public TestEntityId[] Create_N_Ids_From_Strings()
+    public TestEntityId[] Create_N_Ids_From_Spans()
     {
         for (int i = 0; i < N; i++)
         {
@@ -62,33 +59,11 @@ public class EntityIdBenchmarks
     }
 
     [Benchmark]
-    public TestEntityId[] Create_N_Ids_From_Spans()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            ids[i] = new TestEntityId("id".AsSpan(), testId);
-        }
-
-        return ids;
-    }
-
-    [Benchmark]
-    public EntityId[] Create_N_Base_Ids_From_String_Using_Static_Parse()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            baseEntityIds[i] = EntityId.Parse("urn:tenant:test:id/testentity:entityid");
-        }
-
-        return baseEntityIds;
-    }
-
-    [Benchmark]
     public EntityId[] Create_N_Base_Ids_From_Span_Using_Static_Parse()
     {
         for (int i = 0; i < N; i++)
         {
-            baseEntityIds[i] = EntityId.Parse("urn:tenant:test:id/testentity:entityid".AsSpan());
+            baseEntityIds[i] = EntityId.Parse("urn:tenant:test:id/testentity:entityid");
         }
 
         return baseEntityIds;

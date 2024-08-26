@@ -11,23 +11,6 @@ public abstract class AggregateRootId<T> : AggregateRootId
 {
     protected AggregateRootId() { }
 
-    protected AggregateRootId(string tenant, string id)
-    {
-        if (string.IsNullOrEmpty(tenant)) throw new ArgumentException($"'{nameof(tenant)}' cannot be null or empty.", nameof(tenant));
-        if (string.IsNullOrEmpty(id)) throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
-        if (AggregateRootName.IsEmpty) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
-
-        var nss = $"{AggregateRootName}{PARTS_DELIMITER}{id}";
-        var urn = $"urn{PARTS_DELIMITER}{tenant}{PARTS_DELIMITER}{nss}";
-        if (IsUrn(urn) == false)
-            throw new ArgumentException($"Invalid aggregate root id.");
-
-        if (NssRegex().IsMatch(nss) == false)
-            throw new ArgumentException($"Invalid aggregate root id.");
-
-        rawId = Encoding.UTF8.GetBytes(urn);
-    }
-
     protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
     {
         if (tenant.IsEmpty) throw new ArgumentException("Tenant cannot be empty", nameof(tenant));
@@ -57,18 +40,6 @@ public abstract class AggregateRootId<T> : AggregateRootId
 
     new public abstract ReadOnlySpan<char> AggregateRootName { get; }
 
-    public static T New(string tenant)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(System.Guid.NewGuid().ToString(), tenant);
-    }
-
-    public static T New(string tenant, string id)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(id, tenant);
-    }
-
     public static T New(ReadOnlySpan<char> tenant)
     {
         var instance = (T)System.Activator.CreateInstance(typeof(T), true);
@@ -81,7 +52,6 @@ public abstract class AggregateRootId<T> : AggregateRootId
         return instance.Construct(id, tenant);
     }
 
-    protected abstract T Construct(string id, string tenant);
     protected abstract T Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant);
     protected virtual T Construct(AggregateRootId from)
     {
@@ -120,35 +90,6 @@ public abstract class AggregateRootId<T> : AggregateRootId
             return false;
         }
     }
-
-    new public static T Parse(string candidate)
-    {
-        if (TryParse(candidate, out var instance))
-        {
-            return instance;
-        }
-
-        throw new ArgumentException("Invalid aggregate root id.", nameof(candidate));
-    }
-
-    public static bool TryParse(string candidate, out T aggregateRootId)
-    {
-        try
-        {
-            aggregateRootId = (T)Activator.CreateInstance(typeof(T), true);
-            var stringTenantUrn = AggregateRootId.Parse(candidate);
-            aggregateRootId = aggregateRootId.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
-            if (aggregateRootId.AggregateRootName != stringTenantUrn.AggregateRootName)
-                return false;
-
-            return true;
-        }
-        catch (Exception)
-        {
-            aggregateRootId = null;
-            return false;
-        }
-    }
 }
 
 [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
@@ -162,24 +103,11 @@ public partial class AggregateRootId : Urn
 
     protected AggregateRootId() { }
 
-    public AggregateRootId(string tenant, string arName, string id)
-        : base(tenant, $"{arName}{PARTS_DELIMITER}{id}") { }
-
     public AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> arName, ReadOnlySpan<char> id)
         : base(tenant, $"{arName}{PARTS_DELIMITER}{id}") { }
 
-    public AggregateRootId(string tenant, AggregateRootId arId)
-        : base(tenant, $"{arId.AggregateRootName}{PARTS_DELIMITER}{arId.Id}") { }
-
     public AggregateRootId(ReadOnlySpan<char> tenant, AggregateRootId arId)
         : base(tenant, $"{arId.AggregateRootName}{PARTS_DELIMITER}{arId.Id}") { }
-
-    public AggregateRootId(AggregateRootId arId, string aggregateRootName)
-        : this(arId.Tenant.AsSpan(), arId)
-    {
-        if (aggregateRootName.Equals(arId.AggregateRootName, StringComparison.OrdinalIgnoreCase) == false)
-            throw new ArgumentException("AggregateRootName mismatch");
-    }
 
     internal AggregateRootId(ReadOnlySpan<char> urn) : base(urn)
     {
@@ -226,33 +154,6 @@ public partial class AggregateRootId : Urn
 
     public string AggregateRootName { get { DoFullInitialization(); return aggregateRootName; } }
 
-    public static bool TryParse(string candicate, out AggregateRootId parsedUrn)
-    {
-        try
-        {
-            parsedUrn = null;
-            if (IsUrn(candicate) == false)
-            {
-                return false;
-            }
-
-            var urn = new Urn(candicate);
-            Match nssMatch = NssRegex().Match(urn.NSS);
-            if (nssMatch.Success)
-            {
-                parsedUrn = new AggregateRootId(urn.NID, nssMatch.Groups["arname"].Value, nssMatch.Groups["id"].Value);
-                return true;
-            }
-
-            return false;
-        }
-        catch (Exception)
-        {
-            parsedUrn = null;
-            return false;
-        }
-    }
-
     public static bool TryParse(ReadOnlySpan<char> candicate, out AggregateRootId parsedUrn)
     {
         try
@@ -264,18 +165,6 @@ public partial class AggregateRootId : Urn
         {
             parsedUrn = null;
             return false;
-        }
-    }
-
-    public static AggregateRootId Parse(string urn)
-    {
-        if (TryParse(urn, out AggregateRootId parsedUrn))
-        {
-            return parsedUrn;
-        }
-        else
-        {
-            throw new ArgumentException($"Invalid {nameof(AggregateRootId)}: {urn}", nameof(urn));
         }
     }
 

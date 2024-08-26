@@ -8,12 +8,10 @@ public class AggregateRootIdBenchmarks
     public class TestId : AggregateRootId<TestId>
     {
         TestId() { }
-        public TestId(string tenant, string id) : base(tenant, id) { }
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override ReadOnlySpan<char> AggregateRootName => "test";
 
-        protected override TestId Construct(string id, string tenant) => new(tenant, id);
         protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
     }
 
@@ -31,8 +29,9 @@ public class AggregateRootIdBenchmarks
         ids = new TestId[N];
     }
 
+
     [Benchmark(Baseline = true)]
-    public TestId[] Create_N_Ids_From_Strings()
+    public TestId[] Create_N_Ids_From_Spans()
     {
         for (int i = 0; i < N; i++)
         {
@@ -43,18 +42,7 @@ public class AggregateRootIdBenchmarks
     }
 
     [Benchmark]
-    public TestId[] Create_N_Ids_From_Spans()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            ids[i] = new TestId("tenant".AsSpan(), "id");
-        }
-
-        return ids;
-    }
-
-    [Benchmark]
-    public TestId[] Create_N_Ids_From_String_Using_Static_New()
+    public TestId[] Create_N_Ids_From_Span_Using_Static_New()
     {
         for (int i = 0; i < N; i++)
         {
@@ -65,33 +53,11 @@ public class AggregateRootIdBenchmarks
     }
 
     [Benchmark]
-    public TestId[] Create_N_Ids_From_Span_Using_Static_New()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            ids[i] = TestId.New("tenant".AsSpan(), "id");
-        }
-
-        return ids;
-    }
-
-    [Benchmark]
-    public TestId[] Create_N_Ids_From_String_Using_Static_Parse()
-    {
-        for (int i = 0; i < N; i++)
-        {
-            ids[i] = TestId.Parse("urn:tenant:test:id");
-        }
-
-        return ids;
-    }
-
-    [Benchmark]
     public TestId[] Create_N_Ids_From_Span_Using_Static_Parse()
     {
         for (int i = 0; i < N; i++)
         {
-            ids[i] = TestId.Parse("urn:tenant:test:id".AsSpan());
+            ids[i] = TestId.Parse("urn:tenant:test:id");
         }
 
         return ids;

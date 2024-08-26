@@ -2,7 +2,6 @@
 using System.Buffers;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -25,7 +24,6 @@ public class Urn : IEquatable<Urn>, IBlobId
     public static bool UseCaseSensitiveUrns = false;
 
     private static readonly SearchValues<char> allowedNidSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-");
-    internal static readonly PropertyInfo RawIdProperty = typeof(Urn).GetProperty(nameof(RawId), BindingFlags.Instance | BindingFlags.Public);
 
     protected string nid;
     protected string nss;
@@ -46,34 +44,6 @@ public class Urn : IEquatable<Urn>, IBlobId
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
         SetRawId(urn.rawId.Span);
-    }
-
-    public Urn(string urnString)
-    {
-        if (IsUrn(urnString) == false) throw new ArgumentException("String is not a URN!", nameof(urnString));
-
-        if (UseCaseSensitiveUrns == false && urnString.Any(char.IsUpper))
-            urnString = urnString.ToLower();
-
-        rawId = Encoding.UTF8.GetBytes(urnString);
-    }
-
-    /// <summary>
-    /// Initializes a new URN
-    /// </summary>
-    /// <param name="nid">The Namespace Identifier</param>
-    /// <param name="nss">The Namespace Specific String</param>
-    public Urn(string nid, string nss, string rcomponent = null, string qcomponent = null, string fcomponent = null)
-    {
-        if (string.IsNullOrEmpty(nid)) throw new ArgumentException("NID is not valid", nameof(nid));
-        if (string.IsNullOrEmpty(nss)) throw new ArgumentException("NSS is not valid", nameof(nss));
-
-        string urn = BuildUrnString(nid, nss, rcomponent, qcomponent, fcomponent);
-
-        if (UseCaseSensitiveUrns == false && urn.Any(char.IsUpper))
-            urn = urn.ToLower();
-
-        rawId = Encoding.UTF8.GetBytes(urn);
     }
 
     public Urn(ReadOnlySpan<char> urnSpan)
@@ -322,37 +292,6 @@ public class Urn : IEquatable<Urn>, IBlobId
         }
     }
 
-    private static string BuildUrnString(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss, ReadOnlySpan<char> rcomponent, ReadOnlySpan<char> qcomponent, ReadOnlySpan<char> fcomponent)
-    {
-        var urn = new StringBuilder($"urn{PARTS_DELIMITER}{nid}{PARTS_DELIMITER}{nss}");
-
-        if (rcomponent.Length > 0)
-        {
-            if (rcomponent.IndexOf(PREFIX_Q_COMPONENT) > -1 || rcomponent.IndexOf(PREFIX_F_COMPONENT) > -1)
-                throw new ArgumentException("rcomponent includes illegal characters!", nameof(rcomponent));
-
-            urn.Append(rcomponent.StartsWith(PREFIX_R_COMPONENT) ? rcomponent : $"{PREFIX_R_COMPONENT}{rcomponent}");
-        }
-
-        if (qcomponent.Length > 0)
-        {
-            if (qcomponent.IndexOf(PREFIX_R_COMPONENT) > -1 || qcomponent.IndexOf(PREFIX_F_COMPONENT) > -1)
-                throw new ArgumentException("qcomponent includes illegal characters!", nameof(qcomponent));
-
-            urn.Append(rcomponent.StartsWith(PREFIX_Q_COMPONENT) ? qcomponent : $"{PREFIX_Q_COMPONENT}{qcomponent}");
-        }
-
-        if (fcomponent.Length > 0)
-        {
-            if (fcomponent.IndexOf(PREFIX_R_COMPONENT) > -1 || fcomponent.IndexOf(PREFIX_Q_COMPONENT) > -1)
-                throw new ArgumentException("fcomponent includes illegal characters!", nameof(fcomponent));
-
-            urn.Append(rcomponent.StartsWith(PREFIX_F_COMPONENT) ? fcomponent : $"{PREFIX_F_COMPONENT}{fcomponent}");
-        }
-
-        return urn.ToString();
-    }
-
     public override string ToString() => Value;
 
     public static implicit operator string(Urn urn) => urn?.Value;
@@ -373,12 +312,6 @@ public class Urn : IEquatable<Urn>, IBlobId
     public static bool operator !=(Urn left, Urn right)
     {
         return !(left == right);
-    }
-
-    public static bool IsUrn(string candidate)
-    {
-        try { return UrnRegex.Matches(candidate); }
-        catch (Exception) { return false; }
     }
 
     public static bool IsUrn(ReadOnlySpan<char> candidate)

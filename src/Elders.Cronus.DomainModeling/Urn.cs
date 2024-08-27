@@ -32,18 +32,18 @@ public class Urn : IEquatable<Urn>, IBlobId
     protected string f_Component;
 
     private bool isFullyInitialized;
-    internal Memory<byte> rawId;
+    private ReadOnlyMemory<byte> rawId;
 
     protected Urn()
     {
-        rawId = Memory<byte>.Empty;
+        rawId = ReadOnlyMemory<byte>.Empty;
     }
 
     public Urn(Urn urn)
     {
         if (urn is null) throw new ArgumentNullException(nameof(urn));
 
-        SetRawId(urn.rawId.Span);
+        SetRawId(urn.rawId);
     }
 
     public Urn(ReadOnlySpan<char> urnSpan)
@@ -60,16 +60,14 @@ public class Urn : IEquatable<Urn>, IBlobId
                     Span<char> chars = stackalloc char[urnSpan.Length];
                     urnSpan.ToLower(chars, null);
 
-                    rawId = new byte[chars.Length];
-                    Encoding.UTF8.GetBytes(chars, rawId.Span);
+                    SetRawId(chars);
 
                     break;
                 }
             }
         }
 
-        rawId = new byte[urnSpan.Length];
-        Encoding.UTF8.GetBytes(urnSpan, rawId.Span);
+        SetRawId(urnSpan);
     }
 
     public Urn(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss) : this(nid, nss, [], [], []) { }
@@ -176,15 +174,22 @@ public class Urn : IEquatable<Urn>, IBlobId
         }
 
         ConvertCaseIfNeeded(urn);
-
-        rawId = new byte[urn.Length];
-        Encoding.UTF8.GetBytes(urn, rawId.Span);
+        SetRawId(urn);
     }
 
-    internal void SetRawId(ReadOnlySpan<byte> span)
+    internal void SetRawId(ReadOnlyMemory<byte> memory)
     {
-        rawId = new byte[span.Length];
-        span.CopyTo(rawId.Span);
+        Memory<byte> buffer = new byte[memory.Length];
+        memory.CopyTo(buffer);
+        rawId = buffer;
+        isFullyInitialized = false;
+    }
+
+    internal void SetRawId(ReadOnlySpan<char> span)
+    {
+        Memory<byte> buffer = new byte[span.Length];
+        Encoding.UTF8.GetBytes(span, buffer.Span);
+        rawId = buffer;
         isFullyInitialized = false;
     }
 
@@ -201,7 +206,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     }
 
     [DataMember(Order = 10)]
-    public ReadOnlySpan<byte> RawId { get => rawId.Span; protected set { rawId = value.ToArray(); isFullyInitialized = false; } }
+    public ReadOnlyMemory<byte> RawId { get => rawId; protected set { rawId = value; isFullyInitialized = false; } }
 
     public string NID { get { DoFullInitialization(); return nid; } }
 
@@ -213,14 +218,14 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public string F_Component { get { DoFullInitialization(); return f_Component; } }
 
-    public string Value => Encoding.UTF8.GetString(RawId);
+    public string Value => Encoding.UTF8.GetString(RawId.Span);
 
     protected virtual void DoFullInitialization()
     {
         if (isFullyInitialized == false)
         {
             Span<char> rawChars = stackalloc char[RawId.Length];
-            Encoding.UTF8.GetChars(RawId, rawChars);
+            Encoding.UTF8.GetChars(RawId.Span, rawChars);
 
             int rCompIndex = -1, qCompIndex = -1, fCompIndex = -1;
             for (int i = 4; i < rawChars.Length; i++) // skipping "urn:"
@@ -296,7 +301,7 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public static implicit operator string(Urn urn) => urn?.Value;
     public static implicit operator byte[](Urn urn) => urn?.RawId.ToArray();
-    public static implicit operator ReadOnlySpan<byte>(Urn urn) => urn is null ? [] : urn.RawId;
+    public static implicit operator ReadOnlySpan<byte>(Urn urn) => urn is null ? [] : urn.RawId.Span;
 
     public static bool operator ==(Urn left, Urn right)
     {
@@ -355,7 +360,7 @@ public class Urn : IEquatable<Urn>, IBlobId
             int hash = (int)2166136261;
 
             for (int i = 0; i < RawId.Length; i++)
-                hash = (hash ^ RawId[i]) * p;
+                hash = (hash ^ RawId.Span[i]) * p;
 
             return hash;
         }

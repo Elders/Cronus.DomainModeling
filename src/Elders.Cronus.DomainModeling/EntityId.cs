@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Elders.Cronus;
@@ -35,9 +34,7 @@ public abstract class EntityId<TAggregateRootId> : EntityId
             throw new ArgumentException($"Invalid aggregate root id.");
 
         ConvertCaseIfNeeded(urn);
-
-        rawId = new byte[urn.Length];
-        Encoding.UTF8.GetBytes(urn, rawId.Span);
+        SetRawId(urn);
     }
 
     TAggregateRootId aggregateRootId;

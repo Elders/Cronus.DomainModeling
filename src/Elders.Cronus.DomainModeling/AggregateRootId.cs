@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
@@ -34,8 +33,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
         if (NssRegex().IsMatch(nss) == false)
             throw new ArgumentException($"Invalid aggregate root id.");
 
-        rawId = new byte[urn.Length];
-        Encoding.UTF8.GetBytes(urn, rawId.Span);
+        SetRawId(urn);
     }
 
     new public abstract ReadOnlySpan<char> AggregateRootName { get; }
@@ -55,7 +53,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
     protected abstract T Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant);
     protected virtual T Construct(AggregateRootId from)
     {
-        SetRawId(from.rawId.Span);
+        SetRawId(from.RawId);
 
         var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
         if (from.AggregateRootName.AsSpan().Equals(AggregateRootName, comparisoin) == false)

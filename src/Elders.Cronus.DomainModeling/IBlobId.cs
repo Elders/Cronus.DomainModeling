@@ -4,5 +4,5 @@ namespace Elders.Cronus;
 
 public interface IBlobId
 {
-    ReadOnlySpan<byte> RawId { get; }
+    ReadOnlyMemory<byte> RawId { get; }
 }

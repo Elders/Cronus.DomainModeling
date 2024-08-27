@@ -109,7 +109,7 @@ public partial class EntityId : Urn
         {
             entityId = (T)Activator.CreateInstance(typeof(T), true);
             var parsed = new EntityId(candidate);
-            entityId.SetRawId(parsed.rawId.Span);
+            entityId.SetRawId(parsed.RawId);
 
             var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
             if (entityId.EntityName.Equals(parsed.EntityName, comparisoin) == false)

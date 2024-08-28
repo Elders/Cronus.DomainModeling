@@ -33,8 +33,6 @@ public class AggregateRootBenchmarks
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override ReadOnlySpan<char> AggregateRootName => TestRootName;
-
-        protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
     }
 
     public sealed class DidStuff : IEvent

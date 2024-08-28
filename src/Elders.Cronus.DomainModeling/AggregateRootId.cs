@@ -12,8 +12,65 @@ public abstract class AggregateRootId<T> : AggregateRootId
 
     protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
     {
-        if (tenant.IsEmpty) throw new ArgumentException("Tenant cannot be empty", nameof(tenant));
+        ConstructInternal(tenant, id);
+    }
+
+    new public abstract ReadOnlySpan<char> AggregateRootName { get; }
+
+    public static T New(ReadOnlySpan<char> tenant)
+    {
+        var instance = (T)Activator.CreateInstance(typeof(T), true);
+        return instance.ConstructWith(tenant, Guid.NewGuid().ToString());
+    }
+
+    public static T New(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
+    {
+        var instance = (T)Activator.CreateInstance(typeof(T), true);
+        return instance.ConstructWith(tenant, id);
+    }
+
+    new public static T Parse(ReadOnlySpan<char> candidate)
+    {
+        if (TryParse(candidate, out var instance))
+        {
+            return instance;
+        }
+
+        throw new ArgumentException($"Invalid aggregate root id '{candidate}'.", nameof(candidate));
+    }
+
+    public static bool TryParse(ReadOnlySpan<char> candidate, out T aggregateRootId)
+    {
+        try
+        {
+            var instance = (T)Activator.CreateInstance(typeof(T), true);
+            var baseArId = new AggregateRootId(candidate);
+            instance = instance.ConstructWith(baseArId.Tenant, baseArId.Id);
+
+            var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+            if (baseArId.AggregateRootName.AsSpan().Equals(instance.AggregateRootName, comparisoin) == false)
+            {
+                aggregateRootId = null;
+                return false;
+            }
+
+            aggregateRootId = instance;
+            return true;
+        }
+        catch (Exception)
+        {
+            aggregateRootId = null;
+            return false;
+        }
+    }
+
+    protected virtual T ConstructWith(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) => ConstructInternal(tenant, id);
+
+    private T ConstructInternal(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
+    {
         if (id.IsEmpty) throw new ArgumentException("Id cannot be empty", nameof(tenant));
+        if (tenant.IsEmpty) throw new ArgumentException("Tenant cannot be empty", nameof(tenant));
+
         if (AggregateRootName.IsEmpty) throw new InvalidOperationException($"{nameof(AggregateRootName)} cannot be null or empty.");
 
         Span<char> nss = stackalloc char[AggregateRootName.Length + 1 + id.Length];
@@ -28,65 +85,14 @@ public abstract class AggregateRootId<T> : AggregateRootId
         nss.CopyTo(urn[^nss.Length..]);
 
         if (IsUrn(urn) == false)
-            throw new ArgumentException($"Invalid aggregate root id.");
+            throw new ArgumentException($"Invalid aggregate root id '{urn}'.");
 
         if (NssRegex().IsMatch(nss) == false)
-            throw new ArgumentException($"Invalid aggregate root id.");
+            throw new ArgumentException($"Invalid aggregate root id '{urn}'.");
 
         SetRawId(urn);
-    }
-
-    new public abstract ReadOnlySpan<char> AggregateRootName { get; }
-
-    public static T New(ReadOnlySpan<char> tenant)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(Guid.NewGuid().ToString(), tenant);
-    }
-
-    public static T New(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(id, tenant);
-    }
-
-    protected abstract T Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant);
-    protected virtual T Construct(AggregateRootId from)
-    {
-        SetRawId(from.RawId);
-
-        var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-        if (from.AggregateRootName.AsSpan().Equals(AggregateRootName, comparisoin) == false)
-            throw new ArgumentException($"Failed to construct aggregate root id of type {typeof(T).Name}. Aggregate root name mismatch.", nameof(from));
 
         return (T)this;
-    }
-
-    new public static T Parse(ReadOnlySpan<char> candidate)
-    {
-        if (TryParse(candidate, out var instance))
-        {
-            return instance;
-        }
-
-        throw new ArgumentException("Invalid aggregate root id.", nameof(candidate));
-    }
-
-    public static bool TryParse(ReadOnlySpan<char> candidate, out T aggregateRootId)
-    {
-        try
-        {
-            var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-            var arId = new AggregateRootId(candidate);
-            aggregateRootId = instance.Construct(arId);
-
-            return true;
-        }
-        catch (Exception)
-        {
-            aggregateRootId = null;
-            return false;
-        }
     }
 }
 

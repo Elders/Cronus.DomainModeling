@@ -11,8 +11,6 @@ public class AggregateRootIdBenchmarks
         public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
         public override ReadOnlySpan<char> AggregateRootName => "test";
-
-        protected override TestId Construct(ReadOnlySpan<char> id, ReadOnlySpan<char> tenant) => new(tenant, id);
     }
 
     private static readonly TestId testId = new("tenant", "id");

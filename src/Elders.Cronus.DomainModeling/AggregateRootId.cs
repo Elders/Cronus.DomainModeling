@@ -12,7 +12,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
 
     protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
     {
-        ConstructInternal(tenant, id);
+        ConstructWith(tenant, id);
     }
 
     new public abstract ReadOnlySpan<char> AggregateRootName { get; }
@@ -64,9 +64,7 @@ public abstract class AggregateRootId<T> : AggregateRootId
         }
     }
 
-    protected virtual T ConstructWith(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) => ConstructInternal(tenant, id);
-
-    private T ConstructInternal(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
+    protected virtual T ConstructWith(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
     {
         if (id.IsEmpty) throw new ArgumentException("Id cannot be empty", nameof(tenant));
         if (tenant.IsEmpty) throw new ArgumentException("Tenant cannot be empty", nameof(tenant));

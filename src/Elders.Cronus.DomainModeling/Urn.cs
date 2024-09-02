@@ -177,7 +177,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         SetRawId(urn);
     }
 
-    internal void SetRawId(ReadOnlyMemory<byte> memory)
+    protected internal void SetRawId(ReadOnlyMemory<byte> memory)
     {
         Memory<byte> buffer = new byte[memory.Length];
         memory.CopyTo(buffer);
@@ -185,7 +185,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         isFullyInitialized = false;
     }
 
-    internal void SetRawId(ReadOnlySpan<char> span)
+    protected internal void SetRawId(ReadOnlySpan<char> span)
     {
         Memory<byte> buffer = new byte[span.Length];
         Encoding.UTF8.GetBytes(span, buffer.Span);

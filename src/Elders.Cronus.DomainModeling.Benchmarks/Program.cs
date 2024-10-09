@@ -1,5 +1,4 @@
-﻿
-#if RELEASE
+﻿#if RELEASE
 
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Reports;
@@ -14,8 +13,6 @@ BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, cfg);
 
 #elif DEBUG
 
-
-using Elders.Cronus;
 
 Console.WriteLine("gg");
 

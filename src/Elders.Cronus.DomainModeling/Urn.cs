@@ -48,9 +48,10 @@ public class Urn : IEquatable<Urn>, IBlobId
 
     public Urn(ReadOnlySpan<char> urnSpan)
     {
-        if (urnSpan.Length == 0) throw new ArgumentException("String is not a URN!", nameof(urnSpan));
-        if (IsUrn(urnSpan) == false) throw new ArgumentException("String is not a URN!", nameof(urnSpan));
+        if (urnSpan.Length == 0) throw new ArgumentException("Empty string is not a valid URN!", nameof(urnSpan));
+        if (IsUrn(urnSpan) == false) throw new ArgumentException("String is not a valid URN!", nameof(urnSpan));
 
+        bool isRawIdSet = false;
         if (UseCaseSensitiveUrns == false)
         {
             foreach (var c in urnSpan)
@@ -61,13 +62,15 @@ public class Urn : IEquatable<Urn>, IBlobId
                     urnSpan.ToLower(chars, null);
 
                     SetRawId(chars);
+                    isRawIdSet = true;
 
                     break;
                 }
             }
         }
 
-        SetRawId(urnSpan);
+        if (isRawIdSet == false)
+            SetRawId(urnSpan);
     }
 
     public Urn(ReadOnlySpan<char> nid, ReadOnlySpan<char> nss) : this(nid, nss, [], [], []) { }
@@ -175,9 +178,10 @@ public class Urn : IEquatable<Urn>, IBlobId
 
         ConvertCaseIfNeeded(urn);
         SetRawId(urn);
+        DoFullInitialization();
     }
 
-    protected internal void SetRawId(ReadOnlyMemory<byte> memory)
+    internal void SetRawId(ReadOnlyMemory<byte> memory)
     {
         Memory<byte> buffer = new byte[memory.Length];
         memory.CopyTo(buffer);
@@ -185,7 +189,7 @@ public class Urn : IEquatable<Urn>, IBlobId
         isFullyInitialized = false;
     }
 
-    protected internal void SetRawId(ReadOnlySpan<char> span)
+    internal void SetRawId(ReadOnlySpan<char> span)
     {
         Memory<byte> buffer = new byte[span.Length];
         Encoding.UTF8.GetBytes(span, buffer.Span);
@@ -300,7 +304,6 @@ public class Urn : IEquatable<Urn>, IBlobId
     public override string ToString() => Value;
 
     public static implicit operator string(Urn urn) => urn?.Value;
-    public static implicit operator byte[](Urn urn) => urn?.RawId.ToArray();
     public static implicit operator ReadOnlySpan<byte>(Urn urn) => urn is null ? [] : urn.RawId.Span;
 
     public static bool operator ==(Urn left, Urn right)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Elders.Cronus;
 
@@ -21,15 +20,9 @@ public class AggregateRootException : Exception
     public AggregateRootException() { }
 
     /// <summary>
-    /// Serialization constructor.
-    /// </summary>
-    protected AggregateRootException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-    /// <summary>
     /// Constructs a new AggregateRootException.
     /// </summary>
     /// <param name="message">The exception message</param>
     /// <param name="innerException">The inner exception</param>
     public AggregateRootException(string message, Exception innerException) : base(message, innerException) { }
-
 }

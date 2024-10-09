@@ -11,7 +11,7 @@ namespace Elders.Cronus
             origin = new AggregateRootId("tenant", "arname", "123");
         };
 
-        Because of = () => result = new AggregateRootId("tenant", urn);
+        Because of = () => result = new AggregateRootId(urn);
 
         It should_have_tenant_as_base_part = () => result.ShouldEqual(origin);
 

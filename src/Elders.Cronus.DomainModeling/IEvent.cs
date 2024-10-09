@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Elders.Cronus;
+﻿namespace Elders.Cronus;
 
 /// <summary>
 /// Domain events represent business changes which already happened

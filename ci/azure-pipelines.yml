@@ -52,6 +52,12 @@ stages:
         version: '9.x'
         includePreviewVersions: true
 
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.x'
+        includePreviewVersions: true
+
     - task: DotNetCoreCLI@2
       name: test
       inputs:

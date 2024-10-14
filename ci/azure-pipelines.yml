@@ -29,6 +29,11 @@ stages:
         version: '9.x'
         includePreviewVersions: true
 
+    - script: |
+      echo "##[section]Verifying .NET SDK installation"
+      dotnet --info
+      displayName: 'Verify .NET SDK installation'
+
     - task: DotNetCoreCLI@2
       name: test
       inputs:

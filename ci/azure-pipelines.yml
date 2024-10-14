@@ -2,8 +2,6 @@
 
 variables:
   PROJECT_DIR: Elders.Cronus.DomainModeling
-  system.debug: 'true'
-
 trigger:
   branches:
     include: [master,beta,preview]

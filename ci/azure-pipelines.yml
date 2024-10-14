@@ -37,6 +37,7 @@ jobs:
     inputs:
       command: build
       projects: 'src/$(PROJECT_DIR)/*.csproj'
+      arguments: '--logger trx --results-directory $(System.DefaultWorkingDirectory)/TestResults -v diag'
 
   - task: Bash@3
     name: release

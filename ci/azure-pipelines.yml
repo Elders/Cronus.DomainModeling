@@ -30,8 +30,8 @@ stages:
         includePreviewVersions: true
 
     - script: |
-      echo "##[section]Verifying .NET SDK installation"
-      dotnet --info
+        echo "##[section]Verifying .NET SDK installation"
+        dotnet --info
       displayName: 'Verify .NET SDK installation'
 
     - task: DotNetCoreCLI@2

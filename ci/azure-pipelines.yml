@@ -32,6 +32,7 @@ jobs:
       projects: '**/*Tests.csproj'
       arguments: '--logger trx --results-directory $(System.DefaultWorkingDirectory)/TestResults -v diag'
 
+
   - task: DotNetCoreCLI@2
     name: build
     inputs:

@@ -34,6 +34,8 @@ stages:
       inputs:
         command: test
         projects: '**/*Tests.csproj'
+      env:
+        MSBuildEnableWorkloadResolver: false
 
 - stage: RunTestsDotnet8
   displayName: 'Run tests for dotnet 8'
@@ -56,6 +58,8 @@ stages:
       inputs:
         command: test
         projects: '**/*Tests.csproj'
+      env:
+        MSBuildEnableWorkloadResolver: false
 
 - stage : DeployStage
   displayName: 'Deploy stage'

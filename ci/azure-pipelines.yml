@@ -11,8 +11,12 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+stages:
+
+-stage: RunTests
+displayName: 'Run tests'
 jobs:
-- job: build_pack_publish
+- job: run_tests
 
   steps:
   - checkout: self
@@ -31,6 +35,23 @@ jobs:
       command: test
       projects: '**/*Tests.csproj'
 
+-stage : DeployStage
+displayName: 'Deploy stage'
+dependsOn: RunTests
+
+jobs:
+- job: build_pack_publish
+
+  steps:
+  - checkout: self
+    clean: true
+    persistCredentials: true
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '9.x'
+      includePreviewVersions: true
 
   - task: DotNetCoreCLI@2
     name: build

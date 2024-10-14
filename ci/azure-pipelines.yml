@@ -26,6 +26,9 @@ jobs:
       packageType: 'sdk'
       version: '9.x'
       includePreviewVersions: true
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
 
   - task: DotNetCoreCLI@2
     name: test

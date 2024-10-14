@@ -13,74 +13,74 @@ pool:
 
 stages:
 
--stage: RunTests
-displayName: 'Run tests'
-jobs:
-- job: run_tests
+- stage: RunTests
+  displayName: 'Run tests'
+  jobs:
+  - job: run_tests
 
-  steps:
-  - checkout: self
-    clean: true
-    persistCredentials: true
+    steps:
+    - checkout: self
+      clean: true
+      persistCredentials: true
 
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '9.x'
-      includePreviewVersions: true
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '9.x'
+        includePreviewVersions: true
 
-  - task: DotNetCoreCLI@2
-    name: test
-    inputs:
-      command: test
-      projects: '**/*Tests.csproj'
+    - task: DotNetCoreCLI@2
+      name: test
+      inputs:
+        command: test
+        projects: '**/*Tests.csproj'
 
--stage : DeployStage
-displayName: 'Deploy stage'
-dependsOn: RunTests
+- stage : DeployStage
+  displayName: 'Deploy stage'
+  dependsOn: RunTests
 
-jobs:
-- job: build_pack_publish
+  jobs:
+  - job: build_pack_publish
 
-  steps:
-  - checkout: self
-    clean: true
-    persistCredentials: true
+    steps:
+    - checkout: self
+      clean: true
+      persistCredentials: true
 
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '9.x'
-      includePreviewVersions: true
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '9.x'
+        includePreviewVersions: true
 
-  - task: DotNetCoreCLI@2
-    name: build
-    inputs:
-      command: build
-      projects: 'src/$(PROJECT_DIR)/*.csproj'
+    - task: DotNetCoreCLI@2
+      name: build
+      inputs:
+        command: build
+        projects: 'src/$(PROJECT_DIR)/*.csproj'
 
-  - task: Bash@3
-    name: release
-    displayName: semantic release + pack
-    env:
-      STAGING_PATH: $(Build.StagingDirectory)
-    inputs:
-      targetType: 'inline'
-      script: |
-        time curl -L https://github.com/Elders/blob/releases/download/SemRel-01/node_modules.tar.gz | tar mx -I pigz
-        time npx semantic-release --no-ci
-        # few commands for debugging purposes
-        ls -l $STAGING_PATH/*.nupkg
-        echo dotnet msbuild `dotnet msbuild --version`
-        echo dotnet nuget `dotnet nuget --version`
-        echo dotnet `dotnet --version`
+    - task: Bash@3
+      name: release
+      displayName: semantic release + pack
+      env:
+        STAGING_PATH: $(Build.StagingDirectory)
+      inputs:
+        targetType: 'inline'
+        script: |
+          time curl -L https://github.com/Elders/blob/releases/download/SemRel-01/node_modules.tar.gz | tar mx -I pigz
+          time npx semantic-release --no-ci
+          # few commands for debugging purposes
+          ls -l $STAGING_PATH/*.nupkg
+          echo dotnet msbuild `dotnet msbuild --version`
+          echo dotnet nuget `dotnet nuget --version`
+          echo dotnet `dotnet --version`
 
-  - task: NuGetCommand@2
-    name: publish
-    enabled: true
-    condition: and(eq(variables['newVer'], 'yes'), succeeded())
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.StagingDirectory)/*.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'CI-AzurePipelines'
+    - task: NuGetCommand@2
+      name: publish
+      enabled: true
+      condition: and(eq(variables['newVer'], 'yes'), succeeded())
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.StagingDirectory)/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'CI-AzurePipelines'

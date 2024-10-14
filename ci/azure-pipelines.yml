@@ -37,7 +37,7 @@ stages:
     - task: DotNetCoreCLI@2
       name: test
       inputs:
-        command: test
+        command: test --verbosity detailed
         projects: '**/*Tests.csproj'
 
 - stage : DeployStage

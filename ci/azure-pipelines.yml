@@ -59,7 +59,7 @@ stages:
         projects: '**/*Tests.csproj'
 
 
-- stage : RunTestsDotnet8
+- stage : DeployStage
   displayName: 'Deploy stage'
   dependsOn:
     - RunTestsDotnet8

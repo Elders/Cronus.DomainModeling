@@ -161,6 +161,7 @@ public sealed class EventHandlerRegistrations // internal?
             string error = "State handler not found for '" + realEventType.FullName + "' in Entity/AR state. Make sure that the stand handler exists and the parameter inherits from IEvent";
             throw new Exception(error);
         }
+
         return stateHandler;
     }
 }

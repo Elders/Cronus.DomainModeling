@@ -38,6 +38,13 @@ public static class MessageInfo
         Type theType;
         if (contractToType.TryGetValue(contractId, out theType) == false)
         {
+            string uppercaseContractId = contractId.ToUpper(); // Keep in mind that contractId is case-sensitive. We are doing this check because Cronus is using lowercase contractIds everywhere,
+                                                               // but the developer can set the contractId in uppercase inside the DataContract this causes issues, so we want to detect it and force the developer to use lowercase contracts.
+            if (contractToType.TryGetValue(uppercaseContractId, out theType))
+            {
+                throw new Exception($"Unable to resolve type using contractId `{uppercaseContractId}`. The problem is that lowercase contract must be used, please fix it. The contract was found in '{theType.FullName}'.");
+            }
+
             throw new Exception($"Unable to resolve type using contractId `{contractId}`. Most probably the type with this contractId is deleted from the source code and there is an existing record in the database which still uses it.");
         }
         return theType;

@@ -24,6 +24,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     public static bool UseCaseSensitiveUrns = false;
 
     private static readonly SearchValues<char> allowedNidSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-");
+    private static readonly SearchValues<char> allowedNssSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-()+,.:=@;$_!*'&~/");
 
     protected string nid;
     protected string nss;
@@ -81,7 +82,8 @@ public class Urn : IEquatable<Urn>, IBlobId
         if (nid.Length < 2 || nid.Length > 32) throw new ArgumentOutOfRangeException(nameof(nid), "NID must be at least 2 and less than 32 symbols");
         if (nid[0] == '-' || nid[^1] == '-') throw new ArgumentException("NID cannot start or end with '-'", nameof(nid));
         if (nid.Contains("urn:", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("NID cannot contain the string 'urn'", nameof(nid));
-        if (nid.ContainsAnyExcept(allowedNidSymbols)) throw new ArgumentException("NID is not valid", nameof(nid));
+        if (nid.ContainsAnyExcept(allowedNidSymbols)) throw new ArgumentException($"NID is not valid {nid}", nameof(nid));
+        if (nss.ContainsAnyExcept(allowedNssSymbols)) throw new ArgumentException($"NSS is not valid {nss}", nameof(nss));
 
         var rcomponentLength = 0;
         var qcomponentLength = 0;

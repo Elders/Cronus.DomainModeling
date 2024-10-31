@@ -10,6 +10,6 @@ namespace Elders.Cronus
         It should_be_true = () => (nullUrn == null).ShouldBeTrue();
 
         static Urn nullUrn = null;
-        static Urn urn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
+        static Urn urn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
     }
 }

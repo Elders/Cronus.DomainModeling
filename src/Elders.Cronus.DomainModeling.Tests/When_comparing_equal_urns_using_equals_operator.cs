@@ -7,7 +7,7 @@ namespace Elders.Cronus
     {
         It should_be_true = () => (firstUrn == secondUrn).ShouldBeTrue();
 
-        static Urn firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
-        static Urn secondUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
+        static Urn firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
+        static Urn secondUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
     }
 }

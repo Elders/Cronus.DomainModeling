@@ -1,6 +1,6 @@
 ﻿namespace Elders.Cronus;
 
-public class ComparingUrnsWithSameNssWithDifferentCases
+public class ComparingUrnsWithSameNidsAndNssWithDifferentPartAfterTheSlash
 {
     static Urn firstUrn;
     static Urn secondUrn;
@@ -8,25 +8,17 @@ public class ComparingUrnsWithSameNssWithDifferentCases
     [Before(Class)]
     public static void Setup()
     {
-        Urn.UseCaseSensitiveUrns = true;
-
-        firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
-        secondUrn = new Urn("tenant", @"ArName:abc123()+,-.:=@;$_!*'99a");
+        firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'99a/abc");
+        secondUrn = new Urn("tenant", @"arName:abc123()+,-.:=@;$_!*'99a/dfg");
     }
 
-    [After(Class)]
-    public static void Cleanup()
-    {
-        Urn.UseCaseSensitiveUrns = false;
-    }
-
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldNotBeEqual()
     {
         await Assert.That(firstUrn).IsNotEqualTo(secondUrn);
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldNotHaveEqualHashcodes()
     {
         await Assert.That(firstUrn.GetHashCode()).IsNotEqualTo(secondUrn.GetHashCode());

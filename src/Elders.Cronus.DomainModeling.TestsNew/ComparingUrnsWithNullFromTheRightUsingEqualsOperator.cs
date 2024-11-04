@@ -10,7 +10,7 @@ public class ComparingUrnsWithNullFromTheRightUsingEqualsOperator
     [Before(Class)]
     public static void Setup()
     {
-        urn = new Urn("urn:tenant:arname:123");
+        urn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
         nullUrn = null;
     }
 

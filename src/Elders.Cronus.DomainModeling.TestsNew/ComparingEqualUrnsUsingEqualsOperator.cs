@@ -8,8 +8,8 @@ public class ComparingEqualUrnsUsingEqualsOperator
     [Before(Class)]
     public static void Startup()
     {
-        firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
-        secondUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
+        firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
+        secondUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
     }
 
     [Test]

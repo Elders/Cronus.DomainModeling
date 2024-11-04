@@ -9,8 +9,8 @@ namespace Elders.Cronus
         {
             Urn.UseCaseSensitiveUrns = true;
 
-            firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'99a");
-            secondUrn = new Urn("tenant", @"ArName:abc123()+,-.:=@;$_!*'99a");
+            firstUrn = new Urn("tenant", @"arname:abc123()+,-.:=@;$_!*'%99a");
+            secondUrn = new Urn("tenant", @"ArName:abc123()+,-.:=@;$_!*'%99a");
         };
 
         It should_not_be_equal = () => firstUrn.ShouldNotEqual(secondUrn);

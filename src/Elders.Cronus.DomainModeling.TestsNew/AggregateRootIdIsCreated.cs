@@ -1,7 +1,4 @@
-﻿using Elders.Cronus.EntityTests.TestModel;
-using Elders.Cronus.Testing;
-
-namespace Elders.Cronus;
+﻿namespace Elders.Cronus;
 
 public class AggregateRootIdIsCreated
 {

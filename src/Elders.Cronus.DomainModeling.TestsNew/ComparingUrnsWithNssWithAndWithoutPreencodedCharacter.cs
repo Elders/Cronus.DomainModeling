@@ -8,8 +8,8 @@ public class ComparingUrnsWithNssWithAndWithoutPreencodedCharacter
     [Before(Class)]
     public static void Setup()
     {
-        firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'99a");
-        secondUrn = new Urn("tenant", @"arName:abc123()+2c-.:=@;$_!*'99a");
+        firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a");
+        secondUrn = new Urn("tenant", @"arName:abc123()+%2c-.:=@;$_!*'%99a");
     }
 
     [Test]

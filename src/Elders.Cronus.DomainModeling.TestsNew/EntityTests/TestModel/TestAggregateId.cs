@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus.EntityTests.TestModel

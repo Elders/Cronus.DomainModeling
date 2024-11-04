@@ -8,8 +8,8 @@ public class ComparingUrnsWithSameNidsAndNssWithDifferentPartAfterTheSlash
     [Before(Class)]
     public static void Setup()
     {
-        firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'99a/abc");
-        secondUrn = new Urn("tenant", @"arName:abc123()+,-.:=@;$_!*'99a/dfg");
+        firstUrn = new Urn("Tenant", @"arName:abc123()+,-.:=@;$_!*'%99a/abc");
+        secondUrn = new Urn("tenant", @"arName:abc123()+,-.:=@;$_!*'%99a/dfg");
     }
 
     [Test]

@@ -24,7 +24,7 @@ public class Urn : IEquatable<Urn>, IBlobId
     public static bool UseCaseSensitiveUrns = false;
 
     private static readonly SearchValues<char> allowedNidSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-");
-    private static readonly SearchValues<char> allowedNssSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-()+,.:=@;$_!*'&~/");
+    private static readonly SearchValues<char> allowedNssSymbols = SearchValues.Create("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-()+,.:=@;$_!*'&~/%");
 
     protected string nid;
     protected string nss;
@@ -180,6 +180,15 @@ public class Urn : IEquatable<Urn>, IBlobId
 
         ConvertCaseIfNeeded(urn);
         SetRawId(urn);
+
+        bool isValid = IsUrn(urn); // Validate the URN against the regex
+        if (isValid == false)
+        {
+            var exception = new FormatException($"Invalid URN format.");
+            exception.Data.Add("urnValue", urn.ToString());
+            throw exception;
+        }
+
         DoFullInitialization();
     }
 

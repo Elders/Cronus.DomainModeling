@@ -1,5 +1,6 @@
 ﻿namespace Elders.Cronus;
 
+[ParallelGroup("TestsWithStaticConfigurations")]
 public class UrnIsCreated
 {
     static Urn urn;
@@ -18,19 +19,19 @@ public class UrnIsCreated
         Urn.UseCaseSensitiveUrns = false;
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldHaveBasePart()
     {
         await Assert.That(urn.NID).IsEqualTo("tenant");
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldHaveValue()
     {
         await Assert.That(urn.NSS).IsEqualTo("arName:123");
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldHaveCorrectToString()
     {
         await Assert.That(urn.ToString()).IsEqualTo("urn:tenant:arName:123");

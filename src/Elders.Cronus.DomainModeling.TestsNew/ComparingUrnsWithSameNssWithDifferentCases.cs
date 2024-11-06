@@ -1,5 +1,6 @@
 ﻿namespace Elders.Cronus;
 
+[ParallelGroup("TestsWithStaticConfigurations")]
 public class ComparingUrnsWithSameNssWithDifferentCases
 {
     static Urn firstUrn;
@@ -20,13 +21,13 @@ public class ComparingUrnsWithSameNssWithDifferentCases
         Urn.UseCaseSensitiveUrns = false;
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldNotBeEqual()
     {
         await Assert.That(firstUrn).IsNotEqualTo(secondUrn);
     }
 
-    [Test, NotInParallel]
+    [Test]
     public async Task ShouldNotHaveEqualHashcodes()
     {
         await Assert.That(firstUrn.GetHashCode()).IsNotEqualTo(secondUrn.GetHashCode());

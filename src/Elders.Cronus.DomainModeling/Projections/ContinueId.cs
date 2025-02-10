@@ -1,6 +1,8 @@
-﻿namespace Elders.Cronus.Projections;
+﻿using System;
+
+namespace Elders.Cronus.Projections;
 
 public sealed class ContinueId : IBlobId
 {
-    public byte[] RawId => null;
+    public ReadOnlyMemory<byte> RawId => ReadOnlyMemory<byte>.Empty;
 }

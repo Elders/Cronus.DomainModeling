@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 public static partial class UrnRegex
 {
+    [StringSyntax(StringSyntaxAttribute.Regex)]
     public const string Pattern = @"\A(?i:urn:(?!urn:)(?<nid>[\w][\w-]{0,30}[\w]):(?<nss>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)(?:\?\+(?<rcomponent>.*?))?(?:\?=(?<qcomponent>.*?))?(?:#(?<fcomponent>.*?))?)\z";
 
-    [GeneratedRegex(Pattern)]
-    private static partial Regex UrnRegexMather();
+    [GeneratedRegex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture, 500)]
+    internal static partial Regex UrnRegexMatcher();
 
     public class Group
     {
@@ -42,25 +44,25 @@ public static partial class UrnRegex
                 "rcomponent" => R_Component,
                 "qcomponent" => Q_Component,
                 "fcomponent" => F_Component,
-                _ => throw new NotSupportedException($"The group {value} is not supported by {nameof(UrnRegex)}"),
+                _ => throw new NotSupportedException($"The group {value} is not supported by {nameof(Cronus.UrnRegex)}"),
             };
         }
     }
 
     public static bool Matches(Uri urn)
     {
-        var match = UrnRegexMather().Match(urn.AbsoluteUri);
+        var match = UrnRegexMatcher().Match(urn.AbsoluteUri);
 
         return match.Success;
     }
 
-    public static Match Match(string urn) => UrnRegexMather().Match(urn);
+    public static Match Match(string urn) => UrnRegexMatcher().Match(urn);
 
     public static bool Matches(string urn)
     {
         try
         {
-            Match match = UrnRegexMather().Match(urn);
+            Match match = UrnRegexMatcher().Match(urn);
             if (match.Success == false)
                 return false;
 
@@ -73,6 +75,11 @@ public static partial class UrnRegex
         }
     }
 
+    public static bool Matches(ReadOnlySpan<char> urn)
+    {
+        return UrnRegexMatcher().IsMatch(urn);
+    }
+
     public static string GetGroup(string urnString, Group group)
     {
         var urn = new Uri(urnString);
@@ -81,7 +88,7 @@ public static partial class UrnRegex
 
     public static string GetGroup(Uri urn, Group group)
     {
-        Match match = UrnRegexMather().Match(urn.AbsoluteUri);
+        Match match = UrnRegexMatcher().Match(urn.AbsoluteUri);
         return match.Groups[group.ToString()].Value;
     }
 }

@@ -1,109 +1,74 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
-public abstract class AggregateRootId<T> : AggregateRootId
-    where T : AggregateRootId<T>
-{
-    protected AggregateRootId() { }
+//public abstract class AggregateRootId<T> : AggregateRootId
+//    where T : AggregateRootId<T>
+//{
+//    protected AggregateRootId() { }
 
-    protected AggregateRootId(string tenant, string rootName, string id) : base(tenant, rootName, id) { }
+//    protected AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id)
+//    {
 
-    public static T New(string tenant)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(System.Guid.NewGuid().ToString(), tenant);
-    }
+//    }
 
-    public static T New(string tenant, string id)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-        return instance.Construct(id, tenant);
-    }
+//    public abstract ReadOnlySpan<char> AggregateRootName { get; }
+//}
 
-    protected abstract T Construct(string id, string tenant);
+//public class TestId : AggregateRootId
+//{
+//    TestId() { }
+//    public TestId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> id) : base(tenant, id) { }
 
-    new public static T Parse(string id)
-    {
-        var instance = (T)System.Activator.CreateInstance(typeof(T), true);
 
-        var stringTenantUrn = AggregateRootId.Parse(id);
-        var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
-        if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
-            return newId;
-        else
-            throw new System.Exception("bum");
-        //todo check if ar name mateches..
-    }
-
-    public static bool TryParse(string id, out T result)
-    {
-        try
-        {
-            var instance = (T)System.Activator.CreateInstance(typeof(T), true);
-
-            var stringTenantUrn = AggregateRootId.Parse(id);
-            var newId = instance.Construct(stringTenantUrn.Id, stringTenantUrn.Tenant);
-            if (stringTenantUrn.AggregateRootName == newId.AggregateRootName)
-                result = newId;
-            else
-                throw new System.Exception("bum");
-            //todo check if ar name mateches..
-
-            return true;
-        }
-        catch (Exception)
-        {
-            result = null;
-            return false;
-        }
-    }
-}
+//}
 
 [DataContract(Name = "b78e63f3-1443-4e82-ba4c-9b12883518b9")]
 public partial class AggregateRootId : Urn
 {
+    [StringSyntax(StringSyntaxAttribute.Regex)]
     private const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<id>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
-    [GeneratedRegex(NSS_REGEX)]
-    private static partial Regex NssRegex();
+    [GeneratedRegex(NSS_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking, 500)]
+    internal static partial Regex NssRegex();
 
-    protected AggregateRootId()
-    {
-        this.id = string.Empty;
-        this.tenant = string.Empty;
-        this.aggregateRootName = string.Empty;
-    }
+    private protected string id;
+    private protected string tenant;
+    private protected string aggregateRootName;
+    private protected bool isFullyInitialized;
 
-    public AggregateRootId(string tenant, string arName, string id)
-        : base(tenant, $"{arName}{PARTS_DELIMITER}{id}")
+    protected AggregateRootId() { }
+
+    public AggregateRootId(AggregateRootId urn)
+        : this(urn.Tenant, urn.AggregateRootName, urn.Id) { }
+
+    public AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> arName, ReadOnlySpan<char> id) : this(tenant.ToString(), arName.ToString(), id.ToString()) { }
+
+    public AggregateRootId(string tenant, string arName, string id) : base(tenant, $"{arName}{PARTS_DELIMITER}{id}")
     {
+        this.tenant = tenant.ToString();
+        this.aggregateRootName = arName.ToString();
         this.id = id;
-        this.tenant = tenant;
-        this.aggregateRootName = arName;
+
+        isFullyInitialized = true;
     }
 
-    public AggregateRootId(string tenant, AggregateRootId urn)
-        : base(tenant, $"{urn.AggregateRootName}{PARTS_DELIMITER}{urn.Id}")
+    internal AggregateRootId(ReadOnlySpan<char> urn) : base(urn)
     {
-        this.id = urn.Id;
-        this.tenant = tenant;
-        this.aggregateRootName = urn.AggregateRootName;
+        base.DoFullInitialization();
+
+        if (NssRegex().IsMatch(nss.AsSpan()) == false)
+            throw new ArgumentException("Invalid aggregate root id", nameof(urn));
     }
 
-    public AggregateRootId(AggregateRootId urn, string aggregateRootName)
-        : this(urn.tenant, urn)
+    internal AggregateRootId(ReadOnlySpan<char> tenant, ReadOnlySpan<char> nss) : base(tenant, nss)
     {
-        if (aggregateRootName.Equals(urn.AggregateRootName, StringComparison.OrdinalIgnoreCase) == false)
-            throw new ArgumentException("AggregateRootName missmatch");
+        if (NssRegex().IsMatch(nss) == false)
+            throw new ArgumentException("Invalid aggregate root NSS", nameof(nss));
     }
-
-    string id;
-    string tenant;
-    string aggregateRootName;
-    private bool isFullyInitialized;
 
     protected override void DoFullInitialization()
     {
@@ -111,11 +76,15 @@ public partial class AggregateRootId : Urn
         {
             base.DoFullInitialization();
 
-            var match = NssRegex().Match(nss);
-            if (match.Success)
+            var nssSpan = nss.AsSpan();
+            if (NssRegex().IsMatch(nssSpan))
             {
-                id = match.Groups["id"].Value;
-                aggregateRootName = match.Groups["arname"].Value;
+                Span<Range> ranges = stackalloc Range[2];
+                if (nssSpan.Split(ranges, PARTS_DELIMITER) != 2)
+                    throw new InvalidOperationException($"Unable to initialize aggregate root id from NSS {nss}");
+
+                aggregateRootName = nssSpan[ranges[0]].ToString();
+                id = nssSpan[ranges[1]].ToString();
                 tenant = nid;
             }
 
@@ -129,25 +98,14 @@ public partial class AggregateRootId : Urn
 
     public string AggregateRootName { get { DoFullInitialization(); return aggregateRootName; } }
 
-    public static bool TryParse(string urn, out AggregateRootId parsedUrn)
+    protected string AggregateRootIdentifier { get; set; }
+
+    public static bool TryParse(ReadOnlySpan<char> candidate, out AggregateRootId parsedUrn)
     {
         try
         {
-            parsedUrn = null;
-
-            if (IsUrn(urn) == false)
-                return false;
-
-            Urn baseUrn = new Urn(urn);
-
-            Match match = NssRegex().Match(baseUrn.NSS);
-            if (match.Success)
-            {
-                parsedUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["id"].Value);
-                return true;
-            }
-
-            return false;
+            parsedUrn = new AggregateRootId(candidate);
+            return true;
         }
         catch (Exception)
         {
@@ -156,7 +114,7 @@ public partial class AggregateRootId : Urn
         }
     }
 
-    public static AggregateRootId Parse(string urn)
+    public static AggregateRootId Parse(ReadOnlySpan<char> urn)
     {
         if (TryParse(urn, out AggregateRootId parsedUrn))
         {
@@ -167,4 +125,7 @@ public partial class AggregateRootId : Urn
             throw new ArgumentException($"Invalid {nameof(AggregateRootId)}: {urn}", nameof(urn));
         }
     }
+
+    public static implicit operator ReadOnlySpan<byte>(AggregateRootId urn) => urn is null ? ReadOnlyMemory<byte>.Empty.Span : urn.RawId.Span;
+    public static implicit operator ReadOnlyMemory<byte>(AggregateRootId urn) => urn is null ? ReadOnlyMemory<byte>.Empty : urn.RawId;
 }

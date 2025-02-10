@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Elders.Cronus;
@@ -12,6 +13,12 @@ public class AggregateRoot<TState> : IAggregateRoot
     protected List<IPublicEvent> uncommittedPublicEvents;
     private int revision;
     private readonly EventHandlerRegistrations handlers;
+    private static readonly List<MethodInfo> whenMethods;
+
+    static AggregateRoot()
+    {
+        whenMethods = DomainObjectEventHandlerMapping.GetEventHandlersMethodInfo(typeof(TState));
+    }
 
     public AggregateRoot()
     {
@@ -20,9 +27,8 @@ public class AggregateRoot<TState> : IAggregateRoot
         uncommittedPublicEvents = new List<IPublicEvent>();
         revision = 0;
 
-        var mapping = new DomainObjectEventHandlerMapping();
         handlers = new EventHandlerRegistrations();
-        var arHandlers = DomainObjectEventHandlerMapping.GetEventHandlers(() => this.state);
+        var arHandlers = DomainObjectEventHandlerMapping.GetEventHandlers(whenMethods, () => this.state);
         foreach (var handler in arHandlers)
         {
             handlers.Register(handler.Key, handler.Value);
@@ -67,7 +73,7 @@ public class AggregateRoot<TState> : IAggregateRoot
         }
         this.revision = revision;
 
-        if (state.Id == null || state.Id.RawId == default(byte[]))
+        if (state.Id == null || state.Id.RawId.IsEmpty)
             throw new AggregateRootException("Invalid aggregate root state. The initial event which created the aggregate root is missing.");
     }
 
@@ -84,14 +90,8 @@ public class AggregateRoot<TState> : IAggregateRoot
 
 public sealed class EventHandlerRegistrations // internal?
 {
-    private readonly Dictionary<Type, Action<IEvent>> aggregateRootHandlers;
-    private readonly Dictionary<EntityId, Dictionary<Type, Action<IEvent>>> entityHandlers;
-
-    public EventHandlerRegistrations()
-    {
-        aggregateRootHandlers = new Dictionary<Type, Action<IEvent>>();
-        entityHandlers = new Dictionary<EntityId, Dictionary<Type, Action<IEvent>>>();
-    }
+    private readonly Dictionary<Type, Action<IEvent>> aggregateRootHandlers = [];
+    private readonly Dictionary<EntityId, Dictionary<Type, Action<IEvent>>> entityHandlers = [];
 
     public void Register(Type eventType, Action<IEvent> handler)
     {

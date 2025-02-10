@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Elders.Cronus;
 
 public partial class EntityId : Urn
 {
+    [StringSyntax(StringSyntaxAttribute.Regex)]
     const string NSS_REGEX = @"\A(?i:(?<arname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+):(?<arid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+)\/(?<entityname>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+?):(?<entityid>(?:[-a-z0-9()+,.:=@;$_!*'&~\/]|%[0-9a-f]{2})+))\z";
 
-    [GeneratedRegex(NSS_REGEX)]
-    private static partial Regex EntityRegex();
+    [GeneratedRegex(NSS_REGEX, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking, 500)]
+    internal static partial Regex EntityRegex();
 
     private string id;
     private string entityId;
@@ -23,17 +25,19 @@ public partial class EntityId : Urn
         aggregateRootId = default;
     }
 
-    public EntityId(AggregateRootId arUrn, string entityName, string entityId)
-        : base(arUrn.Tenant, $"{arUrn.AggregateRootName}{PARTS_DELIMITER}{arUrn.Id}{HIERARCHICAL_DELIMITER}{entityName}{PARTS_DELIMITER}{entityId}")
+    public EntityId(AggregateRootId arUrn, ReadOnlySpan<char> entityName, ReadOnlySpan<char> entityId)
+        : base(arUrn.Tenant.AsSpan(), $"{arUrn.AggregateRootName}{PARTS_DELIMITER}{arUrn.Id}{HIERARCHICAL_DELIMITER}{entityName}{PARTS_DELIMITER}{entityId}") { }
+
+    private EntityId(ReadOnlySpan<char> urn) : base(urn)
     {
-        this.aggregateRootId = arUrn ?? throw new ArgumentNullException(nameof(arUrn));
-        this.entityName = entityName;
-        this.entityId = entityId;
+        base.DoFullInitialization();
+
+        if (EntityRegex().IsMatch(nss.AsSpan()) == false) throw new ArgumentException("Invalid entity id");
     }
 
     public AggregateRootId AggregateRootId { get { DoFullInitialization(); return aggregateRootId; } }
 
-    public string EntityName { get { DoFullInitialization(); return entityName; } }
+    protected string EntityName { get { DoFullInitialization(); return entityName; } }
 
     public string Id { get { DoFullInitialization(); return id; } }
 
@@ -45,30 +49,78 @@ public partial class EntityId : Urn
         {
             base.DoFullInitialization();
 
-            var match = EntityRegex().Match(nss);
-            if (match.Success)
+            var nssSpan = nss.AsSpan();
+            if (EntityRegex().IsMatch(nssSpan))
             {
-                aggregateRootId = new AggregateRootId(nid, match.Groups["arname"].Value, match.Groups["arid"].Value);
+                var lastSlash = nssSpan.LastIndexOf(HIERARCHICAL_DELIMITER);
+                var arNss = nssSpan[0..lastSlash];
+                aggregateRootId = new AggregateRootId(nid, arNss);
+
+                var entityPart = nssSpan[(lastSlash + 1)..];
+                var firstDelimiter = entityPart.IndexOf(PARTS_DELIMITER);
                 id = nss;
-                entityName = match.Groups["entityname"].Value;
-                entityId = match.Groups["entityid"].Value;
+                entityName = entityPart[0..firstDelimiter].ToString();
+                entityId = entityPart[(firstDelimiter + 1)..].ToString();
             }
 
             isFullyInitialized = true;
         }
     }
 
-    new public static EntityId Parse(string urn)
+    public static EntityId Parse(ReadOnlySpan<char> candidate)
     {
-        Urn baseUrn = new Urn(urn);
-
-        var match = EntityRegex().Match(baseUrn.NSS);
-        if (match.Success)
+        if (TryParse(candidate, out var entityId))
         {
-            var rootUrn = new AggregateRootId(baseUrn.NID, match.Groups["arname"].Value, match.Groups["arid"].Value);
-            return new EntityId(rootUrn, match.Groups["entityname"].Value, match.Groups["entityid"].Value);
+            return entityId;
         }
 
-        throw new ArgumentException($"Invalid {nameof(Cronus.EntityId)}: {urn}", nameof(urn));
+        throw new ArgumentException($"Invalid entity id {candidate}", nameof(candidate));
+    }
+
+    public static bool TryParse(ReadOnlySpan<char> candidate, out EntityId entityId)
+    {
+        try
+        {
+            entityId = new EntityId(candidate);
+            return true;
+        }
+        catch (Exception)
+        {
+            entityId = null;
+            return false;
+        }
+    }
+
+    public static T Parse<T>(ReadOnlySpan<char> candidate)
+        where T : EntityId
+    {
+        if (TryParse<T>(candidate, out var entityId))
+        {
+            return entityId;
+        }
+
+        throw new ArgumentException("Invalid entity id");
+    }
+
+    public static bool TryParse<T>(ReadOnlySpan<char> candidate, out T entityId)
+        where T : EntityId
+    {
+        try
+        {
+            entityId = (T)Activator.CreateInstance(typeof(T), true);
+            var parsed = new EntityId(candidate);
+            entityId.SetRawId(parsed.RawId);
+
+            var comparisoin = UseCaseSensitiveUrns ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+            if (entityId.EntityName.Equals(parsed.EntityName, comparisoin) == false)
+                return false;
+
+            return true;
+        }
+        catch (Exception)
+        {
+            entityId = null;
+            return false;
+        }
     }
 }

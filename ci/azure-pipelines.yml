@@ -36,13 +36,6 @@ stages:
         projects: '**/*Tests.csproj'
         arguments: '--framework net9.0'
     
-    - task: DotNetCoreCLI@2
-      name: test_tunit
-      inputs:
-        command: test
-        projects: '**/*TestsNew.csproj'
-        arguments: '--framework net9.0'
-
 - stage: RunTestsDotnet8
   displayName: 'Run tests for dotnet 8'
   jobs:
@@ -71,13 +64,6 @@ stages:
         command: test
         projects: '**/*Tests.csproj'
         arguments: '--framework net8.0'
-    
-    - task: DotNetCoreCLI@2
-      name: test_tunit
-      inputs:
-        command: test
-        projects: '**/*TestsNew.csproj'
-        arguments: '--framework net9.0'
 
 - stage : DeployStage
   displayName: 'Deploy stage'

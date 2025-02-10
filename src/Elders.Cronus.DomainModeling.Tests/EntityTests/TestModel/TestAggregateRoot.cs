@@ -1,5 +1,3 @@
-using System;
-
 namespace Elders.Cronus.EntityTests.TestModel
 {
     public class TestAggregateRoot : AggregateRoot<TestAggregateRootState>

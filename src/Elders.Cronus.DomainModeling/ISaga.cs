@@ -36,8 +36,8 @@ public abstract class Saga : ISaga
         this.timeoutRequestPublisher = timeoutRequestPublisher ?? throw new ArgumentNullException(nameof(timeoutRequestPublisher));
     }
 
-    public void RequestTimeout<T>(T timeoutMessage) where T : IScheduledMessage
+    public Task RequestTimeoutAsync<T>(T timeoutMessage) where T : IScheduledMessage
     {
-        timeoutRequestPublisher.Publish(timeoutMessage, timeoutMessage.PublishAt);
+        return timeoutRequestPublisher.PublishAsync(timeoutMessage, timeoutMessage.PublishAt);
     }
 }

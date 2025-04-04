@@ -23,13 +23,21 @@ public static class MessageInfo
         return messageId;
     }
 
-    public static string GetBoundedContext(this Type messageType, string defaultBoundedContext = "implicit")
+    const string Implicit = "implicit";
+
+    public static string GetBoundedContext(this Type messageType, string defaultBoundedContext = Implicit)
     {
         string boundedContext;
-        if (!typeToBoundedContext.TryGetValue(messageType, out boundedContext))
+        if (typeToBoundedContext.TryGetValue(messageType, out boundedContext) == false)
         {
             boundedContext = GetAndCacheBoundedContextFromAttribute(messageType, defaultBoundedContext);
         }
+        else if (string.Equals(boundedContext, Implicit, StringComparison.OrdinalIgnoreCase) && string.Equals(defaultBoundedContext, Implicit, StringComparison.OrdinalIgnoreCase) == false)
+        {
+            boundedContext = defaultBoundedContext;
+            typeToBoundedContext[messageType] = boundedContext;
+        }
+
         return boundedContext;
     }
 

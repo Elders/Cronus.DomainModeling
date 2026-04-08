@@ -35,6 +35,8 @@ public abstract class EntityId<TAggregateRootId> : EntityId
 
         ConvertCaseIfNeeded(urn);
         SetRawId(urn);
+
+        aggregateRootId = rootId;
     }
 
     TAggregateRootId aggregateRootId;
@@ -46,8 +48,10 @@ public abstract class EntityId<TAggregateRootId> : EntityId
     {
         get
         {
-            aggregateRootId = (TAggregateRootId)Activator.CreateInstance(typeof(TAggregateRootId), true);
-            aggregateRootId.SetRawId(base.AggregateRootId.RawId);
+            if (aggregateRootId is null)
+            {
+                aggregateRootId = (TAggregateRootId)Activator.CreateInstance(typeof(TAggregateRootId), base.AggregateRootId.Tenant, base.AggregateRootId.AggregateRootName, base.AggregateRootId.Id);
+            }
 
             return aggregateRootId;
         }

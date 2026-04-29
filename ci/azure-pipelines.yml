@@ -77,12 +77,7 @@ stages:
           echo dotnet nuget `dotnet nuget --version`
           echo dotnet `dotnet --version`
 
-    - task: DotNetCoreCLI@2
-      name: publish
-      enabled: true
-      condition: and(eq(variables['newVer'], 'yes'), succeeded())
+    - task: Bash@3
       inputs:
-        command: 'push'
-        packagesToPush: '$(Build.StagingDirectory)/*.nupkg'
-        nuGetFeedType: 'external'
-        publishFeedCredentials: 'CI-AzurePipelines'
+        targetType: 'inline'
+        script: 'dotnet nuget push $(Build.StagingDirectory)/*.nupkg --api-key $(NUGET_KEY) --source https://api.nuget.org/v3/index.json --skip-duplicate'

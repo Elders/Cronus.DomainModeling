@@ -80,6 +80,8 @@ stages:
           echo dotnet `dotnet --version`
 
     - task: Bash@3
+      name: publish
+      displayName: nuget push to nuget.org
       inputs:
         targetType: 'inline'
         script: 'dotnet nuget push $(Build.StagingDirectory)/*.nupkg --api-key $(NUGET_KEY) --source https://api.nuget.org/v3/index.json --skip-duplicate'

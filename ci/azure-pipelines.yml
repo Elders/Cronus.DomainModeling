@@ -1,7 +1,9 @@
 ---
 
 variables:
-  PROJECT_DIR: Elders.Cronus.DomainModeling
+  - group: elders-nuget
+  - name: PROJECT_DIR
+    value: Elders.Cronus.DomainModeling
 trigger:
   branches:
     include: [master,beta,preview]

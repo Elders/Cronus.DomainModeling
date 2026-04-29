@@ -1,5 +1,4 @@
-using System;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Elders.Cronus;
@@ -20,15 +19,12 @@ public abstract class ApplicationService<AR> : IApplicationService where AR : IA
     }
 
     /// <summary>
-    /// Executes an action against an existing aggregate root. Use this method only when the aggregate
-    /// is guaranteed to exist; if it does not, the method throws.
+    /// Executes an action to an existing AR. Use this method only if you are 100% sure that the AR must exist.
+    /// If the AR does not exists the method throws an exception.
     /// </summary>
-    /// <param name="id">The identifier of the aggregate root to load and mutate.</param>
-    /// <param name="update">The mutation to apply to the loaded aggregate root before saving.</param>
-    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous load-update-save sequence.</returns>
-    /// <exception cref="Exception">Thrown when the aggregate root cannot be loaded.</exception>
-    public virtual async Task UpdateAsync(AggregateRootId id, Action<AR> update, CancellationToken cancellationToken = default)
+    /// <param name="id"></param>
+    /// <param name="update"></param>
+    public virtual async Task UpdateAsync(AggregateRootId id, Action<AR> update)
     {
         ReadResult<AR> result = await repository.LoadAsync<AR>(id).ConfigureAwait(false);
         if (result.IsSuccess)

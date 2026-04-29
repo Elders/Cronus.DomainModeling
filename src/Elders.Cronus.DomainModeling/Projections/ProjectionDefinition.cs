@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Elders.Cronus.Projections;
@@ -56,7 +55,7 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         }
     }
 
-    async Task IProjectionDefinition.ApplyAsync(IEvent @event, CancellationToken cancellationToken)
+    async Task IProjectionDefinition.ApplyAsync(IEvent @event)
     {
         await ((dynamic)this).HandleAsync((dynamic)@event).ConfigureAwait(false);
     }
@@ -152,13 +151,7 @@ public abstract class ProjectionDefinition<TState, TId> : IProjectionDefinition,
         return Subscribe(projectionId, null);
     }
 
-    /// <summary>
-    /// Called after all events have been replayed into this projection. The default implementation
-    /// is a no-op; override to perform post-replay cleanup or finalization.
-    /// </summary>
-    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous completion callback.</returns>
-    public virtual Task OnReplayCompletedAsync(CancellationToken cancellationToken = default)
+    public virtual Task OnReplayCompletedAsync()
     {
         return Task.CompletedTask;
     }
